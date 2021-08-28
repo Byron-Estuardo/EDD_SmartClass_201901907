@@ -4,6 +4,14 @@
 
 using namespace std;
 
+string Colaa::getCampo(Nodo *Nodo){
+    return Nodo->Campo;
+}
+
+string Colaa::getTipo(Nodo *Nodo){
+    return Nodo->Tipo;
+}
+
 void Colaa::Inicializar(){
     this->Primero = NULL;
     this->Fin = NULL;
@@ -36,9 +44,19 @@ void Colaa::Encolar(string Tipo_, string Campo_){
 }
 
 void Colaa::Desencolar(){
-    Nodo *auxiliar;
+    /*Nodo *auxiliar;
     auxiliar = Primero;
     Primero = Primero->siguiente;
+    delete auxiliar;*/
+    Nodo *auxiliar;
+    auxiliar = Primero;
+    if(Primero == Fin){
+        Primero = NULL;
+        Fin = NULL;
+    }
+    else{
+        Primero = Primero->siguiente;
+    }
     delete auxiliar;
 }
 
@@ -61,37 +79,29 @@ void Colaa::grafico()
     archivo << "rankdir=LR;\n";
     archivo << "node[shape = record];\n ";
     Nodo *aux = new Nodo();
-    aux = Primero;
-    if (this->Primero != NULL)
-    {
-        do
-        {
-            int contador2 = contador + 1;
-            string str1 = std::to_string(contador);
-            string str2 = std::to_string(contador + 1);
-            archivo << "nodo" + str1 << "[label=\" Tipo: " + Primero->siguiente->Tipo+ "\n|Descripcion: " + Primero->siguiente->Campo + "\" ]";
-
-            if (aux->anterior == Primero)
-            {
-                archivo << "\n nodo" + str1 + "-> nodo0\n";
-            }
-            else
-            {
-                archivo << "\n nodo" + str1 + "->" + "nodo" + str2 + "\n";
-            }
+    aux = this->Primero;
+    while(this->Primero != NULL){
+        Desencolar();
+        int contador2 = contador + 1;
+        string str1 = std::to_string(contador);
+        string str2 = std::to_string(contador2);
+        cout<<getTipo(aux)<<endl;
+        cout<<getCampo(aux)<<endl;
+        archivo << "nodo" + str1 << "[label=\" Tipo: " + getTipo(aux) + "\n|Descripcion: " + getCampo(aux) + "\" ]";
+        if(this->Primero != NULL){
+            archivo << "\nnodo0 -> nodo" + str2 + "\n";
             contador++;
-            aux = aux->anterior;
-        } while (aux != Fin);
-        archivo << "}\n";
-        archivo.close();
-        string ej= "dot -Tpng errores.dot -o errores.png";
-        char const *ejecutar = ej.c_str();
-        system(ejecutar);
-    }
-    else
-    {
-        cout << "La Cola esta vacia !!!\n";
-    }
+        }
+        else{
+            archivo << "\nnodo" + str2 + "->" + "nodo" + str1 + "\n";
+            contador++;
+        }
 
+    }
+    archivo << "}\n";
+    archivo.close();
+    string ej= "dot -Tpng errores.dot -o errores.png";
+    char const *ejecutar = ej.c_str();
+    system(ejecutar);
 }
 

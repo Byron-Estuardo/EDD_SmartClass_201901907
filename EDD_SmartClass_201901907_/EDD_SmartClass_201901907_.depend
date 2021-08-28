@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1630183331 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\colaa.cpp
+1630186728 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\colaa.cpp
 	"Colaa.h"
 	<iostream>
 	<fstream>
 
-1630181463 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\colaa.h
+1630186596 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\colaa.h
 	<iostream>
 
 1630166573 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\listacircular.cpp
@@ -56,7 +56,7 @@
 	<iostream>
 	<string>
 
-1630184139 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\main.cpp
+1630186360 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\main.cpp
 	<iostream>
 	<fstream>
 	<string>

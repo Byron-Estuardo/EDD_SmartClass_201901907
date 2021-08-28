@@ -223,48 +223,48 @@ void carga_estudiantes(string documento)
             {
                 cout << "Error: El carnet, dpi y correo del estudiante con dpi: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El carnet, correo y dpi del estudiante con dpi: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", "carnetycorreoydpi  " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }
             else if (carnet.size() != 9 && dpi.size() != 13)
             {
                 cout << "Error: El carnet y dpi del estudiante con dpi: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El carnet y dpi del estudiante con dpi: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", "carnetydpi  " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }
             else if (dpi.size() != 13 && answer == 0)
             {
                 cout << "Error: El dpi y correo del estudiante: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El dpi y correo del estudiante: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", "dpiycorreo " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }
             else if (carnet.size() != 9 && answer == 0)
             {
                 cout << "Error: El carnet y correo del estudiante con dpi: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El carnet y correo del estudiante con dpi: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", "carnetycorreo " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }
             else if (carnet.size() != 9)
             {
                 cout << "Error: El carnet del estudiante con dpi: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El carnet del estudiante con dpi: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", " carnet " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }
             else if (dpi.size() != 13)
             {
                 cout << "Error: El dpi del estudiante con dpi: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El dpi del estudiante con dpi: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", " dpi " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }else if(answer == 0)
             {
                 cout << "Error: El correo del estudiante con dpi: " + dpi + " no es valido" << endl;
                 cout << "Error: revisar cola de errores" << endl;
-                Cola.Encolar("Estudiante", "El correo del estudiante con dpi: " + dpi + " no es valido");
+                Cola.Encolar("Estudiante", "correo " + dpi);
                 ListaUsuarios->insertar(carnet, dpi, nombre, carrera, password, credit, age, correo);
             }
             else

@@ -24,7 +24,10 @@ class Colaa
       void Encolar(string Tipo_, string Campo_);
       void Desencolar();
       int Tamano();
+      void suprimirCola();
 	  void grafico();
+	  string getTipo(Nodo *Nodo);
+	  string getCampo(Nodo *Nodo);
 };
 
 #endif // COLAA_H
