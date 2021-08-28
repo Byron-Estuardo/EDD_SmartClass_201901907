@@ -1,0 +1,70 @@
+# depslib dependency file v1.0
+1629782741 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\colaa.cpp
+	"Colaa.h"
+	<iostream>
+	<fstream>
+
+1629782785 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\colaa.h
+	<iostream>
+
+1630166573 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\listacircular.cpp
+	"ListaCircular.h"
+	<iostream>
+	<fstream>
+	<cstdlib>
+	<iomanip>
+	<string>
+	<sstream>
+
+1629782818 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\listacircular.h
+	"NodoListaDobleCircular.h"
+	<string>
+	<iostream>
+
+1629782910 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\nodolistadoblecircular.h
+	<iostream>
+	<string>
+
+1630175879 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\listadobleenlazada.cpp
+	"ListaDobleEnlazada.h"
+	<iostream>
+	<fstream>
+	<cstdlib>
+	<iomanip>
+	<string>
+	<sstream>
+
+1630175563 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\listadobleenlazada.h
+	"NodoListaDobleEnlazada.h"
+
+1629783007 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\nodolistadobleenlazada.h
+	<string>
+	<iostream>
+	"NodoListaDobleEnlazada.h"
+
+1629782902 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\nodolistadoblecircular.cpp
+	"NodoListaDobleCircular.h"
+	<string>
+
+1629782953 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\nodolistadobleenlazada.cpp
+	"NodoListaDobleEnlazada.h"
+
+1629783039 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\nodomatriz.cpp
+	"NodoMatriz.h"
+
+1629783046 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\nodomatriz.h
+	<iostream>
+	<string>
+
+1630175367 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<cstdlib>
+	<iomanip>
+	"Colaa.h"
+	"ListaCircular.h"
+	"NodoMatriz.h"
+	"ListaDobleEnlazada.h"
+

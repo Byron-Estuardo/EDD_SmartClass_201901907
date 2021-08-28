@@ -122,111 +122,122 @@ void ListaCircular::mostrar()
     }
 }
 
-void ListaCircular::modificar(string dato)
-{
-
+void ListaCircular::modificar(string DPI){
+    int menus0;
+    string carnet, dpi, nombre, carrera, correo, contrasena, creditos, edad;
+    NodoListaDobleCircular *actual = new NodoListaDobleCircular();
+    actual = this->Primero;
     bool encontrado = false;
-    NodoListaDobleCircular *buscar = new NodoListaDobleCircular();
-    buscar = this->Primero;
-    string carne_bueno;
-    string dpi_bueno;
-    string correo_bueno;
-    string respuesta;
+    string nodoBuscado;
+    nodoBuscado = DPI;
+    if(this->Primero!=NULL){
+            do{
 
-    if (this->Primero != NULL)
-    {
-        do
-        {
-            if (buscar->getDpi() == dato)
-            {
-                cout << "Estudiante encontrado\n"
-                     << endl;
-                cout << "Escriba el nuevo carne:\n";
-                cin >> carne_bueno;
+                if(actual->getDpi()==nodoBuscado){
+                    cout << "Datos con el DPI: ( " << nodoBuscado << " ) Encontrado";
 
-                cout << "Escriba el nuevo dpi:\n";
-                cin >> dpi_bueno;
+                    do{
+                                        cout << "**** Menu de Modificacion de Datos ***" << endl;
+                                        cout << "*                                    *" << endl;
+                                        cout << "*          1. Carnet                 *" << endl;
+                                        cout << "*          2. DPI                    *" << endl;
+                                        cout << "*          3. Nombre                 *" << endl;
+                                        cout << "*          4. Carrera                *" << endl;
+                                        cout << "*          5. Contrasena             *" << endl;
+                                        cout << "*          6. Creditos               *" << endl;
+                                        cout << "*          7. Edad                   *" << endl;
+                                        cout << "*          8. Correo                 *" << endl;
+                                        cout << "*          9. Salir                  *" << endl;
+                                        cout << "*                                    *" << endl;
+                                        cout << "**************************************\n" << endl;
+                                        cout << "Por favor ingrese el numero de opci\xA2n"<< endl;
+                                        cin >> menus0;
 
-                if (carne_bueno.size() != 9)
-                {
-                    cout << "Los digitos del carne deben ser 9\n";
-                    cout << "desea intentar otra vez (Y/N)\n";
-                    cin >> respuesta;
-                    if (respuesta == "Y" || respuesta == "y")
-                    {
-                    }
-                    else if (respuesta == "N" || respuesta == "n")
-                    {
-                        encontrado = true;
-                    }
-                    else
-                    {
-                        encontrado = true;
-                    }
-                }
-                else if (dpi_bueno.size() != 13)
-                {
-                    cout << "Los digitos del dpi deben ser 13\n";
-                    cout << "desea intentar otra vez (Y/N)\n";
-                    cin >> respuesta;
-                    if (respuesta == "Y" || respuesta == "y")
-                    {
-                    }
-                    else if (respuesta == "N" || respuesta == "n")
-                    {
-                        encontrado = true;
-                    }
-                    else
-                    {
-                        encontrado = true;
-                    }
-                }
-                else
-                {
-                	string NOM, CARR, CORR, CONT,CRE, EDAD;
-					int CRE1, EDAD1;
-                    buscar->setCarnet(carne_bueno);
-                    buscar->setDpi(dpi_bueno);
-                    cout << "Escriba el nuevo nombre:\n";
-                    cin>>  NOM;
-                    cout << "Escriba la nueva carrera:\n";
-                    cin>>  CARR;
-                    cout << "Escriba el nuevo correo:\n";
-                    cin >>  CORR;
-                    cout << "Escriba el nuevo password:\n";
-                    cin >>  CONT;
-                    cout << "Escriba los nuevos creditos:\n";
-                    cin >>  CRE;
-                    cout << "Escriba la nueva edad:\n";
-                    cin >>  EDAD;
-                    stringstream ers3;
-					ers3 << CRE;
-					ers3 >> CRE1;
-					stringstream s3;
-					s3 << EDAD;
-					s3 >> EDAD1;
-					buscar->setNombre(NOM);
-					buscar->setCarrera(CARR);
-					buscar->setCorreo(CORR);
-					buscar->setCreditos(CRE1);
-					buscar->setEdad(EDAD1);
+                                        switch (menus0)
+                                        {
+                                            case 1:
+                                                {
+                                                    cout<<"Ingrese Nuevo Carnet "<<endl;
+                                                    cin.ignore();
+                                                    std::getline(cin, carnet);
+                                                    actual->setCarnet(carnet);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    cout<<"Ingrese Nuevo DPI "<<endl;
+                                                    cin>>dpi;
+                                                    actual->setDpi(dpi);
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    cout<<"Ingrese Nuevo Nombre "<<endl;
+                                                    cin.ignore();
+                                                    std::getline(cin, nombre);
+                                                    actual->setNombre(nombre);
+                                                    break;
+                                                }
+                                            case 4:
+                                                {
+                                                    cout<<"Ingrese Nueva Carrera "<<endl;
+                                                    cin.ignore();
+                                                    std::getline(cin, carrera);
+                                                    actual->setCarrera(carrera);
+                                                    break;
+                                                }
+                                            case 5:
+                                                {
+                                                    cout<<"Ingrese Nueva Contrasena "<<endl;
+                                                    cin.ignore();
+                                                    std::getline(cin, contrasena);
+                                                    actual->setContrasena(contrasena);
+                                                    break;
+                                                }
+                                            case 6:
+                                                {
+                                                    cout<<"Ingrese Nuevos Creditos "<<endl;
+                                                    cin>>creditos;
+                                                    int cre = std::stoi(creditos);
+                                                    actual->setCreditos(cre);
+                                                    break;
+                                                }
+                                            case 7:
+                                                {
+                                                    cout<<"Ingrese Nueva Edad "<<endl;
+                                                    cin.ignore();
+                                                    std::getline(cin, edad);
+                                                    int ed = std::stoi(edad);
+                                                    actual->setEdad(ed);
+                                                    break;
+                                                }
+                                            case 8:
+                                                {
+                                                    cout<<"Ingrese Nuevo Correo "<<endl;
+                                                    cin.ignore();
+                                                    cin >> correo;
+                                                    actual->setCorreo(correo);
+                                                    break;
+                                                }
+
+                                        }
+                                    } while (menus0 != 9);
+
                     encontrado = true;
                 }
-            }
-            buscar = buscar->getSiguiente();
-        } while (buscar != this->Primero && encontrado == false);
 
-        if (encontrado == false)
-        {
-            cout << "No se encontro al estudiante\n"
-                 << endl;
+                actual = actual->getSiguiente();
+            }while(actual != this->Primero && encontrado != true);
+
+            if(!encontrado){
+                cout << "\n Nodo no Encontrado\n\n";
+            }
+
+        }else{
+            cout << "\n La lista se Encuentra Vacia\n\n";
         }
-    }
-    else
-    {
-        cout << "La lista esta vacia" << endl;
-    }
 }
+
 
 void ListaCircular::eliminar(string dato)
 {

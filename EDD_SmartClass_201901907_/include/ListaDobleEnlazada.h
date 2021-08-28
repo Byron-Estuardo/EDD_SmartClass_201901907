@@ -10,9 +10,11 @@ class ListaDobleEnlazada
         void getList();
         bool isEmpty();
         void PrintList();
-        void getPersonRow(string id, string mes, string dia, string hora, string carnet, string nombre, string descripcion, string materia, string fecha, string estado);
+        void Eliminar(string id);
+        void Modificar(string id);
         void insertar(string id, string mes, string dia, string hora, string carnet, string nombre, string descripcion, string materia, string fecha, string estado);
         void deleteValue (string id);
+        void Grafico();
 
     private:
         NodoListaDobleEnlazada *First;
