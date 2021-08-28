@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1629782741 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\colaa.cpp
+1630183331 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\colaa.cpp
 	"Colaa.h"
 	<iostream>
 	<fstream>
 
-1629782785 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\colaa.h
+1630181463 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\colaa.h
 	<iostream>
 
 1630166573 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\listacircular.cpp
@@ -25,7 +25,7 @@
 	<iostream>
 	<string>
 
-1630175879 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\listadobleenlazada.cpp
+1630180639 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\src\listadobleenlazada.cpp
 	"ListaDobleEnlazada.h"
 	<iostream>
 	<fstream>
@@ -34,7 +34,7 @@
 	<string>
 	<sstream>
 
-1630175563 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\listadobleenlazada.h
+1630180459 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\listadobleenlazada.h
 	"NodoListaDobleEnlazada.h"
 
 1629783007 d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\include\nodolistadobleenlazada.h
@@ -56,7 +56,7 @@
 	<iostream>
 	<string>
 
-1630175367 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\main.cpp
+1630184139 source:d:\users\bcatu\escritorio\eddproyecto\edd_smartclass_201901907\edd_smartclass_201901907_\main.cpp
 	<iostream>
 	<fstream>
 	<string>

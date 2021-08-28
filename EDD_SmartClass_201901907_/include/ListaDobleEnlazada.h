@@ -14,6 +14,8 @@ class ListaDobleEnlazada
         void Modificar(string id);
         void insertar(string id, string mes, string dia, string hora, string carnet, string nombre, string descripcion, string materia, string fecha, string estado);
         void deleteValue (string id);
+        void buscarPos(string pos);
+        void buscar2(string pos);
         void Grafico();
 
     private:

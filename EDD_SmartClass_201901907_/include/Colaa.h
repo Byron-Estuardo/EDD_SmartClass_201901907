@@ -7,6 +7,7 @@ using namespace std;
 class Nodo
 {
     Nodo *siguiente;
+    Nodo *anterior;
     string Tipo;
     string Campo;
     friend class Colaa;

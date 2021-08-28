@@ -268,3 +268,51 @@ void ListaDobleEnlazada::Grafico(){
         cout << "La lista esta vacia !!!\n";
     }
 }
+
+void ListaDobleEnlazada::buscarPos(string pos){
+    NodoListaDobleEnlazada *actual = new NodoListaDobleEnlazada();
+    actual = this->First;
+    bool encontrado = false;
+    string nodoBuscado = pos;
+    if(this->First != NULL){
+
+        while(actual != NULL && encontrado != true){
+            if(actual->getId() == nodoBuscado){
+                cout << "\n Encontrada \n"<<endl;
+                cout<< "Posicion:    "<<actual->getId()<<endl;
+                cout<< "Carnet:      "<<actual->getCarnet()<<endl;
+                cout<< "Descripcion: " <<actual->getDescripcion()<<endl;
+                cout<< "Dia:         " <<actual->getDia()<<endl;
+                cout<< "Estado:      " <<actual->getEstado()<<endl;
+                cout<< "Fecha:       " <<actual->getFecha()<<endl;
+                cout<< "Hora:        " <<actual->getHora()<<endl;
+                cout<< "Materia:     " <<actual->getMateria()<<endl;
+                cout<< "Mes:         " <<actual->getMes()<<endl;
+                cout<< "Nombre:      " <<actual->getNombre()<<endl;
+
+                encontrado = true;
+
+            }
+            actual = actual->getNextD();
+        }
+    }
+}
+
+void ListaDobleEnlazada::buscar2(string pos){
+    NodoListaDobleEnlazada *actual = new NodoListaDobleEnlazada();
+    actual = this->First;
+    bool encontrado = false;
+    string nodoBuscado = pos;
+    if(this->First != NULL){
+        while(actual != NULL && encontrado != true){
+            if(actual->getId() == nodoBuscado){
+                if(actual->getDescripcion() != ""){
+                    cout << "\n La tarea si existe \n"<<endl;
+                }else{
+                    cout << "\n La tarea No existe \n"<<endl;
+                }
+            }
+            actual = actual->getNextD();
+        }
+    }
+}

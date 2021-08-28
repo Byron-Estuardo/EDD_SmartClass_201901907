@@ -281,58 +281,6 @@ void carga_estudiantes(string documento)
     archivo.close();
 }
 
-//falta arreglar prro
-void GenerarReportes()
-{
-    int opcion;
-    do
-    {
-        cout << "************* Menu de reportes *************" << endl;
-        cout << "*                                          *" << endl;
-        cout << "* 1. Lista de estudiantes                  *" << endl;
-        cout << "* 2. Lista de tareas linealizada           *" << endl;
-        cout << "* 3. Busqueda en estructura linealizada    *" << endl;
-        cout << "* 4. Busqueda de posicion linealizada      *" << endl;
-        cout << "* 5. Cola de errores                       *" << endl;
-        cout << "* 6. Codigo generado de salida (No Sirve)  *" << endl;
-        cout << "* 7. Salir                                 *" << endl;
-        cout << "*                                          *" << endl;
-        cout << "********************************************" << endl;
-        cout << "Escriba el numero de la opcion que desee: ";
-        cin >> opcion;
-        switch (opcion)
-        {
-        case 1:
-            cout << "Graficando......" << endl;
-            ListaUsuarios->grafico();
-            cout << "Grafico Generado Con Exito" << endl;
-            break;
-        case 2:
-            cout << "Graficando......" << endl;
-            Linealizado->Grafico();
-            cout << "Grafico Generado Con Exito" << endl;
-            break;
-        case 3:
-            //ld.busquedaFecha();
-            break;
-        case 4:
-            //ld.buscarPosicion();
-            break;
-        case 5:
-            cout << "Graficando......" << endl;
-            Cola.grafico();
-            cout << "Grafico Generado Con Exito" << endl;
-            break;
-        case 6:
-            //archivoSalida();
-            break;
-        default:
-            break;
-        }
-    } while (opcion != 7);
-    //0main();
-}
-
 void Linealizacion(){
     //alv la verdad es que no se que pdo, con parentesis no jala, pero sin parentesis si, que pdo PosLinealizado1= (hora+9)*(dia+30*mes)
     //alguien que me explique que pasa con esto alv
@@ -472,10 +420,14 @@ void carga_tareas(string ruta){
         getline(stream,materia,delimitador);
         getline(stream,fecha,delimitador);
         getline(stream,estado,delimitador);
-        id = to_string(contador);
+        if(Matriz[ConversionMes(mes)][(stoi(dia)-1)][ConversionHoras(hora)] == NULL){
+            id = to_string(contador);
+            Matriz[ConversionMes(mes)][(stoi(dia)-1)][ConversionHoras(hora)]= new NodoMatriz(id,mes,dia,hora,carnet,nombre,descripcion,materia,fecha,estado);
+            contador++;
+        }else{
+            cout<<"Ya Existe una tarea en esa Posicion"<<endl;
+        }
 
-        Matriz[ConversionMes(mes)][(stoi(dia)-1)][ConversionHoras(hora)]= new NodoMatriz(id,mes,dia,hora,carnet,nombre,descripcion,materia,fecha,estado);
-        contador++;
     }
 
     archivo.close();
@@ -556,9 +508,14 @@ void AgregarTareas()
                     cout << "Error: revisar cola de errores\n";
                     Cola.Encolar("Tarea carne:" + carnet, "Hora invalida");
                 }
-                string id = to_string(contador);
-                Matriz[ConversionMes(mes)][(stoi(dia)-1)][ConversionHoras(hora)]= new NodoMatriz(id,mes,dia,hora,carnet,nombre,descripcion,materia,fecha,estado);
-                contador++;
+                if(Matriz[ConversionMes(mes)][(stoi(dia)-1)][ConversionHoras(hora)] == NULL){
+                    string id = to_string(contador);
+                    Matriz[ConversionMes(mes)][(stoi(dia)-1)][ConversionHoras(hora)]= new NodoMatriz(id,mes,dia,hora,carnet,nombre,descripcion,materia,fecha,estado);
+                    contador++;
+                }else{
+                    cout<<"Ya Existe una tarea en esa Posicion"<<endl;
+                }
+
                 break;
             }
         case 2:
@@ -754,6 +711,88 @@ void AgregarUsuarios()
     } while (opcion != 4);
 }
 
+void GenerarReportes()
+{
+    int opcion;
+    do
+    {
+        cout << "************* Menu de reportes *************" << endl;
+        cout << "*                                          *" << endl;
+        cout << "* 1. Lista de estudiantes                  *" << endl;
+        cout << "* 2. Lista de tareas linealizada           *" << endl;
+        cout << "* 3. Busqueda en estructura linealizada    *" << endl;
+        cout << "* 4. Busqueda de posicion linealizada      *" << endl;
+        cout << "* 5. Cola de errores                       *" << endl;
+        cout << "* 6. Codigo generado de salida (No Sirve)  *" << endl;
+        cout << "* 7. Salir                                 *" << endl;
+        cout << "*                                          *" << endl;
+        cout << "********************************************" << endl;
+        cout << "Escriba el numero de la opcion que desee: ";
+        cin >> opcion;
+        switch (opcion)
+        {
+        case 1:
+            cout << "Graficando......" << endl;
+            ListaUsuarios->grafico();
+            cout << "Grafico Generado Con Exito" << endl;
+            break;
+        case 2:
+            cout << "Graficando......" << endl;
+            Linealizado->Grafico();
+            cout << "Grafico Generado Con Exito" << endl;
+            break;
+        case 3:
+            {
+                int PosLinealizado;
+                string dia1, mes1, hora1;
+                int dia, mes, hora;
+                cout << "ingrese el mes"<< endl;
+                cin >> mes1;
+                cout << "ingrese el dia"<< endl;
+                cin >> dia1;
+                cout << "ingrese la hora"<< endl;
+                cin >> hora1;
+                mes = ConversionMes(mes1);
+                hora = ConversionHoras(hora1);
+                dia = stoi(dia1);
+                PosLinealizado= hora+9*(dia+30*mes);
+                string indexID = std::to_string(PosLinealizado);
+                Linealizado->buscarPos(indexID);
+            }
+            break;
+        case 4:
+            {
+                int PosLinealizado;
+                string dia1, mes1, hora1;
+                int dia, mes, hora;
+                cout << "ingrese el mes"<< endl;
+                cin >> mes1;
+                cout << "ingrese el dia"<< endl;
+                cin >> dia1;
+                cout << "ingrese la hora"<< endl;
+                cin >> hora1;
+                mes = ConversionMes(mes1);
+                hora = ConversionHoras(hora1);
+                dia = stoi(dia1);
+                PosLinealizado= hora+9*(dia+30*mes);
+                string indexID = std::to_string(PosLinealizado);
+                Linealizado->buscar2(indexID);
+            }
+            break;
+        case 5:
+            cout << "Graficando......" << endl;
+            Cola.grafico();
+            cout << "Grafico Generado Con Exito" << endl;
+            break;
+        case 6:
+            cout<<"Esto no sirve"<<endl;
+            break;
+        default:
+            break;
+        }
+    } while (opcion != 7);
+}
+
 void CargasManuales(){
     bool repetir = true;
     int menu0;
@@ -821,6 +860,9 @@ int main() {
                 cout<< "Ingrese la Ruta del archivo:"<<endl;
                 cin >> ruta;
                 carga_tareas(ruta);
+                cout<< "Tareas Creadas..."<<endl;
+                cout<< "Linealizando...."<<endl;
+                cout<< "Linealizacion Completa!"<<endl;
                 //PrintMatriz();
                 break;
             }
