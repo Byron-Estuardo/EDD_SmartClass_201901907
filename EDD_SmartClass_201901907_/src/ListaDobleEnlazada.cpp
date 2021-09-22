@@ -259,7 +259,7 @@ void ListaDobleEnlazada::Grafico(){
         } while (aux != this->First);
         archivo << "}\n";
         archivo.close();
-        string ej= "dot -Tpng Linealizado.dot -o Linealizado.png";
+        string ej= "dot -Tsvg Linealizado.dot -o Linealizado.svg";
         char const *ejecutar = ej.c_str();
         system(ejecutar);
     }

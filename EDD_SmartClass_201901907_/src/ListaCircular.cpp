@@ -92,7 +92,7 @@ void ListaCircular::grafico()
         } while (aux != this->Primero);
         archivo << "}\n";
         archivo.close();
-        string ej= "dot -Tpng estudiantes.dot -o estudiantes.png";
+        string ej= "dot -Tsvg estudiantes.dot -o estudiantes.svg";
         char const *ejecutar = ej.c_str();
         system(ejecutar);
     }

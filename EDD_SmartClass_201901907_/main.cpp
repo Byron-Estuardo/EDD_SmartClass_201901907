@@ -453,7 +453,7 @@ void AgregarTareas()
         cout << "*          5. Salir                  *" << endl;
         cout << "*                                    *" << endl;
         cout << "**************************************" << endl;
-        cout << "Ingrese una opcion: ";
+        cout << "Ingrese una opcion: "<<endl;
         cin >> opcion;
         switch (opcion)
         {
@@ -520,7 +520,7 @@ void AgregarTareas()
             }
         case 2:
            {
-                cout << "Ingrese el id de la tarea";
+                cout << "Ingrese el id de la tarea"<<endl;
                 cin >> buscar;
                 int PosLinealizado;
                 string verifi = std::to_string(buscar);
