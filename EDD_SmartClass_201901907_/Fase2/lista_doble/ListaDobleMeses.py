@@ -1,8 +1,7 @@
 class Nodo:
-    def __init__(self, anoo, semestre, meses):
-        self.ano = anoo
-        self.semestre = semestre
-        self.mese = meses
+    def __init__(self, nombre = None, tareas= None):
+        self.nombre = nombre
+        self.tareas = tareas
         self.prev = None
         self.next = None
 
@@ -10,10 +9,7 @@ class Nodo:
         return self.nombre
 
     def GetSemestres(self):
-        return self.semestres
-
-    def GetMes(self):
-        return self.meses
+        return self.tareas
 
     def GetSiguiente(self):
         return self.next
@@ -25,10 +21,7 @@ class Nodo:
         self.nombre = nombres
 
     def SetSemestres(self, nombres):
-        self.semestres = nombres
-
-    def SetMes(self, nombres):
-        self.meses = nombres
+        self.tareas = nombres
 
     def SetSiguiente(self, siguiente):
         self.next = siguiente
@@ -37,7 +30,7 @@ class Nodo:
         self.prev = anterior
 
 
-class ListaDoble:
+class ListaDobleMeses:
     def __init__(self):
         self.Cabeza = None
         self.Cola = None
@@ -48,8 +41,8 @@ class ListaDoble:
         else:
             return False
 
-    def Insertar(self, nombre, meses, semestres):
-        temp = Nodo(nombre, meses, semestres)
+    def Insertar(self, nombre, tareas):
+        temp = Nodo(nombre, tareas)
         if self.IsEmpty() == True:
             self.Cabeza = temp
             self.Cola = temp
@@ -95,16 +88,17 @@ class ListaDoble:
                 anterior.next = actual.next
                 temp.prev = anterior
 
-    def search(self, nombre, meses, semestres):
+    def search(self, nombre):
         aux = self.Cabeza
         contador = 0
         while aux:
-            if aux.Nombre == nombre and aux.meses == meses and aux.semestres == semestres:
+            if aux.Nombre == nombre:
                 # return True
                 return contador
             else:
                 aux = aux.next
                 if aux == self.Cabeza:
+                    #return False
                     return -1
             contador += 1
 
