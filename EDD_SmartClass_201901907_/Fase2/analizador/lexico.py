@@ -1,8 +1,4 @@
-
-# -----------------------------------------------------------------------------
-# lectura_fase1.py
-#
-# -----------------------------------------------------------------------------
+todo = []
 reserved = {
     'Elements' : 'TELEMENTS',
     'element' : 'TELEMENT',
@@ -52,6 +48,7 @@ def t_NUMBER(t):
 def t_NORMSTRING(t):
     r'\"(\\.|[^"\\])*\"'
     #print("String: '%s'" % t.value)
+    todo.append(t.value)
     return t
 
 def t_Date(t):

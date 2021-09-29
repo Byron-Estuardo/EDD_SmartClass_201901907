@@ -1,58 +1,85 @@
-class Nodo:
-    def __init__(self, dato):
-        self.dato = dato
-        self.siguiente = None
+from analizador.sintactico import parser
+import json
+from analizador.lexico import todo
 
 
-class Pila:
-    def __init__(self):
-        self.superior = None
+def LecturaCursosPensum(ruta):
+    with open(ruta) as file:
+        data = json.load(file)
+        for curso in data['Cursos']:
+            print("Codigo: " + curso['Codigo'])
+            print("Nombre: " + curso['Nombre'])
+            print("Creditos: " + str(curso['Creditos']))
+            print("Prerequisitos: " + curso['Prerequisitos'])
+            print("Obligatorio: " + str(curso['Obligatorio']))
 
-    def apilar(self, dato):
-        print(f"Agregando {dato} en la cima de la pila")
-        if self.superior == None:
-            self.superior = Nodo(dato)
-            return
-        nuevo_nodo = Nodo(dato)
-        nuevo_nodo.siguiente = self.superior
-        self.superior = nuevo_nodo
 
-    def desapilar(self):
-        if self.superior == None:
-            print("No hay ningún elemento en la pila para desapilar")
-            return
-
-        print(f"Desapilar {self.superior.dato}")
-        self.superior = self.superior.siguiente
-
-    def imprimir(self):
-        print("Imprimiendo pila:")
-        nodo_temporal = self.superior
-        while nodo_temporal != None:
-            print(f"{nodo_temporal.dato}", end=",")
-            nodo_temporal = nodo_temporal.siguiente
-        print("")
-
-def print_hi(name):
-    print(f'Hi, {name}')
-    pila = Pila()
-    pila.apilar("Prueba 1")
-    pila.apilar("Prueba 2")
-    pila.apilar("Prueba 3")
-    pila.imprimir()
-    pila.desapilar()
-    pila.imprimir()
-    # pila.apilar("Prueba 44")
-    # pila.imprimir()
-    #  pila.desapilar()
-    # pila.desapilar()
-    # pila.imprimir()
-    # pila.desapilar()
-    # pila.desapilar()
-    # pila.imprimir()
-
+def LecturaCursosEstudiante(ruta):
+    with open(ruta) as file:
+        data = json.load(file)
+        print(data)
+        for curso in data['Estudiantes']:
+            print("Carnet: " + curso['Carnet'])
+            print(curso["AÃ±os"])
+            for años in curso['AÃ±os']:
+                print("Año: " + años['AÃ±o'])
+                for semestes in años['Semestres']:
+                    print("Creditos: " + str(semestes['Semestre']))
+                    for Cursos in semestes['Cursos']:
+                        print("Codigo: " + Cursos['Codigo'])
+                        print("Nombre: " + Cursos['Nombre'])
+                        print("Creditos: " + str(Cursos['Creditos']))
+                        print("Prerequisitos: " + Cursos['Prerequisitos'])
+                        print("Obligatorio: " + str(Cursos['Obligatorio']))
 
 
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    f = open('Estudiantes.txt', "r", encoding="utf-8")
+    mensaje = f.read()
+    f.close()
+
+    resultado_analisis = parser.parse(mensaje)
+    separadorFecha = "/"
+    separadorHora = ":"
+    for item in resultado_analisis:
+        if item["type"] == "user":
+            atributos = item["atributos"]
+            carnet = int(atributos[0]["Carnet"].replace("\"", ""))
+            dpi = str(atributos[1]["DPI"].replace("\"", ""))
+            nombre = str(atributos[2]["Nombre"].replace("\"", ""))
+            carrera = str(atributos[3]["Carrera"].replace("\"", ""))
+            correo = str(atributos[4]["Correo"].replace("\"", ""))
+            contra = str(atributos[5]["Password"].replace("\"", ""))
+            creditos = int(atributos[6]["Creditos"])
+            edad = int(atributos[7]["Edad"])
+            print("Usuarios")
+            print(str(carnet) + " " + dpi + " " + nombre + " " + carrera + " " + correo + " " + contra + " " + str(
+                creditos) + " " + str(edad))
+        else:
+            atributos = item["atributos"]
+            carnet1 = int(atributos[0]["Carnet"].replace("\"", ""))
+            nombre = str(atributos[1]["Nombre"].replace("\"", ""))
+            descrip = str(atributos[2]["Descripcion"].replace("\"", ""))
+            materia = str(atributos[3]["Materia"].replace("\"", ""))
+            fecha = str(atributos[4]["Fecha"].replace("\"", ""))
+            hora = str(atributos[5]["Hora"].replace("\"", ""))
+            estado = str(atributos[6]["Estado"].replace("\"", ""))
+            FechaSeparada = fecha.split(separadorFecha)
+            HoraSeparada = hora.split(separadorHora)
+            for item in FechaSeparada:
+                print("SEPARADO FECHA: " + item)
+            for item in HoraSeparada:
+                print("SEPARADO HORA: " + item)
+            print("Tareas")
+            print(str(carnet1) + " " + nombre + " " + descrip + " " + materia + " " + fecha + " " + hora + " " + estado)
+
+    # LecturaCursosPensum("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosPensum.json")
+
+    LecturaCursosEstudiante("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosEstudiante.json")
+
+    '''for item in resultado_analisis:
+        print(item["type"])
+        for at in item["atributos"]:
+            print(at)
+'''
 

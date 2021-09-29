@@ -1,6 +1,8 @@
 from analizador.lexico import tokens
 
 # dictionary of names
+Usuario = []
+Tareas = []
 names = {}
 
 def p_statement_group(t):
