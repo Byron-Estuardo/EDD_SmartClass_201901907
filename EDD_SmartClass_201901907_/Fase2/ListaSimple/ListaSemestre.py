@@ -1,26 +1,9 @@
 class NodoSemestre:
+
     def __init__(self,nombres, cursos):
         self.nombre = nombres
         self.curso = cursos
         self.siguiente = None
-
-    def GetNombre(self):
-        return self.nombre
-
-    def GetCurso(self):
-        return self.curso
-
-    def GetSiguiente(self):
-        return self.siguiente
-
-    def SetNombre(self,nombres):
-        self.nombre = nombres
-
-    def SetNombre(self,cursos):
-        self.curso = cursos
-
-    def SetSiguiente(self,nuevosiguiente):
-        self.siguiente = nuevosiguiente
 
 class ListaSemestre:
     def __init__(self):
@@ -31,7 +14,7 @@ class ListaSemestre:
 
     def Insertar(self, nombre, cursos):
         nuevo = NodoSemestre(nombre, cursos)
-        nuevo.SetSiguiente(self.Cabeza)
+        nuevo.siguiente = self.Cabeza
         self.Cabeza = nuevo
 
     def Tamano(self):
@@ -39,32 +22,57 @@ class ListaSemestre:
         contador = 0
         while actual != None:
             contador = contador + 1
-            actual = actual.GetSiguiente()
+            actual = actual.siguiente
         return contador
 
     def Buscar(self, item):
         actual = self.Cabeza
         encontrado = False
-        while actual != None and not encontrado:
-            if actual.GetNombre() == item:
-                encontrado = True
-            else:
-                actual = actual.GetSiguiente()
-
+        if self.IsEmpty() is not None:
+            while actual is not None:
+                if actual.nombre == item:
+                    print("Dato encontrado" + str(item))
+                    encontrado = True
+                actual = actual.siguiente
+        else:
+            print("Lista Vacia")
+        if encontrado is False:
+            print("Dato No Encontrado")
         return encontrado
+
+    def modificar(self, dato,nuevo):
+        auxiliar = self.Cabeza
+        if self.Buscar(dato) != 0:
+            while auxiliar is not None:
+                if auxiliar.nombre == dato:
+                    auxiliar.nombre = nuevo
+                    print("Dato modificado")
+                auxiliar = auxiliar.siguiente
+        else:
+            print("No se encuentra el dato")
 
     def Eliminar(self, item):
         actual = self.Cabeza
         Prev = None
         encontrado = False
         while not encontrado:
-            if actual.GetNombre() == item:
+            if actual.nombre == item:
                 encontrado = True
             else:
                 Prev = actual
-                actual = actual.GetSiguiente()
+                actual = actual.siguiente
 
-        if Prev == None:
-            self.Cabeza = actual.GetSiguiente()
+        if Prev is None:
+            self.Cabeza = actual.siguiente
         else:
-            Prev.SetSiguiente(actual.GetSiguiente())
+            Prev.siguiente = actual.siguiente
+
+    def lista( self ):
+        i = self.Cabeza
+        while i is not None:
+            if i.siguiente is not None:
+                print(i.nombre, end =" => ")
+            else:
+                print(i.nombre, end =" => NULL")
+                print()
+            i = i.siguiente

@@ -22,8 +22,8 @@ class ListaDobleTareas:
         else:
             return False
 
-    def Insertar(self, carne,nombre,descrip,materia,fecha,hora,estado):
-        temp = Nodo(carne,nombre,descrip,materia,fecha,hora,estado)
+    def Insertar(self, carne, nombre, descrip, materia, fecha, hora, estado):
+        temp = Nodo(carne, nombre, descrip, materia, fecha, hora, estado)
         if self.IsEmpty() == True:
             self.Cabeza = temp
             self.Cola = temp
@@ -35,53 +35,95 @@ class ListaDobleTareas:
             # self.Cabeza.prev = temp
             # self.Cabeza = temp
 
-    def imprimirPrimero(self):
-        print("*******")
-        temp = self.Cabeza
-        while temp != None:
-            print(temp.GetNombre(), end='  ')
-            temp = temp.next
+    def iterar(self):
+        actual = self.Cabeza
+        while actual:
+            dato = actual
+            actual = actual.next
+            yield dato
 
-    def DeletePrimero(self):
-        if self.IsEmpty() == False:
-            self.Cabeza = self.Cabeza.next
+    def tama(self):
+        contador = 0
+        for item in self.iterar():
+            contador += 1
+        return contador
+    '''
+    for item in lista.iterar()
+        print(item)
+
+        busqueda:
+        lista.busqueda(dato)
+    '''
+
+    def BuscarExiste(self, dato):
+        for item in self.iterar():
+            if dato == item.carne:
+                return True
+        return False
+
+    def BuscarNodo(self, dato):
+        for item in self.iterar():
+            if dato == item.carne:
+                return item
+        return -1
+
+    def Eliminar(self, dato):
+        actual = self.Cabeza
+        eliminado = False
+        if actual is None:
+            eliminado = False
+        elif actual.carne == dato:
+            self.Cabeza = actual.next
             self.Cabeza.prev = None
-
-    def DeleteUltimo(self):
-        if self.Cola.prev is None:
-            self.Cabeza = None
-            self.Cola = None
-        else:
+        elif self.Cola.carne == dato:
             self.Cola = self.Cola.prev
             self.Cola.next = None
-
-    def DeletePos(self, pos):
-        anterior = self.Cabeza
-        actual = self.Cabeza
-        k = 0
-        if pos > 0:
-            while k != pos and actual.next != None:
-                anterior = actual
+            eliminado = True
+        else:
+            while actual:
+                if actual.carne == dato:
+                    actual.prev.next = actual.next
+                    actual.next.prev = actual.prev
+                    eliminado = True
                 actual = actual.next
-                k += 1
-            if k == pos:
-                temp = actual.next
-                anterior.next = actual.next
-                temp.prev = anterior
+        if eliminado:
+            self.contador -= 1
 
-    def search(self, nombre, tareas):
-        aux = self.Cabeza
-        contador = 0
-        while aux:
-            if aux.Nombre == nombre and aux.tareas == tareas:
-                # return True
-                return contador
-            else:
-                aux = aux.next
-                if aux == self.Cabeza:
-                    # return False
-                    return -1
-            contador += 1
+    '''
+    buscar desde elemento y obtener indice
+    % (indice, lista[indice])
+    '''
+
+    def obtenerIndice(self, dato):
+        for item in self.iterar():
+            conta = 0
+            if dato == item.carne:
+                return conta
+            conta += 1
+        return -1
+
+    def __getitem__(self, item):
+        if item >= 0 and item < self.contador:
+            actual = self.Cabeza
+            for _ in range(item - 1):
+                actual = actual.next
+            return actual.carne
+        else:
+            raise Exception("Indice no valido. Fuera de Rango")
+
+    '''
+    para modificar por medio del indice 
+    lista[pos] = nuevo
+    '''
+
+    def __setitem__(self, indice, dato):
+        if indice >= 0 and indice < self.contador:
+            actual = self.Cabeza
+            for _ in range(indice - 1):
+                actual = actual.next
+            actual.carne = dato
+        else:
+            raise Exception("Indice no valido. Fuera de Rango")
 
 
 '''

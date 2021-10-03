@@ -1,8 +1,14 @@
 from analizador.sintactico import parser
 import json
-from analizador.lexico import todo
+from avl import AVL
+from lista_doble import ListaDoble
+from lista_doble import ListaDobleMeses
+from ListaSimple import ListaSemestre
+from lista_doble import ListaDobleTareas
+from Matriz import Matriz
 
 
+AVL = AVL.AVL()
 def LecturaCursosPensum(ruta):
     with open(ruta) as file:
         data = json.load(file)
@@ -12,7 +18,6 @@ def LecturaCursosPensum(ruta):
             print("Creditos: " + str(curso['Creditos']))
             print("Prerequisitos: " + curso['Prerequisitos'])
             print("Obligatorio: " + str(curso['Obligatorio']))
-
 
 def LecturaCursosEstudiante(ruta):
     with open(ruta) as file:
@@ -32,15 +37,101 @@ def LecturaCursosEstudiante(ruta):
                         print("Prerequisitos: " + Cursos['Prerequisitos'])
                         print("Obligatorio: " + str(Cursos['Obligatorio']))
 
+def VerificarCarnetAvl(carnet):
+    encontrado = AVL.RevisarExiste(carnet)
+    return encontrado
 
-if __name__ == '__main__':
-    f = open('Estudiantes.txt', "r", encoding="utf-8")
+def ConvertirMesATexto(mes):
+    if mes == "01":
+        convertido = "Enero"
+        return convertido
+    elif mes == "02":
+        convertido = "Febrero"
+        return convertido
+    elif mes == "03":
+        convertido = "Marzo"
+        return convertido
+    elif mes == "04":
+        convertido = "Abril"
+        return convertido
+    elif mes == "05":
+        convertido = "Mayo"
+        return convertido
+    elif mes == "06":
+        convertido = "Junio"
+        return convertido
+    elif mes == "07":
+        convertido = "Julio"
+        return convertido
+    elif mes == "08" :
+        convertido = "Agosto"
+        return convertido
+    elif mes == "09":
+        convertido = "Septiembre"
+        return convertido
+    elif mes == "10":
+        convertido = "Octubre"
+        return convertido
+    elif mes == "11":
+        convertido = "Noviembre"
+        return convertido
+    elif mes == "12":
+        convertido = "Diciembre"
+        return convertido
+    else:
+        convertido = "ERROR"
+        return convertido
+
+def ConvertirTextoAMes(mes):
+    if mes == "Enero":
+        convertido = "01"
+        return convertido
+    elif mes == "Febrero":
+        convertido = "02"
+        return convertido
+    elif mes == "Marzo":
+        convertido = "03"
+        return convertido
+    elif mes == "Abril":
+        convertido = "04"
+        return convertido
+    elif mes == "Mayo":
+        convertido = "05"
+        return convertido
+    elif mes == "Junio":
+        convertido = "06"
+        return convertido
+    elif mes == "Julio":
+        convertido = "07"
+        return convertido
+    elif mes == "Agosto":
+        convertido = "08"
+        return convertido
+    elif mes == "Septiembre":
+        convertido = "09"
+        return convertido
+    elif mes == "Octubre":
+        convertido = "10"
+        return convertido
+    elif mes == "Noviembre":
+        convertido = "11"
+        return convertido
+    elif mes == "Diciembre":
+        convertido = "12"
+        return convertido
+    else:
+        convertido = "ERROR"
+        return convertido
+
+def LecturaArchivoFaseAnt(ruta):
+    f = open(ruta, "r", encoding="utf-8")
     mensaje = f.read()
     f.close()
 
     resultado_analisis = parser.parse(mensaje)
     separadorFecha = "/"
     separadorHora = ":"
+
     for item in resultado_analisis:
         if item["type"] == "user":
             atributos = item["atributos"]
@@ -52,9 +143,12 @@ if __name__ == '__main__':
             contra = str(atributos[5]["Password"].replace("\"", ""))
             creditos = int(atributos[6]["Creditos"])
             edad = int(atributos[7]["Edad"])
-            print("Usuarios")
-            print(str(carnet) + " " + dpi + " " + nombre + " " + carrera + " " + correo + " " + contra + " " + str(
-                creditos) + " " + str(edad))
+            veri = VerificarCarnetAvl(carnet)
+            if veri == False:
+                NuevoAños = ListaDoble.ListaDoble()
+                AVL.insertar(carnet, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
+            else:
+                print("Carnet Repetido")
         else:
             atributos = item["atributos"]
             carnet1 = int(atributos[0]["Carnet"].replace("\"", ""))
@@ -66,20 +160,48 @@ if __name__ == '__main__':
             estado = str(atributos[6]["Estado"].replace("\"", ""))
             FechaSeparada = fecha.split(separadorFecha)
             HoraSeparada = hora.split(separadorHora)
-            for item in FechaSeparada:
-                print("SEPARADO FECHA: " + item)
-            for item in HoraSeparada:
-                print("SEPARADO HORA: " + item)
-            print("Tareas")
-            print(str(carnet1) + " " + nombre + " " + descrip + " " + materia + " " + fecha + " " + hora + " " + estado)
+            dia = FechaSeparada[0]
+            mes = str(FechaSeparada[1])
+            año = str(FechaSeparada[2])
+            horaSep = HoraSeparada[0]
+            MinSep = HoraSeparada[1]
+            NuevoMeses = ListaDobleMeses.ListaDobleMeses()
+            NuevoSemestres = ListaSemestre.ListaSemestre()
+            veri = VerificarCarnetAvl(carnet1)
+            # Verificar que el carnet Exista
+            if veri == True:
+                # print("Carnet Encontrado")
+                nodo = AVL.find(carnet1)
+                # Buscar el carnet en el AVL
+                veriAños = nodo.años.BuscarExiste(año)
+                if veriAños == False:
+                    # Si no existe el año se crea uno
+                    nodo.años.Insertar(año, NuevoSemestres, NuevoMeses)
+                # Obtenemos el nodo del año
+                nodo1 = nodo.años.BuscarNodo(año)
+                ConvertidoMes = ConvertirMesATexto(mes)
+                veriMeses = nodo1.meses.BuscarExiste(ConvertidoMes)
+                if veriMeses == False:
+                    # Si no existe el mes se crea uno nuevo
+                    NuevaMatriz = Matriz.Matriz_Dispersa()
+                    nodo1.meses.Insertar(ConvertidoMes, NuevaMatriz)
+                # obtenemos el nodo de meses
+                nodo2 = nodo1.meses.BuscarNodo(ConvertidoMes)
+                # Verificamos que exista el nodo en la matriz
+                veriMatriz = nodo2.tareas.buscar(int(horaSep), int(dia))
+                if veriMatriz == False:
+                    NuevaListaTareas = ListaDobleTareas.ListaDobleTareas()
+                    nodo2.tareas.insertar(int(horaSep), int(dia), NuevaListaTareas)
+                nodo3 = nodo2.tareas.buscarNodo(int(horaSep), int(dia))
+                nodo4 = nodo3.derecha
+                nodo5 = nodo4.recordatorio
+                nodo5.Insertar(carnet1, nombre, descrip, materia, fecha, hora, estado)
+            else:
+                print("El Carnet no Existe")
 
+if __name__ == '__main__':
+    LecturaArchivoFaseAnt("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/Estudiantes.txt")
+    #AVL.pre_orden()
     # LecturaCursosPensum("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosPensum.json")
-
-    LecturaCursosEstudiante("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosEstudiante.json")
-
-    '''for item in resultado_analisis:
-        print(item["type"])
-        for at in item["atributos"]:
-            print(at)
-'''
+    # LecturaCursosEstudiante("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosEstudiante.json")
 

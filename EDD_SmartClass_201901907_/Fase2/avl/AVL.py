@@ -1,112 +1,170 @@
-class nodo:
-    def __init__(self,dato):
-        self.dato = dato
+class Nodo:
+    def __init__(self, carnet=0, dpi="", nombre="", carrera="", correo="", password="", creditos=0, edad=0,años=None):
+        self.carnet = carnet
+        self.dpi = dpi
+        self.nombre = nombre
+        self.carrera = carrera
+        self.correo = correo
+        self.password = password
+        self.creditos = creditos
+        self.edad = edad
+        self.años = años
         self.izq = None
         self.der = None
         self.altura = 0
 
-class avl:
+
+class AVL:
     def __init__(self):
         self.raiz = None
 
-    def MAX(self, val1, val2):
-        if val1 > val2:
-            return val1
+    def insertar(self, carne, dpi, nombre, carrera, correo, contra, cred, edad, anos):
+        nuevo = Nodo(carne, dpi, nombre, carrera, correo, contra, cred, edad, anos)
+
+        if self.raiz == None:
+            self.raiz = nuevo
         else:
-            return val2
 
-    def insert(self, value):
-        self.raiz = self.insert_inter(value, self.raiz)
+            self.raiz = self.nodo_insertar(nuevo, self.raiz)
 
-    def altura(self, node):
-        if node is None:
-            return node.altura
-
-    def insert_inter(self, value, raiiz):
-        if raiiz is None:
-            return nodo(value)
-        else:
-            if value < raiiz.dato:
-                raiiz.izq = self.insert_inter(value, raiiz.izq)
-            if self.altura(raiiz.der) - self.altura(raiiz.izq) == -2:
-                if value < raiiz.izq.dato:
-                    raiiz = self.RI(raiiz)
-                else:
-                    raiiz = self.RDI(raiiz)
-            elif value > raiiz.dato:
-                raiiz.der = self.insert_inter(value, raiiz.der)
-                if self.altura(raiiz.der) - self.altura(raiiz.izq) == 2:
-                    if value > raiiz.izq.dato:
-                        raiiz = self.RD(raiiz)
+    def nodo_insertar(self, nuevo, raiz_actual):
+        if raiz_actual:
+            if raiz_actual.carnet > nuevo.carnet:
+                raiz_actual.izq = self.nodo_insertar(nuevo, raiz_actual.izq)
+                if (self.altura(raiz_actual.der) - self.altura(raiz_actual.izq) == -2):
+                    if nuevo.carnet < raiz_actual.izq.carnet:
+                        raiz_actual = self.R_izq(raiz_actual)
                     else:
-                        raiiz = self.RID(raiiz)
-            else:
-                raiiz.dato = value
-        raiiz.altura = self.MAX(self.altura(raiiz.izq), self.altura(raiiz.der)) + 1
-        return raiiz
+                        raiz_actual = self.R_izq_der(raiz_actual)
 
-    def RI(self, node):
-        aux = node.izq
-        node.izq = aux.der
-        aux.der = node
-        node.altura = self.MAX(self.altura(node.izq), self.altura(node.der)) + 1
-        aux.altura = self.MAX(self.altura(aux.izq), self.altura(aux.der)) + 1
+            elif raiz_actual.carnet < nuevo.carnet:
+                raiz_actual.der = self.nodo_insertar(nuevo, raiz_actual.der)
+                if (self.altura(raiz_actual.der) - self.altura(raiz_actual.izq) == 2):
+                    if nuevo.carnet > raiz_actual.der.carnet:
+                        raiz_actual = self.R_der(raiz_actual)
+                    else:
+                        raiz_actual = self.R_der_izq(raiz_actual)
+            raiz_actual.altura = self.max(self.altura(raiz_actual.der), self.altura(raiz_actual.izq)) + 1
+            return raiz_actual
+        else:
+            raiz_actual = nuevo
+            return raiz_actual
+
+    def max(self, v1, v2):
+        if v1 > v2:
+            return v1
+        else:
+            return v2
+
+    def altura(self, nodo):
+        if nodo:
+            return nodo.altura
+        else:
+            return -1
+
+    # ROTACIONES
+    # SIMPLE IZQ
+    def R_izq(self, nodo):
+        aux = nodo.izq
+        nodo.izq = aux.der
+        aux.der = nodo
+        nodo.altura = self.max(self.altura(nodo.der), self.altura(nodo.izq)) + 1
+        aux.altura = self.max(nodo.altura, self.altura(nodo.izq)) + 1
         return aux
 
-    def RD(self, node):
-        aux = node.der
-        node.der = aux.izq
-        aux.izq = node
-        node.altura = self.MAX(self.altura(node.izq), self.altura(node.der)) + 1
-        aux.altura = self.MAX(self.altura(aux.izq), self.altura(aux.der)) + 1
+    # SIMPLE DER
+    def R_der(self, nodo):
+        aux = nodo.der
+        nodo.der = aux.izq
+        aux.izq = nodo
+        nodo.altura = self.max(self.altura(nodo.der), self.altura(nodo.izq)) + 1
+        aux.altura = self.max(nodo.altura, self.altura(nodo.der)) + 1
         return aux
 
-    def RDI(self, node):
-        node.izq = self.RD(node.izq)
-        return self.RI(node)
+    # IZQ-DER
+    def R_izq_der(self, nodo):
+        nodo.izq = self.R_der(nodo.izq)
+        aux = self.R_izq(nodo)
+        return aux
 
-    def RID(self, node):
-        node.der = self.RI(node.der)
-        return self.RD(node)
+    # DER-IZQ
+    def R_der_izq(self, nodo):
+        nodo.der = self.R_izq(nodo.der)
+        aux = self.R_der(nodo)
+        return aux
 
+    #Busqueda Avl
+    def find(self, Carnet):
+        if self.raiz is None:
+            return None
+        else:
+            return self._find(Carnet, self.raiz)
+
+    def _find(self, Carnet, raiz):
+        if raiz is None:
+            return None
+        elif Carnet < raiz.carnet:
+            return self._find(Carnet, raiz.izq)
+        elif Carnet > raiz.carnet:
+            return self._find(Carnet, raiz.der)
+        else:
+            return raiz
+
+    def RevisarExiste(self, carnet):
+        if self.raiz is None:
+            return False
+        else:
+            return self._Encontrar(carnet, self.raiz)
+
+    def _Encontrar(self, Carnet, raiz):
+        if raiz is None:
+            return False
+        elif Carnet < raiz.carnet:
+            return self._Encontrar(Carnet, raiz.izq)
+        elif Carnet > raiz.carnet:
+            return self._Encontrar(Carnet, raiz.der)
+        else:
+            return True
+
+    #Pre orden
     def pre_orden(self):
         self.pre_orden_intern(self.raiz)
 
     def pre_orden_intern(self, raiz):
-        if raiz is None:
-            print(raiz.dato)
+        if raiz is not None:
+            print(raiz.carnet)
             self.pre_orden_intern(raiz.izq)
             self.pre_orden_intern(raiz.der)
 
-    def inOrden(self):
-        self.inOrden_intern(self.raiz)
+    def graficar(self):
+        cadena = "digraph arbol {\n"
+        if (self.raiz != None):
+            cadena += self.listar(self.raiz)
+            cadena += "\n"
+            cadena += self.enlazar(self.raiz)
+        cadena += "}"
+        Archivo = open("ejemplo.dot", "w+")
+        Archivo.write(cadena)
+        Archivo.close()
 
-    def inOrden_intern(self, raiz):
-        if raiz is None:
-            self.inOrden_intern(raiz.izq)
-            #print()
-            self.inOrden_intern(raiz.der)
+    def listar(self, raiz_actual):
+        if raiz_actual:
+            cadena = "n" + str(raiz_actual.carnet) + "[label= \"" + str(raiz_actual.carnet) + "\"];\n"
+            cadena += self.listar(raiz_actual.izq)
+            cadena += self.listar(raiz_actual.der)
+            return cadena
+        else:
+            return ""
 
-    def postOrden(self):
-        self.postOrden_intern(self.raiz)
+    def enlazar(self, raiz_actual):
+        cadena = ""
+        if raiz_actual:
+            if raiz_actual.izq:
+                cadena += "n" + str(raiz_actual.carnet) + " -> n" + str(raiz_actual.izq.carnet) + "\n"
+            if raiz_actual.der:
+                cadena += "n" + str(raiz_actual.carnet) + " -> n" + str(raiz_actual.der.carnet) + "\n"
 
-    def postOrden_intern(self, raiz):
-        if raiz is None:
-            self.postOrden_intern(raiz.izq)
-            #print()
-            self.postOrden_intern(raiz.der)
+            cadena += self.enlazar(raiz_actual.izq)
+            cadena += self.enlazar(raiz_actual.der)
 
-arbol = avl()
-
-arbol.insert(25)
-arbol.insert(15)
-arbol.insert(30)
-arbol.insert(8)
-arbol.insert(10)
-arbol.insert(5)
-arbol.insert(28)
-arbol.insert(27)
-arbol.insert(40)
-
-arbol.inorden(arbol.raiz)
-#arbol.graficar()
+        return cadena

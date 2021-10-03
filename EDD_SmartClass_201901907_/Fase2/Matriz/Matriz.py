@@ -1,9 +1,26 @@
-from Nodo import NodoMatriz
-from Nodo import NodoCabecera
-from Nodo import NodoRaiz
+class NodoMatriz:
+    def __init__(self, x=None, y=None, recordatorio=None, arriba=None, abajo=None, izquierda=None, derecha=None):
+        self.x = x
+        self.y = y
+        self.recordatorio = recordatorio
+        self.arriba=arriba
+        self.abajo=abajo
+        self.izquierda= izquierda
+        self.derecha = derecha
 
+class NodoCabecera:
+    def __init__(self,tipo=None,indice=None,siguiente=None,derecha=None,abajo=None):
+        self.tipo=tipo
+        self.indice=indice
+        self.siguiente=siguiente
+        self.derecha=derecha
+        self.abajo=abajo
+class NodoRaiz:
+    def __init__(self):
+        self.NodoFilas=None
+        self.NodoColumnas=None
 
-class Matriz_ortogonal:
+class Matriz_Dispersa:
     def __init__(self):
         self.NodoRaiz=None
         
@@ -73,13 +90,27 @@ class Matriz_ortogonal:
             self.insertar_cabercera(Nodotemporal.NodoColumnas,x,"Columna")
             self.insertar_nodo_fila(nodo=nodoN)
             self.insertar_nodo_col(nodo=nodoN)
-    def buscar(self,x,y):
+
+    def buscar(self, x, y):
+        if self.NodoRaiz == None:
+            return False
+        nodo = self.NodoRaiz.NodoFilas
+        while(nodo is not None):
+            nodo_temp = nodo.derecha
+            while(nodo_temp is not None):
+                if nodo_temp.x == x and nodo_temp.y == y:
+                    return True
+                nodo_temp = nodo_temp.derecha
+            nodo=nodo.siguiente
+        return False
+
+    def buscarNodo(self,x,y):
         nodo = self.NodoRaiz.NodoFilas
         while(nodo is not None):
             nodo_temp = nodo.derecha
             while(nodo_temp is not None):
                 if nodo_temp.x ==x and nodo_temp.y==y:
-                    return True
+                    return nodo
                 nodo_temp=nodo_temp.derecha
             nodo=nodo.siguiente
         return False

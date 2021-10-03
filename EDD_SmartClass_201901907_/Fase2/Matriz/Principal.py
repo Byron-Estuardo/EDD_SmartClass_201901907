@@ -3,12 +3,12 @@
 @author: Jorge Salazar
 ### Matriz Ortogonal ######
 """
-from Matriz import Matriz_ortogonal
+from Matriz import Matriz_Dispersa
 import os
 
 
-nueva_matriz = Matriz_ortogonal()
-
+nueva_matriz = Matriz_Dispersa()
+print(nueva_matriz.buscar(2,5))
 nueva_matriz.insertar(2,5,"nuevo nodo")
 nueva_matriz.insertar(2,3,"nuevo nodo")
 nueva_matriz.insertar(2,4,"nuevo nodo")
@@ -28,6 +28,8 @@ nueva_matriz.insertar(9,9,"nuevo nodo")
 nueva_matriz.insertar(8,1,"nuevo nodo")
 nueva_matriz.insertar(10,10,"nuevo nodo")
 nueva_matriz.insertar(10,1,"nuevo nodo")
+
+
 nodo = nueva_matriz.NodoRaiz.NodoColumnas
 nodo = nueva_matriz.NodoRaiz.NodoFilas
 

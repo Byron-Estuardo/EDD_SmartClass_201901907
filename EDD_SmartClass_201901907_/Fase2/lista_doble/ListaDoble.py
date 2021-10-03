@@ -1,46 +1,16 @@
 class Nodo:
-    def __init__(self, anoo, semestre, meses):
-        self.ano = anoo
+    def __init__(self, dato = None, semestre = None, meses = None):
+        self.dato = dato
         self.semestre = semestre
-        self.mese = meses
+        self.meses = meses
         self.prev = None
         self.next = None
-
-    def GetNombre(self):
-        return self.nombre
-
-    def GetSemestres(self):
-        return self.semestres
-
-    def GetMes(self):
-        return self.meses
-
-    def GetSiguiente(self):
-        return self.next
-
-    def GetAnterior(self):
-        return self.prev
-
-    def SetNombre(self, nombres):
-        self.nombre = nombres
-
-    def SetSemestres(self, nombres):
-        self.semestres = nombres
-
-    def SetMes(self, nombres):
-        self.meses = nombres
-
-    def SetSiguiente(self, siguiente):
-        self.next = siguiente
-
-    def SetAnterior(self, anterior):
-        self.prev = anterior
-
 
 class ListaDoble:
     def __init__(self):
         self.Cabeza = None
         self.Cola = None
+        self.contador = 0
 
     def IsEmpty(self):
         if self.Cabeza is None:
@@ -50,7 +20,7 @@ class ListaDoble:
 
     def Insertar(self, nombre, meses, semestres):
         temp = Nodo(nombre, meses, semestres)
-        if self.IsEmpty() == True:
+        if self.IsEmpty() is True:
             self.Cabeza = temp
             self.Cola = temp
         else:
@@ -60,53 +30,96 @@ class ListaDoble:
             # temp.next = self.Cabeza
             # self.Cabeza.prev = temp
             # self.Cabeza = temp
+        self.contador += 1
 
-    def imprimirPrimero(self):
-        print("*******")
-        temp = self.Cabeza
-        while temp != None:
-            print(temp.GetNombre(), end='  ')
-            temp = temp.next
+    def iterar(self):
+        actual = self.Cabeza
+        while actual:
+            dato = actual
+            actual = actual.next
+            yield dato
 
-    def DeletePrimero(self):
-        if self.IsEmpty() == False:
-            self.Cabeza = self.Cabeza.next
+    '''
+    for item in lista.iterar()
+        print(item)
+        
+        busqueda:
+        lista.busqueda(dato)
+    '''
+
+    def BuscarExiste(self, dato):
+        for item in self.iterar():
+            if dato == item.dato:
+                return True
+        return False
+
+    def BuscarNodo(self, dato):
+        for item in self.iterar():
+            if dato == item.dato:
+                return item
+        return -1
+
+    def Eliminar(self, dato):
+        actual = self.Cabeza
+        eliminado = False
+        if actual is None:
+            eliminado = False
+        elif actual.dato == dato:
+            self.Cabeza = actual.next
             self.Cabeza.prev = None
-
-    def DeleteUltimo(self):
-        if self.Cola.prev is None:
-            self.Cabeza = None
-            self.Cola = None
-        else:
+        elif self.Cola.dato == dato:
             self.Cola = self.Cola.prev
             self.Cola.next = None
-
-    def DeletePos(self, pos):
-        anterior = self.Cabeza
-        actual = self.Cabeza
-        k = 0
-        if pos > 0:
-            while k != pos and actual.next != None:
-                anterior = actual
+            eliminado = True
+        else:
+            while actual:
+                if actual.dato == dato:
+                    actual.prev.next = actual.next
+                    actual.next.prev = actual.prev
+                    eliminado = True
                 actual = actual.next
-                k += 1
-            if k == pos:
-                temp = actual.next
-                anterior.next = actual.next
-                temp.prev = anterior
+        if eliminado:
+            self.contador -= 1
 
-    def search(self, nombre, meses, semestres):
-        aux = self.Cabeza
-        contador = 0
-        while aux:
-            if aux.Nombre == nombre and aux.meses == meses and aux.semestres == semestres:
-                # return True
-                return contador
-            else:
-                aux = aux.next
-                if aux == self.Cabeza:
-                    return -1
-            contador += 1
+    '''
+    buscar desde elemento y obtener indice
+    % (indice, lista[indice])
+    '''
+
+    def obtenerIndice(self, dato):
+        for item in self.iterar():
+            conta = 0
+            if dato == item.dato:
+                return conta
+            conta += 1
+        return -1
+
+
+    def __getitem__(self, item):
+        if item>= 0 and item < self.contador:
+            actual = self.Cabeza
+            for _ in range(item-1):
+                actual = actual.next
+            return actual.dato
+        else:
+            raise Exception("Indice no valido. Fuera de Rango")
+
+    '''
+    para modificar por medio del indice 
+    lista[pos] = nuevo
+    '''
+
+    def __setitem__(self, indice, dato):
+        if indice>= 0 and indice < self.contador:
+            actual = self.Cabeza
+            for _ in range(indice-1):
+                actual = actual.next
+            actual.dato = dato
+        else:
+            raise Exception("Indice no valido. Fuera de Rango")
+
+    #def ModificarDato(self, dato):
+
 
 
 '''
