@@ -1,0 +1,37 @@
+veri = VerificarCarnetAvl(carnet1)
+# Verificar que el carnet Exista
+if veri == True:
+    # print("Carnet Encontrado")
+    nodo = AVL.find(carnet1)
+    # Buscar el carnet en el AVL
+    veriAños = nodo.años.BuscarExiste(año)
+    if veriAños == False:
+        # Si no existe el año se crea uno
+        nodo.años.Insertar(año, NuevoSemestres, NuevoMeses)
+    # Obtenemos el nodo del año
+    nodo1 = nodo.años.BuscarNodo(año)
+    ConvertidoMes = ConvertirMesATexto(mes)
+    veriMeses = nodo1.meses.BuscarExiste(ConvertidoMes)
+    if veriMeses == False:
+        # Si no existe el mes se crea uno nuevo
+        NuevaMatriz = Matriz.Matriz_Dispersa()
+        nodo1.meses.Insertar(ConvertidoMes, NuevaMatriz)
+    # obtenemos el nodo de meses
+    nodo2 = nodo1.meses.BuscarNodo(ConvertidoMes)
+    # Verificamos que exista el nodo en la matriz
+    veriMatriz = nodo2.tareas.buscar(int(horaSep), int(dia))
+    if veriMatriz == False:
+        NuevaListaTareas = ListaDobleTareas.ListaDobleTareas()
+        nodo2.tareas.insertar(int(horaSep), int(dia), NuevaListaTareas)
+    nodo3 = nodo2.tareas.buscarNodo(int(horaSep), int(dia))
+    nodo4 = nodo3.derecha
+    nodo5 = nodo4.recordatorio
+    nodo5.Insertar(carnet1, nombre, descrip, materia, fecha, hora, estado)
+
+    FechaSeparada = fecha.split(separadorFecha)
+            HoraSeparada = hora.split(separadorHora)
+            dia = FechaSeparada[0]
+            mes = str(FechaSeparada[1])
+            año = str(FechaSeparada[2])
+            horaSep = HoraSeparada[0]
+            MinSep = HoraSeparada[1]

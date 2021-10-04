@@ -39,7 +39,11 @@ def LecturaCursosEstudiante(ruta):
         print(data)
         for curso in data['Estudiantes']:
             print("Carnet: " + curso['Carnet'])
-            print(curso["AÃ±os"])
+            carnet = curso['Carnet']
+            verifiAVL = VerificarCarnetAvl(carnet)
+            if verifiAVL == True:
+                print(curso["AÃ±os"])
+
             for años in curso['AÃ±os']:
                 print("Año: " + años['AÃ±o'])
                 for semestes in años['Semestres']:
@@ -225,8 +229,12 @@ class CargaMasiva(Resource):
         print(path)
 
         print(peticion)
-        if peticion == "estudiante":
+        if peticion == "Estudiante":
             LecturaArchivoFaseAnt(str(path))
+        elif peticion == "Pensum":
+            LecturaCursosPensum(str(path))
+        elif peticion == "Cursos":
+            LecturaCursosEstudiante(str(path))
         return "Archivo Cargado"
 
 api.add_resource(CargaMasiva, '/CargaMasiva')
