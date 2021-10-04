@@ -1,23 +1,37 @@
-from analizador.sintactico import parser
 import json
+
+from flask import Flask
+from flask_restful import reqparse, Resource, Api, request
+
+from ArbolB import AB
+from ListaSimple import ListaSemestre
+from Matriz import Matriz
+from analizador.sintactico import parser
 from avl import AVL
 from lista_doble import ListaDoble
 from lista_doble import ListaDobleMeses
-from ListaSimple import ListaSemestre
 from lista_doble import ListaDobleTareas
-from Matriz import Matriz
 
+app = Flask(__name__)
+api = Api(app)
 
 AVL = AVL.AVL()
+ArbolB = AB.arbolB()
+
+def VerificarCarnetAvl(carnet):
+    encontrado = AVL.RevisarExiste(carnet)
+    return encontrado
+
 def LecturaCursosPensum(ruta):
     with open(ruta) as file:
         data = json.load(file)
         for curso in data['Cursos']:
-            print("Codigo: " + curso['Codigo'])
-            print("Nombre: " + curso['Nombre'])
-            print("Creditos: " + str(curso['Creditos']))
-            print("Prerequisitos: " + curso['Prerequisitos'])
-            print("Obligatorio: " + str(curso['Obligatorio']))
+            cursos = curso['Codigo']
+            nombre = curso['Nombre']
+            creditos = curso['Creditos']
+            pre = curso['Prerequisitos']
+            obligatorio = curso['Obligatorio']
+            ArbolB.insertarDatos(cursos, nombre, creditos, pre, obligatorio)
 
 def LecturaCursosEstudiante(ruta):
     with open(ruta) as file:
@@ -36,10 +50,6 @@ def LecturaCursosEstudiante(ruta):
                         print("Creditos: " + str(Cursos['Creditos']))
                         print("Prerequisitos: " + Cursos['Prerequisitos'])
                         print("Obligatorio: " + str(Cursos['Obligatorio']))
-
-def VerificarCarnetAvl(carnet):
-    encontrado = AVL.RevisarExiste(carnet)
-    return encontrado
 
 def ConvertirMesATexto(mes):
     if mes == "01":
@@ -199,9 +209,32 @@ def LecturaArchivoFaseAnt(ruta):
             else:
                 print("El Carnet no Existe")
 
+parser = reqparse.RequestParser()
+parser.add_argument('task')
+
+
+class CargaMasiva(Resource):
+    def post(self):
+
+        inputJson = request.get_json(force=True)
+
+        peticion = inputJson['tipo']
+
+        path = inputJson['path']
+
+        print(path)
+
+        print(peticion)
+        if peticion == "estudiante":
+            LecturaArchivoFaseAnt(str(path))
+        return "Archivo Cargado"
+
+api.add_resource(CargaMasiva, '/CargaMasiva')
+
 if __name__ == '__main__':
-    LecturaArchivoFaseAnt("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/Estudiantes.txt")
-    #AVL.pre_orden()
-    # LecturaCursosPensum("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosPensum.json")
+    app.run(host='localhost',port=3000, debug=True)
+    #LecturaArchivoFaseAnt("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/Estudiantes.txt")
+    #LecturaCursosPensum("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosPensum.json")
     # LecturaCursosEstudiante("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosEstudiante.json")
+    # AVL.pre_orden()
 

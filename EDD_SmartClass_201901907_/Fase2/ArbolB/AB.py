@@ -1,19 +1,168 @@
 import os
-from paginaB import paginaBB
+class nodoDoble:
+    def __init__(self, codigo, nombre, creditos, codigos, obligatorio):
+        self.codigo = codigo
+        self.nombre = nombre
+        self.creditos = creditos
+        self.codigos = codigos
+        self.obligatorio = obligatorio
+        self.siguiente = None
+        self.anterior = None
+
+
+class ListaDobles:
+    def __init__(self):
+        self.cuenta = 0
+        self.primero = None
+        self.ultimo = None
+
+    def estaVacio(self):
+        return self.primero is None
+
+    def insertarNodo(self, codigo, nombre, creditos, codigos, obligatorio):
+        nuevo = nodoDoble(codigo, nombre, creditos, codigos, obligatorio)
+        if self.cuenta < 4:
+            if self.estaVacio():
+                self.primero = nuevo
+                self.ultimo = self.primero
+            else:
+                self.ultimo.siguiente = nuevo
+                nuevo.anterior = self.ultimo
+                self.ultimo = nuevo
+            self.cuenta += 1
+        else:
+            print("Se Supero El Tamaño")
+
+    def InsertarDato(self, codigo, posicion):
+        aux = self.primero
+        while(posicion != 0):
+            posicion = posicion -1
+            aux = aux.siguiente
+        aux.codigo = codigo
+
+    def DevolverDato(self, posicion):
+        aux = self.primero
+        while(posicion != 0):
+            posicion = posicion-1
+            aux = aux.siguiente
+        return aux
+
+    def mostrarDatos(self):
+        aux =  self.primero
+        while aux:
+            print("Dato: "+ str(aux.codigo) + " Curso: " + aux.nombre)
+            aux = aux.siguiente
+
+class nodoPuntero:
+    anteriorP = None
+    def __init__(self, puntero):
+        self.puntero = puntero
+        self.siguienteP = None
+
+
+class ListaPunteros:
+    def __init__(self):
+        self.primero = None
+        self.ultimo = None
+        self.cuenta = 0
+
+    def estaVacio(self):
+        return self.primero is None
+
+    def insertarP(self, puntero):
+        nuevo = nodoPuntero(puntero)
+        if self.cuenta < 5:
+            if self.estaVacio():
+                self.primero = nuevo
+                self.ultimo = self.primero
+            else:
+                self.ultimo.siguienteP = nuevo
+                nuevo.anteriorP = self.ultimo
+                self.ultimo = nuevo
+            self.cuenta += 1
+
+    def insertarPunteroP(self, pagina, posicion):
+        aux = self.primero
+        while(posicion != 0):
+            posicion = posicion - 1
+            aux = aux.siguienteP
+        aux.puntero = pagina
+
+    def devolverPuntero(self, posicion):
+        aux = self.primero
+        while(posicion != 0):
+            posicion = posicion - 1
+            aux = aux.siguienteP
+        return aux
+
+class paginaB:
+
+    def __init__(self):
+        self.cuenta = 0
+        self.maxClaves = 0
+        self.punteros = ListaPunteros()
+        self.datos = ListaDobles()
+        for x in range(0, 5):
+            if x != 4:
+                self.datos.insertarNodo("", None, None, None, None)
+            self.punteros.insertarP(None)
+        self.maxClaves = 5
+
+    def paginaLlena(self):
+        return (self.cuenta == self.maxClaves - 1)
+
+    def paginaCasiLLena(self):
+        return (self.cuenta == self.maxClaves / 2)
+
+    def getCodigo(self, posicion):
+        return self.datos.DevolverDato(posicion).codigo
+
+    def setCodigo(self, posicion, codigo):
+        self.datos.InsertarDato(codigo, posicion)
+
+    def getNombre(self, posicion):
+        return self.datos.DevolverDato(posicion).nombre
+
+    def setNombre(self, posicion, nombre):
+        self.datos.DevolverDato(posicion).nombre
+
+    def getCreditos(self, posicion):
+        self.datos.DevolverDato(posicion).creditos
+
+    def setCreditos(self, posicion, creditos):
+        self.datos.DevolverDato(posicion).creditos = creditos
+
+    def getCodigos(self, posicion):
+        self.datos.DevolverDato(posicion).codigos
+
+    def setCodigos(self, posicion, codigos):
+        self.datos.DevolverDato(posicion).codigos = codigos
+
+    def getObligatorio(self, posicion):
+        self.datos.DevolverDato(posicion).obligatorio
+
+    def setObligatorio(self, posicion, obligatorio):
+        self.datos.DevolverDato(posicion).obligatorio = obligatorio
+
+    def getApuntador(self, posicion):
+        return self.punteros.devolverPuntero(posicion).puntero
+
+    def setApuntador(self, posicion, puntero):
+        self.punteros.insertarPunteroP(puntero, posicion)
 
 contadorGrafos = 0
 
 
 class arbolB:
     def __init__(self):
-        self.raiz = paginaBB()
+        self.raiz = paginaB()
         self.Codigo = 0
         self.Nombre = ""
         self.Creditos = 0
         self.Codigos = 0
         self.Obligatorio = False
         self.aux1 = False
-        self.aux2 = paginaBB()
+        self.aux2 = paginaB()
         self.sube = False
         self.estado = False
         self.comparador = False
@@ -31,7 +180,7 @@ class arbolB:
     def _insertar(self, raiz, codigo, nombre, creditos, codigos, obligatorio):
         self.empujar(raiz, codigo, nombre, creditos, codigos, obligatorio)
         if self.sube:
-            self.raiz = paginaBB()
+            self.raiz = paginaB()
             self.raiz.cuenta = 1
             self.raiz.setCodigo(0, self.Codigo)
             self.raiz.setNombre(0, self.Nombre)
@@ -120,7 +269,7 @@ class arbolB:
         else:
             posicionMedia = 3
 
-        paginaDerecha = paginaBB()
+        paginaDerecha = paginaB()
         posicion2 = posicionMedia + 1
 
         while (posicion2 != 5):
