@@ -6,7 +6,6 @@ from flask_restful import reqparse, Resource, Api, request
 from ArbolB import AB
 from ListaSimple import ListaSemestre
 from Matriz import Matriz
-from analizador.sintactico import parser
 from avl import AVL
 from lista_doble import ListaDoble
 from lista_doble import ListaDobleMeses
@@ -141,7 +140,7 @@ def LecturaArchivoFaseAnt(ruta):
     f = open(ruta, "r", encoding="utf-8")
     mensaje = f.read()
     f.close()
-
+    from analizador.sintactico import parser
     resultado_analisis = parser.parse(mensaje)
     separadorFecha = "/"
     separadorHora = ":"
@@ -153,10 +152,10 @@ def LecturaArchivoFaseAnt(ruta):
             dpi = str(atributos[1]["DPI"].replace("\"", ""))
             nombre = str(atributos[2]["Nombre"].replace("\"", ""))
             carrera = str(atributos[3]["Carrera"].replace("\"", ""))
-            correo = str(atributos[4]["Correo"].replace("\"", ""))
-            contra = str(atributos[5]["Password"].replace("\"", ""))
-            creditos = int(atributos[6]["Creditos"])
-            edad = int(atributos[7]["Edad"])
+            contra = str(atributos[4]["Password"].replace("\"", ""))
+            creditos = int(atributos[5]["Creditos"])
+            edad = int(atributos[6]["Edad"])
+            correo = str(atributos[7]["Correo"].replace("\"", ""))
             veri = VerificarCarnetAvl(carnet)
             if veri == False:
                 NuevoAños = ListaDoble.ListaDoble()
