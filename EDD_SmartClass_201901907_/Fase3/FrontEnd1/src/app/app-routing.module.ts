@@ -8,10 +8,7 @@ const routes: Routes = [
     path: '',
     component: RegistroComponent
   },
-  {
-    path: '/Registro',
-    component: RegistroComponent
-  },
+
 ];
 
 @NgModule({
