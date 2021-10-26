@@ -29,7 +29,7 @@ export class RegistroComponent implements OnInit {
     this.Edad1 = '';
   }
   ngOnInit(): void {
-    this.title.setTitle('Registro Usuarios');
+    this.title.setTitle('Registro');
   }
 
 }

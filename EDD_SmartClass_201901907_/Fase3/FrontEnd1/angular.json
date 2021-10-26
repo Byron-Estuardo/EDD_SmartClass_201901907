@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FrontEnd1": {
+    "FrontEnd": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/FrontEnd1",
+            "outputPath": "dist/FrontEnd",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -29,9 +29,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/chart.js/dist/chart.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -70,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FrontEnd1:build:production"
+              "browserTarget": "FrontEnd:build:production"
             },
             "development": {
-              "browserTarget": "FrontEnd1:build:development"
+              "browserTarget": "FrontEnd:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FrontEnd1:build"
+            "browserTarget": "FrontEnd:build"
           }
         },
         "test": {
@@ -104,5 +102,5 @@
       }
     }
   },
-  "defaultProject": "FrontEnd1"
+  "defaultProject": "FrontEnd"
 }
