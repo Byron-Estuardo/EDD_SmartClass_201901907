@@ -1,4 +1,20 @@
+/* 
 
+Template 2110 Character
+http://www.tooplate.com/view/2110-character
+
+
+COLORS 
+
+Primary Dark:       #996666
+Primary Light:      #cc9999
+Secondary:          #9999cc
+Dark Background:    #333333
+Dark Gray Text:     #666666
+Light Gray Text:    #999999
+Footer Gray Text:   #cccccc
+
+*/
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -47,6 +63,7 @@ p {
   position: relative;
 }
 
+/* http://w3bits.com/css-masonry/ */
 .masonry {
   /* Masonry container */
   -webkit-column-count: 2;
@@ -56,6 +73,7 @@ p {
 }
 
 .item {
+  /* Masonry bricks or child elements */
   display: inline-block;
   margin: 0;
   width: 100%;

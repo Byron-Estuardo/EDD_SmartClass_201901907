@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { RegistroComponent } from './Vistas/registro/registro.component';
 import { PaginaPrincipalComponent } from './Vistas/pagina-principal/pagina-principal.component';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './Vistas/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistroComponent,
-    PaginaPrincipalComponent
+    PaginaPrincipalComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
