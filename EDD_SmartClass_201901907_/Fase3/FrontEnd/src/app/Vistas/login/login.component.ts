@@ -15,18 +15,10 @@ export class LoginComponent implements OnInit {
     this.currentVal = val
   }
   Carnet1:string = '';
-  DPI1:string = '';
-  Nombre1:string = '';
-  Carrera1:string = '';
   Contra1:string = '';
-  Edad1:string = '';
   LimpiarValores(){
     this.Carnet1 = '';
-    this.DPI1 = '';
-    this.Nombre1 = '';
-    this.Carrera1 = '';
     this.Contra1 = '';
-    this.Edad1 = '';
   }
   ngOnInit(): void {
     this.title.setTitle('Registro');

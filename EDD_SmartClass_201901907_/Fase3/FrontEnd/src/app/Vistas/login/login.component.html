@@ -5,7 +5,12 @@
   <br>
   <br>
   <br>
-  <h1 style="text-align:center">Registro de Usuarios</h1>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <h1 style="text-align: center; margin-right: 150px;">Sign In</h1>
   <br>
   <div class="form">
       <div class="contenido">
@@ -13,28 +18,20 @@
         <form>
             <div class="mb-3">
               <label for="carne" class="form-label">Carnet:</label>
-              <input type="text" name="carne" class="form-control" placeholder="Ingrese su Carnet" [(ngModel)]="Carnet1" autofocus #Carnet  >
-              <label for="Ldpi" class="form-label">DPI:</label>
-              <input type="text" name="Ldpi" class="form-control" placeholder="Ingrese su DPI" [(ngModel)]="DPI1" #DPI  >
-              <label for="Name" class="form-label">Nombre:</label>
-              <input type="text" name="Name" class="form-control" placeholder="Ingrese su Nombre" [(ngModel)]="Nombre1" #Nombre >
-              <label for="Carre" class="form-label">Carrera:</label>
-              <input type="text" name="Carre" class="form-control" placeholder="Ingrese su Carrera" [(ngModel)]="Carrera1" #Carrera >
+              <input type="text" name="carne" class="form-control" placeholder="Ingrese su Carnet" [(ngModel)]="Carnet1" autofocus #Carnet>
               <label for="contra" class="form-label">Password:</label>
-              <input type="password" name="contra" class="form-control" placeholder="Ingrese una Contraseña" [(ngModel)]="Contra1" #Contra>
-              <label for="edads" class="form-label">Edad:</label>
-              <input type="text" name="edads" class="form-control" placeholder="Ingrese su Edad" [(ngModel)]="Edad1" #Edad >
+              <input type="password" name="contra" class="form-control" placeholder="Ingrese su Contraseña" [(ngModel)]="Contra1" #Contra>
             </div>
           </form>
           <br>
 
-          <button type="button1" class="btn btn-outline-success" (click)="getValue(Contra.value)">Registrar</button>
+          <button type="button1" class="btn btn-outline-success" routerLink="/Administrador" (click)="getValue(Contra.value)">Sign In</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button type="button1" class="btn btn-outline-success" (click)="LimpiarValores()">Cancelar</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button type="button1" class="btn btn-outline-success" routerLink="/" routerLinkActive="active">Regresar</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="button1" class="btn btn-outline-success" routerLink="/Registro">Registrar Usuario</button>
           <h2> {{currentVal}}</h2>
           <br>
       </div>

@@ -152,10 +152,11 @@ def LecturaArchivoFaseAnt(ruta):
             dpi = str(atributos[1]["DPI"].replace("\"", ""))
             nombre = str(atributos[2]["Nombre"].replace("\"", ""))
             carrera = str(atributos[3]["Carrera"].replace("\"", ""))
-            contra = str(atributos[4]["Password"].replace("\"", ""))
-            creditos = int(atributos[5]["Creditos"])
-            edad = int(atributos[6]["Edad"])
-            correo = str(atributos[7]["Correo"].replace("\"", ""))
+            correo = str(atributos[4]["Correo"].replace("\"", ""))
+            contra = str(atributos[5]["Password"].replace("\"", ""))
+            creditos = int(atributos[6]["Creditos"])
+            edad = int(atributos[7]["Edad"])
+
             veri = VerificarCarnetAvl(carnet)
             if veri == False:
                 NuevoAños = ListaDoble.ListaDoble()
@@ -239,9 +240,9 @@ class CargaMasiva(Resource):
 api.add_resource(CargaMasiva, '/CargaMasiva')
 
 if __name__ == '__main__':
-    app.run(host='localhost',port=3000, debug=True)
-    #LecturaArchivoFaseAnt("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/Estudiantes.txt")
+    #app.run(host='localhost',port=3000, debug=True)
+    LecturaArchivoFaseAnt("Estudiantes.txt")
     #LecturaCursosPensum("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosPensum.json")
     # LecturaCursosEstudiante("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosEstudiante.json")
-    # AVL.pre_orden()
+    AVL.pre_orden()
 

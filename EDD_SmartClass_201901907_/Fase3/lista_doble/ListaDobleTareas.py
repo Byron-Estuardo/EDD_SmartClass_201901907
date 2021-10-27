@@ -1,8 +1,5 @@
-import os
-
-
 class Nodo:
-    def __init__(self, carne=None, nombre=None, descrip=None, materia=None, fecha=None, hora=None, estado=None):
+    def __init__(self, carne= None,nombre= None,descrip= None,materia= None,fecha= None,hora= None,estado= None):
         self.carne = carne
         self.nombre = nombre
         self.descripcion = descrip
@@ -50,7 +47,6 @@ class ListaDobleTareas:
         for item in self.iterar():
             contador += 1
         return contador
-
     '''
     for item in lista.iterar()
         print(item)
@@ -129,53 +125,8 @@ class ListaDobleTareas:
         else:
             raise Exception("Indice no valido. Fuera de Rango")
 
-    def graficar(self):
-        tamaño = self.tama()
-        grafo = "digraph G"
-        grafo += str("{\nnode[shape=record];\n")
-        grafo += str("rankdir=LR;\n")
-        contador = 0
-        contador2 = 0
-        lista = []
-        for item in self.iterar():
-                grafo += "n" + str(item.carne) + " \\n " + str(
-                    item.nombre) +  " \\n " + str(item.descripcion) + " \\n " + str(item.materia) + " \\n " + str(
-                    item.fecha) + " \\n " + str(item.hora) + " \\n " + str(item.estado) + " \\n "
-                lista.append(item.carne)
-        for items in self.iterar():
-            print(tamaño)
-            if tamaño == 1:
-                grafo += ""
-            elif tamaño > contador:
-                contador2 = contador + 1
-                print(contador2)
-                for item in lista:
-                    print(item)
-                grafo += "n" + str(items.carne) + "->" + "n" + str(lista[contador2])
-                grafo += "n" + str(lista[contador2]) + "<-" + "n" + str(items.carne)
-                contador += 1
-            else:
-                grafo += ""
-        grafo += str("}\n")
-        ruta = "D:\\Users\\bcatu\\Escritorio\\\Reportes_F2"
-        os.makedirs(ruta, exist_ok=True)
-        nombre = "ListaTareas"
-        Archivo = open(ruta + "\\" + nombre + ".dot", "w+")
-        Archivo.write(grafo)
-        Archivo.close()
-        instrucciones = "dot -Tpdf " + nombre + ".dot -o " + nombre + ".pdf"
-        os.system("cd D:/Users/bcatu/Escritorio/Reportes_F2/ " +
-                  "&& " + instrucciones)
-
 
 '''
-self.carne = carne
-self.nombre = nombre
-elf.descripcion = descrip
-self.materia = materia
-self.fecha = fecha
-self.hora = hora
-self.estado = estado
 Lista = ListaDoble()
 Lista.insertar()
 '''

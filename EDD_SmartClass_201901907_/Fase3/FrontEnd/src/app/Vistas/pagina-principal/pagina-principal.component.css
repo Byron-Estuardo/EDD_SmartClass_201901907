@@ -191,6 +191,12 @@ img {
   color: #999999;
 }
 
+input {
+	width: 2px;
+  height: 10px;
+	margin-bottom: 10px;
+}
+
 .tm-bg-primary-light {
   background-color: #cc9999;
 }
