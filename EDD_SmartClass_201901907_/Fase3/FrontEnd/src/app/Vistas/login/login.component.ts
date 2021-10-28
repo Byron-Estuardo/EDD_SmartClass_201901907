@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,41 @@ import { Title } from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private title: Title) { }
+  constructor(private title: Title, private router: Router) { }
   currentVal = "";
+
+  agregar(usuario: any, contra: any){
+    console.warn(usuario + ' ' + contra)
+    if (usuario === "admin" && contra === "admin"){
+      this.router.navigate(['/Administrador']);
+    }
+    else if (usuario === "admin" && contra !== "admin"){
+
+    }
+    var data = JSON.stringify({
+      "Usuario": usuario,
+      "Contra": contra
+    });
+
+    fetch('http://localhost:3000/', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if (data.Ingreso === true){
+          this.router.navigate(['/Administrador']);
+        }
+
+        //alert(data.response)
+    });
+  }
+
   getValue(val: any){
     console.warn(val)
     this.currentVal = val

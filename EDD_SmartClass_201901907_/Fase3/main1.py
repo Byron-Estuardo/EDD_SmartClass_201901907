@@ -1,8 +1,10 @@
 import json
-
+from cryptography.fernet import Fernet
+import _sha256
 from flask import Flask
 from flask_restful import reqparse, Resource, Api, request
-
+ass = _sha256
+ass.sha256()
 from ArbolB import AB
 from ListaSimple import ListaSemestre
 from Matriz import Matriz
@@ -16,6 +18,10 @@ api = Api(app)
 
 AVL = AVL.AVL()
 ArbolB = AB.arbolB()
+Clave = Fernet.generate_key()
+print(Clave)
+f = Fernet(Clave)
+
 
 def VerificarCarnetAvl(carnet):
     encontrado = AVL.RevisarExiste(carnet)
@@ -240,9 +246,31 @@ class CargaMasiva(Resource):
 api.add_resource(CargaMasiva, '/CargaMasiva')
 
 if __name__ == '__main__':
+    token = f.encrypt(b'hola me llamo jose manuel')
+    print(token)
+    token1 = f.encrypt(b'hola me llamo jose manuel')
+    print(token1)
+
+    des = f.decrypt(token)
+    des1 = f.decrypt(token1)
+
+    print(des.decode())
+    print(des1.decode())
+
+    tokens = f.encrypt(b'hola me llamo jose manuel')
+    print(tokens)
+    token1s = f.encrypt(b'hola me llamo jose manuel')
+    print(token1s)
+
+    dess = f.decrypt(tokens)
+    des1s = f.decrypt(token1s)
+
+    print(dess.decode())
+    print(des1s.decode())
+
     #app.run(host='localhost',port=3000, debug=True)
-    LecturaArchivoFaseAnt("Estudiantes.txt")
+    #LecturaArchivoFaseAnt("Estudiantes.txt")
     #LecturaCursosPensum("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosPensum.json")
     # LecturaCursosEstudiante("D:/Users/bcatu/Escritorio/EDDProyecto/EDD_SmartClass_201901907/EDD_SmartClass_201901907_/Fase2/CursosEstudiante.json")
-    AVL.pre_orden()
+    #AVL.pre_orden()
 

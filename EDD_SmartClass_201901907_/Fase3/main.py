@@ -1,6 +1,6 @@
-from flask import Flask, request,jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import base64 #para convertir la imagen y responderla al frontend
+import base64  # para convertir la imagen y responderla al frontend
 import json
 from ArbolB import AB
 from ListaSimple import ListaSemestre
@@ -10,16 +10,18 @@ from lista_doble import ListaDoble
 from lista_doble import ListaDobleMeses
 from lista_doble import ListaDobleTareas
 
-app=Flask(__name__)
+app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app)
 
 AVL = AVL.AVL()
 ArbolB = AB.arbolB()
 
+
 def VerificarCarnetAvl(carnet):
     encontrado = AVL.RevisarExiste(carnet)
     return encontrado
+
 
 def LecturaCursosPensum(ruta):
     with open(ruta) as file:
@@ -31,6 +33,7 @@ def LecturaCursosPensum(ruta):
             pre = curso['Prerequisitos']
             obligatorio = curso['Obligatorio']
             ArbolB.insertarDatos(cursos, nombre, creditos, pre, obligatorio)
+
 
 def LecturaCursosEstudiante(ruta):
     with open(ruta) as file:
@@ -54,6 +57,7 @@ def LecturaCursosEstudiante(ruta):
                         print("Prerequisitos: " + Cursos['Prerequisitos'])
                         print("Obligatorio: " + str(Cursos['Obligatorio']))
 
+
 def ConvertirMesATexto(mes):
     if mes == "01":
         convertido = "Enero"
@@ -76,7 +80,7 @@ def ConvertirMesATexto(mes):
     elif mes == "07":
         convertido = "Julio"
         return convertido
-    elif mes == "08" :
+    elif mes == "08":
         convertido = "Agosto"
         return convertido
     elif mes == "09":
@@ -94,6 +98,7 @@ def ConvertirMesATexto(mes):
     else:
         convertido = "ERROR"
         return convertido
+
 
 def ConvertirTextoAMes(mes):
     if mes == "Enero":
@@ -135,6 +140,7 @@ def ConvertirTextoAMes(mes):
     else:
         convertido = "ERROR"
         return convertido
+
 
 def LecturaArchivoFaseAnt(ruta):
     f = open(ruta, "r", encoding="utf-8")
@@ -212,22 +218,46 @@ def LecturaArchivoFaseAnt(ruta):
             else:
                 print("El Carnet no Existe")
 
+
+@app.route('/', methods=['POST'])
+def agregar():
+    if request.method == 'POST':
+        usuario = request.json['Usuario']
+        contra = request.json['Contra']
+        # grafo1.insertar(valor)
+        ingresi = True
+        response = jsonify({'response': 'Valores regresados ' + usuario + ' ' + contra, 'Ingreso': ingresi})
+        print('Valores regresados ' + usuario + ' ' + contra)
+        print("metodo post")
+        return response
+
+@app.route('/Administrador', methods=['POST'])
+def CargaMasivaEstudiantes():
+    if request.method == 'POST':
+        ruta = request.json['Ruta']
+        LecturaArchivoFaseAnt(str(ruta))
+        AVL.pre_orden()
+        response = jsonify({'response': 'Valores regresados ' , 'Ingreso': ruta})
+        print('Valores regresados ' + ruta)
+        print("metodo post")
+        return response
+
 @app.route('/insertar', methods=['POST'])
 def insertar():
     if request.method == 'POST':
         valor = request.json['dato']
-        #grafo1.insertar(valor)
+        # grafo1.insertar(valor)
         response = jsonify({'response': 'se agrego el ' + valor})
         print("metodo post")
         return response
 
 
-@app.route('/agregar', methods=['POST'])
-def agregar():
+@app.route('/agregara', methods=['POST'])
+def agregara():
     if request.method == 'POST':
         valor = request.json['dato']
         ad = request.json['ad']
-        #grafo1.agregar_adyasente(valor, ad)
+        # grafo1.agregar_adyasente(valor, ad)
         response = jsonify({'response': 'se agrego: -' + valor + ' -> ' + ad})
         print("metodo post")
         return response
@@ -235,11 +265,10 @@ def agregar():
 
 @app.route('/graficar', methods=['GET'])
 def prueba():
-    #grafo1.graficar()
+    # grafo1.graficar()
     b64_string = ""
-    with open("graph-g.png", "rb") as img_file:
-        b64_string = base64.b64encode(img_file.read())
-
+    #with open("graph-g.png", "rb") as img_file:
+    #    b64_string = base64.b64encode(img_file.read())
     # print(str(b64_string.decode('utf-8')))
     response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
 

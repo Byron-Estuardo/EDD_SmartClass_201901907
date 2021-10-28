@@ -73,7 +73,7 @@
                 </div>
               </div>
 
-        </div>
+            </div>
         <div class="item" data-desktop-seq-no="4" data-mobile-seq-no="8">
             <img src="assets/img/image-04.jpg" alt="Image" class="tm-img-left">
         </div>
@@ -136,34 +136,51 @@
 
         <div class="item tm-bg-white tm-block tm-form-section" data-desktop-seq-no="9" data-mobile-seq-no="7">
             <div class="tm-form-container tm-block-pad tm-pb-0">
-                <header>
-                    <h2 class="tm-text-uppercase tm-text-gray-light tm-mb">
-                        Contact Us
+                <div class="container" style="text-align: center; ">
+                  <div class="row">
+                    <header>
+                    <h2 class="tm-text-uppercase">
+                        Carga Masiva Apuntes de Estudiantes por RUTA
                     </h2>
-                </header>
-                <form action="index.html" class="tm-contact-form" method="POST">
-                    <div class="tm-form-group">
-                        <input type="text" id="contact_name" name="contact_name" class="form-control" placeholder="Name" required/>
+                    </header>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #ruta>
+                    <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
                     </div>
-                    <div class="tm-form-group">
-                        <input type="email" id="contact_email" name="contact_email" class="form-control" placeholder="Email" required/>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="row">
+                    <header>
+                      <h2 class="tm-text-uppercase">
+                        Carga Masiva Apuntes de Estudiantes
+                      </h2>
+                    </header>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                      <input style="display:none;" type="file" (change)="abrir($event)" #archivo>
+                      <button (click)="archivo.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
                     </div>
-                    <div class="tm-form-group">
-                        <textarea rows="5" id="contact_message" name="contact_message" class="form-control" placeholder="Message" required></textarea>
-                    </div>
-                    <div class="tm-text-right">
-                        <button type="submit" class="tm-btn tm-btn-secondary tm-btn-pad-big">Send</button>
-                    </div>
-                </form>
-            </div>
-
+                  </div>
+                </div>
+              </div>
             <div class="tm-form-section-tag">
                 <div class="tm-bg-secondary tm-text-white tm-block-pad tm-form-section-tag-inner">
-                    <header>
-                        <h2>Proin imperdiet commodo nisi</h2>
+                  <div class="container" style="text-align: center; ">
+                    <div class="row">
+                      <header>
+                        <h2>Manejo de BlockChain</h2>
                     </header>
-                    <p>Mauris sodales vulputate ante a dapibus Donec vitae maximus dolor, pharetra imperdiet lectus. Praesent
-                        pharetra elit ac est congue volutpat.</p>
+                    <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-pad-big tm-btn-small tm-btn-primary tm-mt">Ver Opciones</button>
+                    </div>
+                  </div>
+
                 </div>
             </div>
         </div>

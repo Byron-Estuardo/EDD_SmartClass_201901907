@@ -39,24 +39,10 @@ export class PaginaPrincipalComponent implements OnInit {
   {
     let a =eve.target.files[0]
     console.warn(a)
-    console.log(a.name)
+
     let text=""
     if(a){
-      /*
-      let reader=new FileReader()
-        reader.onload=ev=>{
-        const resultado=ev.target?.result
-        text=String(resultado)
-        var data = JSON.parse(text);
-        //data.nombre.forEach(elems => this.array.push(elems));
-
-        this.array.forEach(el => this.lista.push(el)) // para ingresar los datos
-        this.code=text.toString();
-
-      }
-
-      reader.readAsText(a)
-      */
+      console.log(a.name)
     }
   }
 }
