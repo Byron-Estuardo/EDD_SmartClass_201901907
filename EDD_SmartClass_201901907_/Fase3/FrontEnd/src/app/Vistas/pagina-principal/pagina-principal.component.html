@@ -20,13 +20,13 @@
                 <div class="col-3"></div>
                 <div class="col-6"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #ruta></div>
               </div>
-              <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button>
+              <button type="button" (click)="RegistrarMasivoTxt(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button>
             </div>
             <header class="tm-block-brand">
                 <div class="tm-bg-primary-dark tm-text-white tm-block-brand-inner">
                     <i class="fas fa-braille fa-3x">
-                    <input style="display:none;" type="file" (change)="abrir($event)" #archivo>
-                    <button (click)="archivo.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button>
+                      <input style="display:none;" type="file" (change)="abrir($event)" #archivo>
+                      <button (click)="archivo.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button>
                     </i>
                     <h1 class="tm-brand-name">Carga Masiva Estudiantes</h1>
                 </div>

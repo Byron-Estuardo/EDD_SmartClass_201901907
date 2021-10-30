@@ -1,10 +1,9 @@
 import json
 from cryptography.fernet import Fernet
-import _sha256
+import hashlib
 from flask import Flask
 from flask_restful import reqparse, Resource, Api, request
-ass = _sha256
-ass.sha256()
+
 from ArbolB import AB
 from ListaSimple import ListaSemestre
 from Matriz import Matriz
@@ -15,13 +14,15 @@ from lista_doble import ListaDobleTareas
 
 app = Flask(__name__)
 api = Api(app)
-
+str = hashlib.sha256()
 AVL = AVL.AVL()
 ArbolB = AB.arbolB()
 Clave = Fernet.generate_key()
 print(Clave)
 f = Fernet(Clave)
 
+def Generar_Clave():
+    return "holas"
 
 def VerificarCarnetAvl(carnet):
     encontrado = AVL.RevisarExiste(carnet)
@@ -247,26 +248,19 @@ api.add_resource(CargaMasiva, '/CargaMasiva')
 
 if __name__ == '__main__':
     token = f.encrypt(b'hola me llamo jose manuel')
-    print(token)
-    token1 = f.encrypt(b'hola me llamo jose manuel')
+    print(token.decode())
+    token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()
     print(token1)
 
     des = f.decrypt(token)
-    des1 = f.decrypt(token1)
 
     print(des.decode())
-    print(des1.decode())
 
-    tokens = f.encrypt(b'hola me llamo jose manuel')
+    tokens = token1 = hashlib.sha256(b'Hola me llamo jose manuel').hexdigest()
     print(tokens)
-    token1s = f.encrypt(b'hola me llamo jose manuel')
+    token1s = token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()
     print(token1s)
 
-    dess = f.decrypt(tokens)
-    des1s = f.decrypt(token1s)
-
-    print(dess.decode())
-    print(des1s.decode())
 
     #app.run(host='localhost',port=3000, debug=True)
     #LecturaArchivoFaseAnt("Estudiantes.txt")

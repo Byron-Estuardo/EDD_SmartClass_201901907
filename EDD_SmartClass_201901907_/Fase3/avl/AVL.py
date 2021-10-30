@@ -1,6 +1,7 @@
 class Nodo:
-    def __init__(self, carnet=0, dpi="", nombre="", carrera="", correo="", password="", creditos=0, edad=0,años=None):
+    def __init__(self, carnet=0, carnet2="", dpi="", nombre="", carrera="", correo="", password="", creditos="", edad="",años=None):
         self.carnet = carnet
+        self.carnet2 = carnet2
         self.dpi = dpi
         self.nombre = nombre
         self.carrera = carrera
@@ -18,8 +19,8 @@ class AVL:
     def __init__(self):
         self.raiz = None
 
-    def insertar(self, carne, dpi, nombre, carrera, correo, contra, cred, edad, anos):
-        nuevo = Nodo(carne, dpi, nombre, carrera, correo, contra, cred, edad, anos)
+    def insertar(self, carne, carnet2, dpi, nombre, carrera, correo, contra, cred, edad, anos):
+        nuevo = Nodo(carne,carnet2, dpi, nombre, carrera, correo, contra, cred, edad, anos)
 
         if self.raiz == None:
             self.raiz = nuevo

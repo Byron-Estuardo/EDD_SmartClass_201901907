@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from cryptography.fernet import Fernet
+import hashlib
 import base64  # para convertir la imagen y responderla al frontend
 import json
 from ArbolB import AB
@@ -16,6 +18,21 @@ cors = CORS(app)
 
 AVL = AVL.AVL()
 ArbolB = AB.arbolB()
+
+def GenerarClave():
+    Clave = Fernet.generate_key()
+    with open("clave.key", "wb") as archivo_clave:
+        archivo_clave.write(Clave)
+    print(Clave)
+
+GenerarClave()
+
+def CargarClave():
+    return open("clave.key", "rb").read()
+
+Clave = CargarClave()
+ferne = Fernet(Clave)
+
 
 
 def VerificarCarnetAvl(carnet):
@@ -142,6 +159,40 @@ def ConvertirTextoAMes(mes):
         return convertido
 
 
+def LecturaArchivoEstudiantesJSON(ruta):
+    with open(ruta) as file:
+        data = json.load(file)
+        for estudiante in data['estudiantes']:
+            carnet = int(estudiante['carnet'])
+            dpi1 = str(estudiante['DPI'])
+            nombre1 = str(estudiante['nombre'])
+            carrera = str(estudiante['carrera'])
+            correo1 = str(estudiante['correo'])
+            contra1 = str(estudiante['password'])
+            creditos = ""
+            edad1 = str(estudiante['edad'])
+            conversion = str(carnet)
+            prueba = conversion.encode()
+            carnet2 = ferne.encrypt(prueba)
+            prueba1 = dpi1.encode()
+            dpi = ferne.encrypt(prueba1)
+            prueba2 = nombre1.encode()
+            nombre = ferne.encrypt(prueba2)
+            prueba3 = contra1.encode('utf-8')
+            encriptado1 = hashlib.sha256(prueba3).hexdigest()
+            encriptado12 = encriptado1.encode()
+            contra = ferne.encrypt(encriptado12)
+            prueba4 = edad1.encode()
+            edad = ferne.encrypt(prueba4)
+            prueba5 = correo1.encode()
+            correo = ferne.encrypt(prueba5)
+            veri = VerificarCarnetAvl(carnet)
+            if veri == False:
+                NuevoAños = ListaDoble.ListaDoble()
+                AVL.insertar(carnet, carnet2, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
+            else:
+                print("Carnet Repetido")
+
 def LecturaArchivoFaseAnt(ruta):
     f = open(ruta, "r", encoding="utf-8")
     mensaje = f.read()
@@ -155,17 +206,32 @@ def LecturaArchivoFaseAnt(ruta):
         if item["type"] == "user":
             atributos = item["atributos"]
             carnet = int(atributos[0]["Carnet"].replace("\"", ""))
-            dpi = str(atributos[1]["DPI"].replace("\"", ""))
-            nombre = str(atributos[2]["Nombre"].replace("\"", ""))
+            dpi1 = str(atributos[1]["DPI"].replace("\"", ""))
+            nombre1 = str(atributos[2]["Nombre"].replace("\"", ""))
             carrera = str(atributos[3]["Carrera"].replace("\"", ""))
-            contra = str(atributos[4]["Password"].replace("\"", ""))
-            creditos = int(atributos[5]["Creditos"])
-            edad = int(atributos[6]["Edad"])
-            correo = str(atributos[7]["Correo"].replace("\"", ""))
+            correo1 = str(atributos[4]["Correo"].replace("\"", ""))
+            contra1 = str(atributos[5]["Password"].replace("\"", ""))
+            creditos = str(atributos[6]["Creditos"])
+            edad1 = str(atributos[7]["Edad"])
+            conversion = str(carnet)
+            prueba = conversion.encode()
+            carnet2 = ferne.encrypt(prueba)
+            prueba1 = dpi1.encode()
+            dpi = ferne.encrypt(prueba1)
+            prueba2 = nombre1.encode()
+            nombre = ferne.encrypt(prueba2)
+            prueba3 = contra1.encode('utf-8')
+            encriptado1 = hashlib.sha256(prueba3).hexdigest()
+            encriptado12 = encriptado1.encode()
+            contra = ferne.encrypt(encriptado12)
+            prueba4 = edad1.encode()
+            edad = ferne.encrypt(prueba4)
+            prueba5 = correo1.encode()
+            correo = ferne.encrypt(prueba5)
             veri = VerificarCarnetAvl(carnet)
             if veri == False:
                 NuevoAños = ListaDoble.ListaDoble()
-                AVL.insertar(carnet, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
+                AVL.insertar(carnet, carnet2, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
             else:
                 print("Carnet Repetido")
         else:
@@ -218,27 +284,108 @@ def LecturaArchivoFaseAnt(ruta):
             else:
                 print("El Carnet no Existe")
 
+def RegistrarAvl(var1, var2, var3, var4, var5, var6, var7):
+    carnet = int(var1)
+    dpi1 = str(var2)
+    nombre1 = str(var3)
+    carrera = str(var4)
+    correo1 = str(var5)
+    contra1 = str(var6)
+    creditos = ""
+    edad1 = str(var7)
+    conversion = str(carnet)
+    prueba = conversion.encode()
+    carnet2 = ferne.encrypt(prueba)
+    prueba1 = dpi1.encode()
+    dpi = ferne.encrypt(prueba1)
+    prueba2 = nombre1.encode()
+    nombre = ferne.encrypt(prueba2)
+    prueba3 = contra1.encode('utf-8')
+    encriptado1 = hashlib.sha256(prueba3).hexdigest()
+    encriptado12 = encriptado1.encode()
+    contra = ferne.encrypt(encriptado12)
+    prueba4 = edad1.encode()
+    edad = ferne.encrypt(prueba4)
+    prueba5 = correo1.encode()
+    correo = ferne.encrypt(prueba5)
+    veri = VerificarCarnetAvl(carnet)
+    if veri == False:
+        NuevoAños = ListaDoble.ListaDoble()
+        AVL.insertar(carnet, carnet2, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
+    else:
+        print("Carnet Repetido")
 
 @app.route('/', methods=['POST'])
 def agregar():
     if request.method == 'POST':
-        usuario = request.json['Usuario']
-        contra = request.json['Contra']
+        varError = ""
+        usuario = int(request.json['Usuario'])
+        contra = str(request.json['Contra'])
+        contra1 = contra.encode()
+        CodificadoContra = hashlib.sha256(contra1).hexdigest()
+        verifiAVL = VerificarCarnetAvl(usuario)
+        if verifiAVL == True:
+            nodo = AVL.find(usuario)
+            contrase = nodo.password
+            primerdesifrado = ferne.decrypt(contrase)
+            decode = primerdesifrado.decode()
+            if decode == CodificadoContra:
+                ingresi = True
+            else:
+                varError = "La contraseña es incorrecta"
+                ingresi= False
+        else:
+            varError = "Usuario con el carnet " + '"' + str(usuario) + '" No se encuentra Registrado'
+            ingresi = False
+
         # grafo1.insertar(valor)
-        ingresi = True
-        response = jsonify({'response': 'Valores regresados ' + usuario + ' ' + contra, 'Ingreso': ingresi})
-        print('Valores regresados ' + usuario + ' ' + contra)
+        response = jsonify({'Error': varError, 'Ingreso': ingresi})
+        print('Valores regresados ' + str(usuario) + ' ' + str(contra) + ' ' + str(ingresi))
         print("metodo post")
         return response
 
-@app.route('/Administrador', methods=['POST'])
+@app.route('/Administrador/MasivaEstudiantesJson', methods=['POST'])
+def RegistrarMasivoJson():
+    print("Entro??")
+    if request.method == 'POST':
+        print('Carga Masiva json')
+        ruta = request.json['Ruta']
+        LecturaArchivoEstudiantesJSON(str(ruta))
+        AVL.pre_orden()
+        response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
+        print('Valores regresados ' + ruta)
+        print("metodo post")
+        return response
+
+@app.route('/Administrador/MasivaEstudiantesTxt', methods=['POST'])
 def CargaMasivaEstudiantes():
     if request.method == 'POST':
+        print('Carga Masiva txt')
         ruta = request.json['Ruta']
         LecturaArchivoFaseAnt(str(ruta))
         AVL.pre_orden()
-        response = jsonify({'response': 'Valores regresados ' , 'Ingreso': ruta})
+        response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
         print('Valores regresados ' + ruta)
+        print("metodo post")
+        return response
+
+@app.route('/Registro', methods=['POST'])
+def Registrar():
+    print("Entro??")
+    if request.method == 'POST':
+        print('Carga Masiva json')
+        carnet = int(request.json['Carnet'])
+        Dpi = request.json['DPI']
+        name = request.json['Nombre']
+        carr = request.json['Carrera']
+        cor = request.json['Correo']
+        pas = request.json['Contra']
+        edad = request.json['Edad']
+        veri = VerificarCarnetAvl(carnet)
+        RegistrarAvl(carnet, Dpi, name, carr, cor, pas, edad)
+        AVL.pre_orden()
+        response = jsonify({'Existe': veri, 'Respuesta': 'Datos Ingresados'})
+        print('Valores regresados ' + str(veri))
         print("metodo post")
         return response
 

@@ -20,7 +20,9 @@
               <input type="text" name="Name" class="form-control" placeholder="Ingrese su Nombre" [(ngModel)]="Nombre1" #Nombre >
               <label for="Carre" class="form-label">Carrera:</label>
               <input type="text" name="Carre" class="form-control" placeholder="Ingrese su Carrera" [(ngModel)]="Carrera1" #Carrera >
-              <label for="contra" class="form-label">Password:</label>
+              <label for="Correo" class="form-label">Correo:</label>
+              <input type="text" name="Correo" class="form-control" placeholder="Ingrese su Correo" [(ngModel)]="Correo1" #Correo >
+              <label for="contra" class="form-label">Contraseña:</label>
               <input type="password" name="contra" class="form-control" placeholder="Ingrese una Contraseña" [(ngModel)]="Contra1" #Contra>
               <label for="edads" class="form-label">Edad:</label>
               <input type="text" name="edads" class="form-control" placeholder="Ingrese su Edad" [(ngModel)]="Edad1" #Edad >
@@ -28,7 +30,7 @@
           </form>
           <br>
 
-          <button type="button1" class="btn btn-outline-success" (click)="getValue(Contra.value)">Registrar</button>
+          <button type="button1" class="btn btn-outline-success" (click)="Registrar(Carnet.value, DPI.value, Nombre.value, Carrera.value, Correo.value ,Contra.value, Edad.value)">Registrar</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button type="button1" class="btn btn-outline-success" (click)="LimpiarValores()">Cancelar</button>

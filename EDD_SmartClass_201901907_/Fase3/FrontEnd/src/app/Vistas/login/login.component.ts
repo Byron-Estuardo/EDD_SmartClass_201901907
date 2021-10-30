@@ -16,32 +16,40 @@ export class LoginComponent implements OnInit {
     console.warn(usuario + ' ' + contra)
     if (usuario === "admin" && contra === "admin"){
       this.router.navigate(['/Administrador']);
+    } else {
+      var data = JSON.stringify({
+        "Usuario": usuario,
+        "Contra": contra
+      });
+
+      fetch('http://localhost:3000/', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: data
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.Ingreso === true){
+            this.router.navigate(['/Administrador']);
+          }
+          else{
+            if (data.Error === 'La contraseña es incorrecta'){
+              alert(data.Error);
+              this.Contra1 = '';
+            }
+            else{
+              alert(data.Error);
+              this.LimpiarValores();
+            }
+
+          }
+          //alert(data.response)
+      });
     }
-    else if (usuario === "admin" && contra !== "admin"){
 
-    }
-    var data = JSON.stringify({
-      "Usuario": usuario,
-      "Contra": contra
-    });
-
-    fetch('http://localhost:3000/', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    })
-
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        if (data.Ingreso === true){
-          this.router.navigate(['/Administrador']);
-        }
-
-        //alert(data.response)
-    });
   }
 
   getValue(val: any){
