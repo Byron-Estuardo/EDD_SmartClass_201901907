@@ -8,6 +8,10 @@ import { PaginaPrincipalComponent } from './Vistas/pagina-principal/pagina-princ
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './Vistas/login/login.component';
 import { ReportesComponent } from './Vistas/reportes/reportes.component';
+import { EstudianteVComponent } from './Vistas/estudiante-v/estudiante-v.component';
+import { NuevoApunteComponent } from './Vistas/nuevo-apunte/nuevo-apunte.component';
+import { VerApuntesComponent } from './Vistas/ver-apuntes/ver-apuntes.component';
+import { GrafoPrerequisitosComponent } from './Vistas/grafo-prerequisitos/grafo-prerequisitos.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +19,11 @@ import { ReportesComponent } from './Vistas/reportes/reportes.component';
     RegistroComponent,
     PaginaPrincipalComponent,
     LoginComponent,
-    ReportesComponent
+    ReportesComponent,
+    EstudianteVComponent,
+    NuevoApunteComponent,
+    VerApuntesComponent,
+    GrafoPrerequisitosComponent
   ],
   imports: [
     BrowserModule,

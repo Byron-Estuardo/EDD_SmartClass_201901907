@@ -1,10 +1,5 @@
 import os
 from cryptography.fernet import Fernet
-def CargarClave():
-    return open("clave.key", "rb").read()
-
-Clave = CargarClave()
-ferne = Fernet(Clave)
 
 class Nodo:
     def __init__(self, carnet=0, carnet2="", dpi="", nombre="", carrera="", correo="", password="", creditos="", edad="",años=None):
@@ -160,7 +155,13 @@ class AVL:
         print("********* Se realizo Grafica *********  ")
         os.system("dot -Tpng -o AVLDes.png AVLDes.dot")
 
+    def CargarClave(self):
+        return open("clave.key", "rb").read()
+
+
     def listar2(self, raiz_actual):
+        Clave = self.CargarClave()
+        ferne = Fernet(Clave)
         if raiz_actual:
             dpi1 = ferne.decrypt(raiz_actual.dpi)
             decodeDPI = dpi1.decode()
@@ -181,8 +182,8 @@ class AVL:
             decodeEdad = edad.decode()
 
             cadena = "n" + str(raiz_actual.carnet) + "[label= \"" + str(raiz_actual.carnet) + "\n" +str(decodeDPI) + "\n" +str(decodeName) + "\n" +str(decodeCarrera) + "\n" +str(decodecorreo) + "\n" +str(decodecontra) + "\n" +str(decodeEdad) +"\"];\n"
-            cadena += self.listar(raiz_actual.izq)
-            cadena += self.listar(raiz_actual.der)
+            cadena += self.listar2(raiz_actual.izq)
+            cadena += self.listar2(raiz_actual.der)
             return cadena
         else:
             return ""
@@ -204,19 +205,19 @@ class AVL:
 
     def listar(self, raiz_actual):
         if raiz_actual:
-            decodeCarnet = raiz_actual.carnet2[:6]
+            decodeCarnet = raiz_actual.carnet2[:9]
 
-            decodeDPI = raiz_actual.dpi[:6]
+            decodeDPI = raiz_actual.dpi[:9]
 
-            decodeName = raiz_actual.nombre[:6]
+            decodeName = raiz_actual.nombre[:9]
 
-            decodeCarrera = raiz_actual.carrera[:6]
+            decodeCarrera = raiz_actual.carrera[:9]
 
-            decodecorreo = raiz_actual.correo[:6]
+            decodecorreo = raiz_actual.correo[:9]
 
-            decodecontra = raiz_actual.password[:6]
+            decodecontra = raiz_actual.password[:9]
 
-            decodeEdad = raiz_actual.edad[:6]
+            decodeEdad = raiz_actual.edad[:9]
 
             cadena = "n" + str(raiz_actual.carnet) + "[label= \"" + str(decodeCarnet) + "\n" + str(
                 decodeDPI) + "\n" + str(decodeName) + "\n" + str(decodeCarrera) + "\n" + str(decodecorreo) + "\n" + str(

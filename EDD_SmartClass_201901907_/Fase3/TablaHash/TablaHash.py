@@ -1,3 +1,4 @@
+import json
 import os
 from lista_doble import LustaDobleApuntes1
 
@@ -34,6 +35,21 @@ class TablaHash:
             if x == 2:
                 EsPrimo = True
         return nuevoValorPrimo
+
+    def ObtenerApuntes(self, carnet):
+        for i in range(0, self.tamano):
+            number = (carnet+pow(i, 2)) % self.tamano
+            if self.vector[number]:
+                if self.vector[number].carnet == carnet:
+                    archivo = '[\n'
+                    i2 = self.vector[number].apuntes
+                    for item in i2.iterar():
+                        archivo += "{\n\"titulo\": \"" + item.titulo + "\",\n"
+                        archivo += "\"body\": \"" + item.cuerpo + "\"\n},"
+                        print(item.titulo + ': ' + item.cuerpo + ',')
+                    archivo = archivo[:-1]
+                    archivo+="\n]"
+                    return json.loads(archivo)
 
     def EstaOcupado(self,index):
         if not (index>self.tamano):

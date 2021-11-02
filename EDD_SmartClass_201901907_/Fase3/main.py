@@ -25,7 +25,7 @@ def GenerarClave():
     Clave = Fernet.generate_key()
     with open("clave.key", "wb") as archivo_clave:
         archivo_clave.write(Clave)
-    print(Clave)
+    #print(Clave)
 
 GenerarClave()
 
@@ -65,7 +65,7 @@ def LecturaCursosPensum(ruta):
 def LecturaCursosEstudiante(ruta):
     with open(ruta) as file:
         data = json.load(file)
-        print(data)
+        #print(data)
         for curso in data['Estudiantes']:
             print("Carnet: " + curso['Carnet'])
             carnet = curso['Carnet']
@@ -176,7 +176,7 @@ def LecturaArchivoEstudiantesJSON(ruta):
             carnet = int(estudiante['carnet'])
             dpi1 = str(estudiante['DPI'])
             nombre1 = str(estudiante['nombre'])
-            carrera = str(estudiante['carrera'])
+            carrera1 = str(estudiante['carrera'])
             correo1 = str(estudiante['correo'])
             contra1 = str(estudiante['password'])
             creditos = ""
@@ -194,10 +194,12 @@ def LecturaArchivoEstudiantesJSON(ruta):
             contra = ferne.encrypt(encriptado12)
             prueba4 = edad1.encode()
             edad = ferne.encrypt(prueba4)
+            prueba52 = carrera1.encode()
+            carrera = ferne.encrypt(prueba52)
             prueba5 = correo1.encode()
             correo = ferne.encrypt(prueba5)
             veri = VerificarCarnetAvl(carnet)
-            print(carnet2)
+            #print(carnet2)
             if veri == False:
                 NuevoAños = ListaDoble.ListaDoble()
                 AVL.insertar(carnet, carnet2, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
@@ -219,7 +221,7 @@ def LecturaArchivoFaseAnt(ruta):
             carnet = int(atributos[0]["Carnet"].replace("\"", ""))
             dpi1 = str(atributos[1]["DPI"].replace("\"", ""))
             nombre1 = str(atributos[2]["Nombre"].replace("\"", ""))
-            carrera = str(atributos[3]["Carrera"].replace("\"", ""))
+            carrera1 = str(atributos[3]["Carrera"].replace("\"", ""))
             correo1 = str(atributos[4]["Correo"].replace("\"", ""))
             contra1 = str(atributos[5]["Password"].replace("\"", ""))
             creditos = str(atributos[6]["Creditos"])
@@ -237,6 +239,8 @@ def LecturaArchivoFaseAnt(ruta):
             contra = ferne.encrypt(encriptado12)
             prueba4 = edad1.encode()
             edad = ferne.encrypt(prueba4)
+            prueba52 = carrera1.encode()
+            carrera = ferne.encrypt(prueba52)
             prueba5 = correo1.encode()
             correo = ferne.encrypt(prueba5)
             veri = VerificarCarnetAvl(carnet)
@@ -351,7 +355,7 @@ def agregar():
 
         # grafo1.insertar(valor)
         response = jsonify({'Error': varError, 'Ingreso': ingresi})
-        print('Valores regresados ' + str(usuario) + ' ' + str(contra) + ' ' + str(ingresi))
+        #print('Valores regresados ' + str(usuario) + ' ' + str(contra) + ' ' + str(ingresi))
         print("metodo post")
         return response
 
@@ -418,7 +422,7 @@ def GraficoAvlEncriptado():
     with open("AVL.png", "rb") as img_file:
         b64_string = base64.b64encode(img_file.read())
     #print(str(b64_string.decode('utf-8')))
-    response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
+    response = jsonify({'response': 'se grafico', 'Imagen': str(b64_string.decode('utf-8'))})
 
     return response
 
@@ -429,7 +433,7 @@ def GraficoAvl():
     with open("AVLDes.png", "rb") as img_file:
         b64_string = base64.b64encode(img_file.read())
     #print(str(b64_string.decode('utf-8')))
-    response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
+    response = jsonify({'response': 'se grafico', 'Imagen': str(b64_string.decode('utf-8'))})
 
     return response
 
@@ -440,7 +444,7 @@ def GraficoApuntes():
     with open("TablaApuntes.png", "rb") as img_file:
         b64_string = base64.b64encode(img_file.read())
     #print(str(b64_string.decode('utf-8')))
-    response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
+    response = jsonify({'response': 'se grafico', 'Imagen': str(b64_string.decode('utf-8'))})
 
     return response
 

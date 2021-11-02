@@ -1,0 +1,31 @@
+digraph { 
+graph [pad="0.5", nodesep="0.5", ranksep="2"]; 
+node [shape=plain] 
+ rankdir=LR;
+table [label=<
+<table border="0" cellborder="1" cellspacing="0">
+<tr><td port="0">20210000004</td></tr>
+<tr><td port="1"> </td></tr>
+<tr><td port="2"> </td></tr>
+<tr><td port="3">20210000001</td></tr>
+<tr><td port="4"> </td></tr>
+<tr><td port="5">20210000003</td></tr>
+<tr><td port="6"> </td></tr>
+</table>>];
+node [shape=rectangle]
+n_0[label="tareas pendientes: proyecto fase 3 edd"]
+table:0->n_0;
+n_1[label="pendientes: - hacer hoja de calificacion fase 3 
+ -calificar tareas 
+ - reporte de notas estudiantes"]
+table:3->n_1;
+n_2[label="block chain: ¿Que es blockchain? 
+ Blockchain es una base de datos que almacena información en bloques en lugar de tablas como las bases de datos tradicionales. Cuando el bloque alcanza su capacidad máxima de datos, se “encadena” a los bloques anteriores. Una vez que se encadenan permanecerán vinculados para siempre, creando una línea de tiempo en los datos de la “cadena de bloques” que permite una mayor transparencia de las transacciones. "]
+n_1-> n_2;
+n_3[label="tabla hash: es una estructura de datos, en gran medida como una matriz, excepto que cada valor (objeto) se almacena mediante una clave. Se trata de un almacén básicos de clave-valor. Primero, se crea una tabla hash vacía."]
+n_2-> n_3;
+n_4[label="Lab edd -18/10: informacion sobre lo visto en el laboratorio el dia 29 de octubre"]
+table:5->n_4;
+n_5[label="resumen primer parcial -fisica2: contenido referente a los temas vistos para el primer parcial"]
+n_4-> n_5;
+}

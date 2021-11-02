@@ -21,11 +21,11 @@ export class ReportesComponent implements OnInit {
       })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
           alert(data.response)
-          var img:any = data.img
-          (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+img+"\">"
-          console.log(img)
+          var img:any
+          (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+data.Imagen+"\">"
+          console.log(data.Imagen)
+
         });
       }
     graficar2(){
@@ -38,10 +38,10 @@ export class ReportesComponent implements OnInit {
         .then(response => response.json())
         .then(data => {
             console.log(data)
-          alert(data.response)
-          var img:any = data.img
-          (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+img+"\">"
-          console.log(img)
+            console.log(data.Imagen)
+            var img:any
+            (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+data.Imagen+"\">"
+            alert(data.response)
         });
     }
     graficar3(){
@@ -54,10 +54,10 @@ export class ReportesComponent implements OnInit {
           .then(response => response.json())
           .then(data => {
               console.log(data)
-            alert(data.response)
-            var img:any = data.img
-            (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+img+"\">"
-            console.log(img)
+              console.log(data.Imagen)
+              var img:any
+              (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+data.Imagen+"\">"
+              alert(data.response)
           });
         }
 }
