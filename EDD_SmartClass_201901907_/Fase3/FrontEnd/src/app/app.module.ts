@@ -7,13 +7,15 @@ import { RegistroComponent } from './Vistas/registro/registro.component';
 import { PaginaPrincipalComponent } from './Vistas/pagina-principal/pagina-principal.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './Vistas/login/login.component';
+import { ReportesComponent } from './Vistas/reportes/reportes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistroComponent,
     PaginaPrincipalComponent,
-    LoginComponent
+    LoginComponent,
+    ReportesComponent
   ],
   imports: [
     BrowserModule,

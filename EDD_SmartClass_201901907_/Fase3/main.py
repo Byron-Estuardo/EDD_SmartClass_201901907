@@ -11,12 +11,14 @@ from avl import AVL
 from lista_doble import ListaDoble
 from lista_doble import ListaDobleMeses
 from lista_doble import ListaDobleTareas
+from TablaHash import TablaHash
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app)
 
 AVL = AVL.AVL()
+TablaApuntes = TablaHash.TablaHash()
 ArbolB = AB.arbolB()
 
 def GenerarClave():
@@ -33,7 +35,15 @@ def CargarClave():
 Clave = CargarClave()
 ferne = Fernet(Clave)
 
-
+def LecturaApuntes(ruta):
+    with open(ruta, encoding="utf8") as file:
+        data = json.load(file)
+        for Usuarios in data['usuarios']:
+            carnet = Usuarios['carnet']
+            for apuntes in Usuarios['apuntes']:
+                titulo = apuntes['Título']
+                body = apuntes['Contenido']
+                TablaApuntes.insertar(carnet, titulo, body)
 
 def VerificarCarnetAvl(carnet):
     encontrado = AVL.RevisarExiste(carnet)
@@ -187,6 +197,7 @@ def LecturaArchivoEstudiantesJSON(ruta):
             prueba5 = correo1.encode()
             correo = ferne.encrypt(prueba5)
             veri = VerificarCarnetAvl(carnet)
+            print(carnet2)
             if veri == False:
                 NuevoAños = ListaDoble.ListaDoble()
                 AVL.insertar(carnet, carnet2, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
@@ -351,7 +362,6 @@ def RegistrarMasivoJson():
         print('Carga Masiva json')
         ruta = request.json['Ruta']
         LecturaArchivoEstudiantesJSON(str(ruta))
-        AVL.pre_orden()
         response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
         print('Valores regresados ' + ruta)
         print("metodo post")
@@ -364,6 +374,18 @@ def CargaMasivaEstudiantes():
         ruta = request.json['Ruta']
         LecturaArchivoFaseAnt(str(ruta))
         AVL.pre_orden()
+        response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
+        print('Valores regresados ' + ruta)
+        print("metodo post")
+        return response
+
+@app.route('/Administrador/MasivoApuntes', methods=['POST'])
+def RegistrarMasivoJsonApuntes():
+    if request.method == 'POST':
+        ruta = request.json['Ruta']
+        print(ruta)
+        LecturaApuntes(str(ruta))
+        #AVL.graficar()
         response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
         print('Valores regresados ' + ruta)
         print("metodo post")
@@ -389,38 +411,38 @@ def Registrar():
         print("metodo post")
         return response
 
-@app.route('/insertar', methods=['POST'])
-def insertar():
-    if request.method == 'POST':
-        valor = request.json['dato']
-        # grafo1.insertar(valor)
-        response = jsonify({'response': 'se agrego el ' + valor})
-        print("metodo post")
-        return response
-
-
-@app.route('/agregara', methods=['POST'])
-def agregara():
-    if request.method == 'POST':
-        valor = request.json['dato']
-        ad = request.json['ad']
-        # grafo1.agregar_adyasente(valor, ad)
-        response = jsonify({'response': 'se agrego: -' + valor + ' -> ' + ad})
-        print("metodo post")
-        return response
-
-
-@app.route('/graficar', methods=['GET'])
-def prueba():
-    # grafo1.graficar()
+@app.route('/Administrador/GraficoAvlEncriptado', methods=['GET'])
+def GraficoAvlEncriptado():
+    AVL.graficar()
     b64_string = ""
-    #with open("graph-g.png", "rb") as img_file:
-    #    b64_string = base64.b64encode(img_file.read())
-    # print(str(b64_string.decode('utf-8')))
+    with open("AVL.png", "rb") as img_file:
+        b64_string = base64.b64encode(img_file.read())
+    #print(str(b64_string.decode('utf-8')))
     response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
 
     return response
 
+@app.route('/Administrador/GraficoAvl', methods=['GET'])
+def GraficoAvl():
+    AVL.graficarDes()
+    b64_string = ""
+    with open("AVLDes.png", "rb") as img_file:
+        b64_string = base64.b64encode(img_file.read())
+    #print(str(b64_string.decode('utf-8')))
+    response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
+
+    return response
+
+@app.route('/Administrador/GraficoApuntes', methods=['GET'])
+def GraficoApuntes():
+    TablaApuntes.reporteTable()
+    b64_string = ""
+    with open("TablaApuntes.png", "rb") as img_file:
+        b64_string = base64.b64encode(img_file.read())
+    #print(str(b64_string.decode('utf-8')))
+    response = jsonify({'response': 'se grafico', 'img': str(b64_string.decode('utf-8'))})
+
+    return response
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)

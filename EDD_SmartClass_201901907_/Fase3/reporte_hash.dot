@@ -1,0 +1,58 @@
+digraph { 
+graph [pad="0.5", nodesep="0.5", ranksep="2"]; 
+node [shape=plain] 
+ rankdir=LR;
+table [label=<
+<table border="0" cellborder="1" cellspacing="0">
+<tr><td port="0">6753164</td></tr>
+<tr><td port="1"> </td></tr>
+<tr><td port="2">5184656864</td></tr>
+<tr><td port="3"> </td></tr>
+<tr><td port="4">65198456</td></tr>
+<tr><td port="5"> </td></tr>
+<tr><td port="6"> </td></tr>
+<tr><td port="7"> </td></tr>
+<tr><td port="8"> </td></tr>
+<tr><td port="9">201901907</td></tr>
+<tr><td port="10">5844464</td></tr>
+<tr><td port="11">1111</td></tr>
+<tr><td port="12"> </td></tr>
+<tr><td port="13"> </td></tr>
+<tr><td port="14">5184</td></tr>
+<tr><td port="15">564</td></tr>
+<tr><td port="16"> </td></tr>
+<tr><td port="17"> </td></tr>
+<tr><td port="18">5469126</td></tr>
+<tr><td port="19"> </td></tr>
+<tr><td port="20">84654</td></tr>
+<tr><td port="21"> </td></tr>
+<tr><td port="22"> </td></tr>
+</table>>];
+node [shape=rectangle]
+n_0[label="o: estaoes una descripcion laocaquissmoa"]
+table:0->n_0;
+n_1[label="el pedo: estaoes una descripcion laocaquissmoa"]
+table:2->n_1;
+n_2[label="esdro: estaoes una descripcion laocaquissmoa"]
+table:4->n_2;
+n_3[label="pedro: estaoes una descripcion laocaquissmoa"]
+table:9->n_3;
+n_4[label="el pedro: estaoes una descripcion laocaquissmoa"]
+n_3-> n_4;
+n_5[label="an: estaoes una descripcion laocaquissmoa"]
+n_4-> n_5;
+n_6[label="o: estaoes una descripcion laocaquissmoa"]
+table:10->n_6;
+n_7[label="el hola: estaoes una descripcion laocaquissmoa"]
+table:11->n_7;
+n_8[label="el adios: adsfasdjlkasda"]
+n_7-> n_8;
+n_9[label="o: estaoes una descripcion laocaquissmoa"]
+table:14->n_9;
+n_10[label="elo: estaoes una descripcion laocaquissmoa"]
+table:15->n_10;
+n_11[label="edro: estaoes una descripcion laocaquissmoa"]
+table:18->n_11;
+n_12[label="eo: estaoes una descripcion laocaquissmoa"]
+table:20->n_12;
+}

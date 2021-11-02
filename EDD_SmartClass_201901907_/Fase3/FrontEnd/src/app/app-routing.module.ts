@@ -1,3 +1,4 @@
+import { ReportesComponent } from './Vistas/reportes/reportes.component';
 import { LoginComponent } from './Vistas/login/login.component';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,7 +19,10 @@ export const routes: Routes = [
     path: 'Registro',
     component: RegistroComponent
   },
-
+  {
+    path: 'Reportes',
+    component: ReportesComponent
+  },
 ];
 
 

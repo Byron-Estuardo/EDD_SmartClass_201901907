@@ -6,7 +6,18 @@
 from Matriz import Matriz_Dispersa
 import os
 
-
+self.carnet = carnet
+self.carnet2 = carnet2
+self.dpi = dpi
+self.nombre = nombre
+self.carrera = carrera
+self.correo = correo
+self.password = password
+self.creditos = creditos
+self.edad = edad
+self.años = años
+erdesifrado = ferne.decrypt(contrase)
+decode = primerdesifrado.decode()
 nueva_matriz = Matriz_Dispersa()
 print(nueva_matriz.buscar(2,5))
 nueva_matriz.insertar(2,5,"nuevo nodo")

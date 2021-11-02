@@ -1,10 +1,11 @@
 class Nodo:
-    def __init__(self, dato = None, semestre = None, meses = None):
-        self.dato = dato
-        self.semestre = semestre
-        self.meses = meses
+    def __init__(self, carne, title, body):
+        self.carnet = carne
+        self.titulo = title
+        self.cuerpo = body
         self.prev = None
         self.next = None
+
 
 class ListaDoble:
     def __init__(self):
@@ -18,8 +19,8 @@ class ListaDoble:
         else:
             return False
 
-    def Insertar(self, nombre, meses, semestres):
-        temp = Nodo(nombre, meses, semestres)
+    def Insertar(self, carne, title, body):
+        temp = Nodo(carne, title, body)
         if self.IsEmpty() is True:
             self.Cabeza = temp
             self.Cola = temp
@@ -39,23 +40,15 @@ class ListaDoble:
             actual = actual.next
             yield dato
 
-    '''
-    for item in lista.iterar()
-        print(item)
-        
-        busqueda:
-        lista.busqueda(dato)
-    '''
-
     def BuscarExiste(self, dato):
         for item in self.iterar():
-            if dato == item.dato:
+            if dato == item.titulo:
                 return True
         return False
 
     def BuscarNodo(self, dato):
         for item in self.iterar():
-            if dato == item.dato:
+            if dato == item.titulo:
                 return item
         return -1
 
@@ -64,16 +57,16 @@ class ListaDoble:
         eliminado = False
         if actual is None:
             eliminado = False
-        elif actual.dato == dato:
+        elif actual.titulo == dato:
             self.Cabeza = actual.next
             self.Cabeza.prev = None
-        elif self.Cola.dato == dato:
+        elif self.Cola.titulo == dato:
             self.Cola = self.Cola.prev
             self.Cola.next = None
             eliminado = True
         else:
             while actual:
-                if actual.dato == dato:
+                if actual.titulo == dato:
                     actual.prev.next = actual.next
                     actual.next.prev = actual.prev
                     eliminado = True
@@ -81,48 +74,29 @@ class ListaDoble:
         if eliminado:
             self.contador -= 1
 
-    '''
-    buscar desde elemento y obtener indice
-    % (indice, lista[indice])
-    '''
 
     def obtenerIndice(self, dato):
         for item in self.iterar():
             conta = 0
-            if dato == item.dato:
+            if dato == item.titulo:
                 return conta
             conta += 1
         return -1
 
-
     def __getitem__(self, item):
-        if item>= 0 and item < self.contador:
+        if item >= 0 and item < self.contador:
             actual = self.Cabeza
-            for _ in range(item-1):
+            for _ in range(item - 1):
                 actual = actual.next
-            return actual.dato
+            return actual.titulo
         else:
             raise Exception("Indice no valido. Fuera de Rango")
-
-    '''
-    para modificar por medio del indice 
-    lista[pos] = nuevo
-    '''
 
     def __setitem__(self, indice, dato):
-        if indice>= 0 and indice < self.contador:
+        if indice >= 0 and indice < self.contador:
             actual = self.Cabeza
-            for _ in range(indice-1):
+            for _ in range(indice - 1):
                 actual = actual.next
-            actual.dato = dato
+            actual.titulo = dato
         else:
             raise Exception("Indice no valido. Fuera de Rango")
-
-    #def ModificarDato(self, dato):
-
-
-
-'''
-Lista = ListaDoble()
-Lista.insertar()
-'''

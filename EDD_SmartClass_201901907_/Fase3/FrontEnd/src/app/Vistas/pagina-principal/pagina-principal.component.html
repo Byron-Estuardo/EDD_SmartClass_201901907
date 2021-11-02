@@ -86,7 +86,7 @@
         <br>
         <br>
           <h1 class="tm-brand-name">SmartClass Fase 3</h1>
-          <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-pad-small tm-btn-small tm-btn-primary tm-mt">Reportes</button>
+          <button type="button" routerLink="/Reportes" class="tm-btn tm-btn-pad-small tm-btn-small tm-btn-primary tm-mt">Reportes</button>
 
         </div>
         <div class="item" data-desktop-seq-no="6" data-mobile-seq-no="2">
@@ -148,7 +148,7 @@
                   <div class="row">
                     <div class="col-2"></div>
                     <div class="col-8"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #ruta>
-                    <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
+                    <button type="button" (click)="RegistrarMasivoJsonApuntes(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
                     </div>
                   </div>
                   <br>
@@ -164,8 +164,8 @@
                   <div class="row">
                     <div class="col-3"></div>
                     <div class="col-6">
-                      <input style="display:none;" type="file" (change)="abrir($event)" #archivo>
-                      <button (click)="archivo.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
+                      <input style="display:none;" type="file" (change)="abrir1($event)" #archivos>
+                      <button (click)="archivos.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
                     </div>
                   </div>
                 </div>

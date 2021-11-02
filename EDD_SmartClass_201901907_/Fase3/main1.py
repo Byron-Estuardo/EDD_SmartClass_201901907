@@ -223,6 +223,16 @@ def LecturaArchivoFaseAnt(ruta):
 parser = reqparse.RequestParser()
 parser.add_argument('task')
 
+def LecturaApuntes(ruta):
+    with open(ruta, encoding="utf8") as file:
+        data = json.load(file)
+        for Usuarios in data['usuarios']:
+            carnet = Usuarios['carnet']
+            print(carnet)
+            print(type(carnet))
+            for apuntes in Usuarios['apuntes']:
+                titulo = apuntes['Título']
+                body = apuntes['Contenido']
 
 class CargaMasiva(Resource):
     def post(self):
@@ -247,19 +257,20 @@ class CargaMasiva(Resource):
 api.add_resource(CargaMasiva, '/CargaMasiva')
 
 if __name__ == '__main__':
-    token = f.encrypt(b'hola me llamo jose manuel')
-    print(token.decode())
-    token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()
-    print(token1)
+    LecturaApuntes('apuntes.json')
+    #token = f.encrypt(b'hola me llamo jose manuel')
+    #print(token.decode())
+    #token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()
+    #print(token1)
 
-    des = f.decrypt(token)
+    #    des = f.decrypt(token)
 
-    print(des.decode())
+    #    print(des.decode())
 
-    tokens = token1 = hashlib.sha256(b'Hola me llamo jose manuel').hexdigest()
-    print(tokens)
-    token1s = token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()
-    print(token1s)
+    #tokens = token1 = hashlib.sha256(b'Hola me llamo jose manuel').hexdigest()
+    #print(tokens)
+    #token1s = token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()
+    #print(token1s)
 
 
     #app.run(host='localhost',port=3000, debug=True)
