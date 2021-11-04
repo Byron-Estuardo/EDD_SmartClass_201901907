@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 import hashlib
 import base64  # para convertir la imagen y responderla al frontend
 import json
-from ArbolB import AB
+from ArbolB import ArbolBPensum
 from ListaSimple import ListaSemestre
 from Matriz import Matriz
 from avl import AVL
@@ -20,8 +20,9 @@ cors = CORS(app)
 
 GrafoPensum = Grafos.Grafos()
 AVL = AVL.AVL()
+CarnetLogueado = 0
 TablaApuntes = TablaHash.TablaHash()
-ArbolB = AB.arbolB()
+ArbolB = ArbolBPensum.arbolB()
 
 def GenerarClave():
     Clave = Fernet.generate_key()
@@ -39,6 +40,7 @@ ferne = Fernet(Clave)
 lista1CursosPensum = []
 lista2CursosPensum = []
 listaconpre = []
+
 #Listas Temporales
 listatemp1 = []
 listatemp2 = []
@@ -97,7 +99,6 @@ def RevisarQueTodosLosPreEstenEnLaLista(codigo):
                     codigos = int(items)
                     IngresarEnListas(codigos)
 
-
 def IngresarEnListas(Codigo):
 
     for pos in range(len(lista1CursosPensum)):
@@ -107,9 +108,6 @@ def IngresarEnListas(Codigo):
                 for items in listaconpre[pos].pre:
                     codigos = int(items)
                     RevisarQueTodosLosPreEstenEnLaLista(codigos)
-
-
-
 
 def GrafoPreObtener(Codigo):
     GrafoTemporal = Grafos.Grafos()
@@ -199,45 +197,134 @@ def LecturaApuntes(ruta):
                 body = apuntes['Contenido']
                 TablaApuntes.insertar(carnet, titulo, body)
 
+def IngresoAputesManual(titulo, contenido):
+    TablaApuntes.insertar(CarnetLogueado, titulo, contenido)
+
 def VerificarCarnetAvl(carnet):
     encontrado = AVL.RevisarExiste(carnet)
     return encontrado
 
+def VerificarQueElCursoExistaEnPensum(Codigo):
+    for pos in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[pos].codigo == Codigo:
+            return True
+    return False
 
-def LecturaCursosPensum(ruta):
-    with open(ruta) as file:
-        data = json.load(file)
-        for curso in data['Cursos']:
-            cursos = curso['Codigo']
-            nombre = curso['Nombre']
-            creditos = curso['Creditos']
-            pre = curso['Prerequisitos']
-            obligatorio = curso['Obligatorio']
-            ArbolB.insertarDatos(cursos, nombre, creditos, pre, obligatorio)
+def ObtenerDatosCurso(Codigo):
+    posicion = 0
+    for pos in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[pos].codigo == Codigo:
+            return posicion
+    return -1
 
+def AgregarCursosEstudiantesManual(Codigo, year, semestre):
+    nodo = AVL.find(CarnetLogueado)
+    # Buscar el carnet en el AVL
+    veriAños = nodo.años.BuscarExiste(int(year))
+    if veriAños == False:
+        NuevoMeses = ListaDobleMeses.ListaDobleMeses()
+        NuevoSemestres = ListaSemestre.ListaSemestre()
+        # Si no existe el año se crea uno
+        nodo.años.Insertar(int(year), NuevoSemestres, NuevoMeses)
+    # Obtenemos el nodo del año
+    nodo1 = nodo.años.BuscarNodo(int(year))
+    veriSemestres = nodo1.semestre.BuscarExiste(int(semestre))
+    if veriSemestres == False:
+        arbolbtemp = ArbolBPensum.arbolB()
+        nodo1.semestre.Insertar(int(semestre), arbolbtemp)
+    nodo2 = nodo1.semestre.BuscarNodo(int(semestre))
+    variable = VerificarQueElCursoExistaEnPensum(Codigo)
+    if variable == True:
+        posicionBusqueda = ObtenerDatosCurso(Codigo)
+        if posicionBusqueda != -1:
+            Codigos = lista1CursosPensum[posicionBusqueda].codigo
+            name = lista1CursosPensum[posicionBusqueda].nombre
+            creditoss = lista1CursosPensum[posicionBusqueda].creditos
+            obligatorio = lista1CursosPensum[posicionBusqueda].obligatorio
+            nodo2.curso.insertarDatos(Codigos, name, creditoss, "", obligatorio)
+    else:
+        print("El Curso no se encuentra en el pensum Actual")
 
 def LecturaCursosEstudiante(ruta):
     with open(ruta) as file:
         data = json.load(file)
-        #print(data)
+        print(data)
         for curso in data['Estudiantes']:
             print("Carnet: " + curso['Carnet'])
             carnet = curso['Carnet']
-            verifiAVL = VerificarCarnetAvl(carnet)
-            if verifiAVL == True:
-                print(curso["AÃ±os"])
+            NuevoMeses = ListaDobleMeses.ListaDobleMeses()
+            NuevoSemestres = ListaSemestre.ListaSemestre()
+            veri = VerificarCarnetAvl(carnet)
+            # Verificar que el carnet Exista
+            if veri == True:
+                # print("Carnet Encontrado")
+                nodo = AVL.find(carnet)
+                # Buscar el carnet en el AVL
+                for años in curso['AÃ±os']:
+                    years = años['AÃ±o']
+                    veriAños = nodo.años.BuscarExiste(years)
+                    if veriAños == False:
+                        # Si no existe el año se crea uno
+                        nodo.años.Insertar(years, NuevoSemestres, NuevoMeses)
+                    # Obtenemos el nodo del año
+                    nodo1 = nodo.años.BuscarNodo(years)
+                    for semestes in años['Semestres']:
+                        veriSemestres = nodo1.semestre.BuscarExiste(años['Semestres'])
+                        if veriSemestres == False:
+                            arbolbtemp = ArbolBPensum.arbolB()
+                            nodo1.semestre.Insertar(años['Semestres'], arbolbtemp)
+                        nodo2 = nodo1.semestre.BuscarNodo(años['Semestres'])
+                        for Cursos in semestes['Cursos']:
+                            print("Codigo: " + Cursos['Codigo'])
+                            Codigo = Cursos['Codigo']
+                            variable = VerificarQueElCursoExistaEnPensum(Codigo)
+                            if variable == True:
+                                nodo2.curso.insertarDatos(int(Cursos['Codigo']), Cursos['Nombre'], Cursos['Creditos'], Cursos['Prerequisitos'], Cursos['Obligatorio'])
+                            else:
+                                print("El Curso no se encuentra en el pensum Actual")
 
-            for años in curso['AÃ±os']:
-                print("Año: " + años['AÃ±o'])
-                for semestes in años['Semestres']:
-                    print("Creditos: " + str(semestes['Semestre']))
-                    for Cursos in semestes['Cursos']:
-                        print("Codigo: " + Cursos['Codigo'])
-                        print("Nombre: " + Cursos['Nombre'])
-                        print("Creditos: " + str(Cursos['Creditos']))
-                        print("Prerequisitos: " + Cursos['Prerequisitos'])
-                        print("Obligatorio: " + str(Cursos['Obligatorio']))
+def LecturaCursosEstudiantesJson(ruta):
+    with open(ruta, encoding="utf8") as file:
+        data = json.load(file)
+        for estudiantes in data['Estudiantes']:
+            carnet = estudiantes['Carnet']
+            veri = VerificarCarnetAvl(carnet)
+            if veri == True:
+                nodo = AVL.find(carnet)
+                for years in estudiantes['Años']:
+                    año = years['Año']
+                    veriAños = nodo.años.BuscarExiste(año)
+                    if veriAños == False:
+                        NuevoMeses = ListaDobleMeses.ListaDobleMeses()
+                        NuevoSemestres = ListaSemestre.ListaSemestre()
+                        nodo.años.Insertar(año, NuevoSemestres, NuevoMeses)
+                    nodo1 = nodo.años.BuscarNodo(año)
+                    for semester in years['Semestres']:
+                        semestre = semester['Semestre']
+                        veriSemestres = nodo1.semestre.BuscarExiste(semestre)
+                        if veriSemestres == False:
+                            arbolbtemp = ArbolBPensum.arbolB()
+                            nodo1.semestre.Insertar(semestre, arbolbtemp)
+                        nodo2 = nodo1.semestre.BuscarNodo(semestre)
+                        for Cursos in semester['Cursos']:
+                            Codigo = Cursos['Codigo']
+                            variable = VerificarQueElCursoExistaEnPensum(Codigo)
+                            if variable == True:
+                                nodo2.curso.insertarDatos(int(Cursos['Codigo']), Cursos['Nombre'], Cursos['Creditos'],
+                                                          Cursos['Prerequisitos'], Cursos['Obligatorio'])
+                            else:
+                                print("El Curso no se encuentra en el pensum Actual")
 
+def GraficoCursosEstudiante(year, semestre):
+    nodo = AVL.find(CarnetLogueado)
+    # Buscar el carnet en el AVL
+    veriAños = nodo.años.BuscarExiste(int(year))
+    if veriAños == True:
+        nodo1 = nodo.años.BuscarNodo(int(year))
+        veriSemestres = nodo1.semestre.BuscarExiste(int(semestre))
+        if veriSemestres == True:
+            nodo2 = nodo1.semestre.BuscarNodo(int(semestre))
+            nodo2.curso.graficar()
 
 def ConvertirMesATexto(mes):
     if mes == "01":
@@ -280,7 +367,6 @@ def ConvertirMesATexto(mes):
         convertido = "ERROR"
         return convertido
 
-
 def ConvertirTextoAMes(mes):
     if mes == "Enero":
         convertido = "01"
@@ -321,7 +407,6 @@ def ConvertirTextoAMes(mes):
     else:
         convertido = "ERROR"
         return convertido
-
 
 def LecturaArchivoEstudiantesJSON(ruta):
     with open(ruta) as file:
@@ -486,7 +571,7 @@ def RegistrarAvl(var1, var2, var3, var4, var5, var6, var7):
         print("Carnet Repetido")
 
 @app.route('/', methods=['POST'])
-def agregar():
+def login():
     if request.method == 'POST':
         varError = ""
         usuario = int(request.json['Usuario'])
@@ -501,6 +586,7 @@ def agregar():
             decode = primerdesifrado.decode()
             if decode == CodificadoContra:
                 ingresi = True
+                CarnetLogueado = int(usuario)
             else:
                 varError = "La contraseña es incorrecta"
                 ingresi= False
@@ -531,7 +617,7 @@ def RegistrarMasivoJson():
         print('Carga Masiva json')
         ruta = request.json['Ruta']
         LecturaArchivoEstudiantesJSON(str(ruta))
-        GrafoPreObtener(770)
+
         response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
         print('Valores regresados ' + ruta)
         print("metodo post")

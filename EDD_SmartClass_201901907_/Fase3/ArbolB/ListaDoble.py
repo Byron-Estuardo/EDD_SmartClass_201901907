@@ -1,15 +1,6 @@
-class nodoDoble:
-    def __init__(self, codigo, nombre, creditos, codigos, obligatorio):
-        self.codigo = codigo
-        self.nombre = nombre
-        self.creditos = creditos
-        self.codigos = codigos
-        self.obligatorio = obligatorio
-        self.siguiente = None
-        self.anterior = None
+from ArbolB.nodoDoble import nodoDoble
 
-
-class ListaDobles:
+class listaDoble:
     def __init__(self):
         self.cuenta = 0
         self.primero = None
@@ -18,7 +9,7 @@ class ListaDobles:
     def estaVacio(self):
         return self.primero is None
 
-    def insertarNodo(self, codigo, nombre, creditos, codigos, obligatorio):
+    def insertarNodoD(self, codigo, nombre, creditos, codigos, obligatorio):
         nuevo = nodoDoble(codigo, nombre, creditos, codigos, obligatorio)
         if self.cuenta < 4:
             if self.estaVacio():
@@ -32,14 +23,14 @@ class ListaDobles:
         else:
             print("Se Supero El Tamaño")
 
-    def InsertarDato(self, codigo, posicion):
+    def insertarDato(self, codigo, posicion):
         aux = self.primero
         while(posicion != 0):
             posicion = posicion -1
             aux = aux.siguiente
         aux.codigo = codigo
 
-    def DevolverDato(self, posicion):
+    def devolverDato(self, posicion):
         aux = self.primero
         while(posicion != 0):
             posicion = posicion-1

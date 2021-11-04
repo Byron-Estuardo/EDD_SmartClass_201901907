@@ -1,154 +1,5 @@
 import os
-class nodoDoble:
-    def __init__(self, codigo, nombre, creditos, codigos, obligatorio):
-        self.codigo = codigo
-        self.nombre = nombre
-        self.creditos = creditos
-        self.codigos = codigos
-        self.obligatorio = obligatorio
-        self.siguiente = None
-        self.anterior = None
-
-
-class ListaDobles:
-    def __init__(self):
-        self.cuenta = 0
-        self.primero = None
-        self.ultimo = None
-
-    def estaVacio(self):
-        return self.primero is None
-
-    def insertarNodo(self, codigo, nombre, creditos, codigos, obligatorio):
-        nuevo = nodoDoble(codigo, nombre, creditos, codigos, obligatorio)
-        if self.cuenta < 4:
-            if self.estaVacio():
-                self.primero = nuevo
-                self.ultimo = self.primero
-            else:
-                self.ultimo.siguiente = nuevo
-                nuevo.anterior = self.ultimo
-                self.ultimo = nuevo
-            self.cuenta += 1
-        else:
-            print("Se Supero El Tamaño")
-
-    def InsertarDato(self, codigo, posicion):
-        aux = self.primero
-        while(posicion != 0):
-            posicion = posicion -1
-            aux = aux.siguiente
-        aux.codigo = codigo
-
-    def DevolverDato(self, posicion):
-        aux = self.primero
-        while(posicion != 0):
-            posicion = posicion-1
-            aux = aux.siguiente
-        return aux
-
-    def mostrarDatos(self):
-        aux =  self.primero
-        while aux:
-            print("Dato: "+ str(aux.codigo) + " Curso: " + aux.nombre)
-            aux = aux.siguiente
-
-class nodoPuntero:
-    anteriorP = None
-    def __init__(self, puntero):
-        self.puntero = puntero
-        self.siguienteP = None
-
-
-class ListaPunteros:
-    def __init__(self):
-        self.primero = None
-        self.ultimo = None
-        self.cuenta = 0
-
-    def estaVacio(self):
-        return self.primero is None
-
-    def insertarP(self, puntero):
-        nuevo = nodoPuntero(puntero)
-        if self.cuenta < 5:
-            if self.estaVacio():
-                self.primero = nuevo
-                self.ultimo = self.primero
-            else:
-                self.ultimo.siguienteP = nuevo
-                nuevo.anteriorP = self.ultimo
-                self.ultimo = nuevo
-            self.cuenta += 1
-
-    def insertarPunteroP(self, pagina, posicion):
-        aux = self.primero
-        while(posicion != 0):
-            posicion = posicion - 1
-            aux = aux.siguienteP
-        aux.puntero = pagina
-
-    def devolverPuntero(self, posicion):
-        aux = self.primero
-        while(posicion != 0):
-            posicion = posicion - 1
-            aux = aux.siguienteP
-        return aux
-
-class paginaB:
-
-    def __init__(self):
-        self.cuenta = 0
-        self.maxClaves = 0
-        self.punteros = ListaPunteros()
-        self.datos = ListaDobles()
-        for x in range(0, 5):
-            if x != 4:
-                self.datos.insertarNodo("", None, None, None, None)
-            self.punteros.insertarP(None)
-        self.maxClaves = 5
-
-    def paginaLlena(self):
-        return (self.cuenta == self.maxClaves - 1)
-
-    def paginaCasiLLena(self):
-        return (self.cuenta == self.maxClaves / 2)
-
-    def getCodigo(self, posicion):
-        return self.datos.DevolverDato(posicion).codigo
-
-    def setCodigo(self, posicion, codigo):
-        self.datos.InsertarDato(codigo, posicion)
-
-    def getNombre(self, posicion):
-        return self.datos.DevolverDato(posicion).nombre
-
-    def setNombre(self, posicion, nombre):
-        self.datos.DevolverDato(posicion).nombre
-
-    def getCreditos(self, posicion):
-        self.datos.DevolverDato(posicion).creditos
-
-    def setCreditos(self, posicion, creditos):
-        self.datos.DevolverDato(posicion).creditos = creditos
-
-    def getCodigos(self, posicion):
-        self.datos.DevolverDato(posicion).codigos
-
-    def setCodigos(self, posicion, codigos):
-        self.datos.DevolverDato(posicion).codigos = codigos
-
-    def getObligatorio(self, posicion):
-        self.datos.DevolverDato(posicion).obligatorio
-
-    def setObligatorio(self, posicion, obligatorio):
-        self.datos.DevolverDato(posicion).obligatorio = obligatorio
-
-    def getApuntador(self, posicion):
-        return self.punteros.devolverPuntero(posicion).puntero
-
-    def setApuntador(self, posicion, puntero):
-        self.punteros.insertarPunteroP(puntero, posicion)
+from ArbolB.paginaB import paginaB
 
 contadorGrafos = 0
 
@@ -224,7 +75,6 @@ class arbolB:
 
     def buscarNodoB(self, codigo, raiz):
         auxContador = 0
-        # if len(str(codigo)) - len(str(raiz.getCodigo(0))) < 0:
         if codigo < raiz.getCodigo(0):
             self.comparador = False
             auxContador = 0
@@ -235,7 +85,6 @@ class arbolB:
                 auxContador += 1
             auxContador = raiz.cuenta
 
-            # while(len(str(codigo)) - len(str(raiz.getCodigo(auxContador-1))) < 0 and auxContador > 1):
             while (codigo < raiz.getCodigo(auxContador - 1) and auxContador > 1):
                 auxContador -= 1
                 self.estado = codigo == raiz.getCodigo(auxContador - 1)
@@ -318,26 +167,70 @@ class arbolB:
             raiz.setObligatorio(2, "")
             raiz.setApuntador(3, None)
 
+    def graficar(self):
+        global contadorGrafos
+        self.grafica = "digraph G {\n"
+        self.grafica += "\nrankdir=TB;\n"
+        self.grafica += "node[color=\"blue\",style=\"rounded,filled\",fillcolor=lightgray, shape=record];\n"
+        self.graficar2(self.raiz)
+        self.graficar3(self.raiz)
+        self.grafica += "\n}\n"
+        Archivo = open("ArbolCursosEstudiante.dot", "w+")
+        Archivo.write(self.grafica)
+        Archivo.close()
+        os.system("dot -Tpng -o ArbolCursosEstudiante.png ArbolCursosEstudiante.dot")
 
+    def graficar2(self, pagina):
+        contador = 0
+        if pagina is not None:
+            self.nodos = 0
+            for i in range(pagina.cuenta):
+                if pagina.getCodigo(i) is not None:
+                    if pagina.getCodigo(i) != "":
+                        self.nodos += 1
+                        if (i != 0):
+                            self.grafica += "|"
+                        if self.nodos == 1:
+                            self.grafica += "\nNodo" + str(pagina.getCodigo(i)) + "[label=\"<f0> |"
+                        if i == 0:
+                            self.grafica += "<f" + str(i + 1) + ">" + str(
+                                pagina.getCodigo(i)) + "\\n" + pagina.getNombre(i) + "|<f" + str(i + 2) + "> "
+                            contador = 3
+                        else:
+                            self.grafica += "<f" + str(contador) + ">" + str(
+                                pagina.getCodigo(i)) + "\\n" + pagina.getNombre(i) + "|<f" + str(contador + 1) + "> "
+                            contador += 2
+                        if i == pagina.cuenta - 1:
+                            contador = 0
+                            self.grafica += " \",group=0];\n"
+            self.graficar2(pagina.getApuntador(0))
+            self.graficar2(pagina.getApuntador(1))
+            self.graficar2(pagina.getApuntador(2))
+            self.graficar2(pagina.getApuntador(3))
+            self.graficar2(pagina.getApuntador(4))
 
-a = arbolB()
-a.insertarDatos(100, "MB1", " ", " ", " ")
-a.insertarDatos(200, "MB2", " ", " ", " ")
-a.insertarDatos(300, "MB3", " ", " ", " ")
-a.insertarDatos(400, "MB4", " ", " ", " ")
-a.insertarDatos(500, "MB5", " ", " ", " ")
-a.insertarDatos(600, "MB6", " ", " ", " ")
-a.insertarDatos(700, "MB7", " ", " ", " ")
-a.insertarDatos(800, "MB1", " ", " ", " ")
-a.insertarDatos(900, "MB2", " ", " ", " ")
-a.insertarDatos(1300, "MB3", " ", " ", " ")
-a.insertarDatos(1400, "MB4", " ", " ", " ")
-a.insertarDatos(1500, "MB5", " ", " ", " ")
-a.insertarDatos(1600, "MB6", " ", " ", " ")
-a.insertarDatos(1700, "MB7", " ", " ", " ")
-a.insertarDatos(2000, "MB5", " ", " ", " ")
-a.insertarDatos(2100, "MB6", " ", " ", " ")
-a.insertarDatos(2200, "MB7", " ", " ", " ")
-a.insertarDatos(2300, "MB6", " ", " ", " ")
-a.insertarDatos(2400, "MB7", " ", " ", " ")
-#a.graficar()
+    def graficar3(self, pagina):
+        if pagina is not None:
+            if pagina.getCodigo(0) is not None:
+                if pagina.getCodigo(0) != "":
+                    if pagina.getApuntador(0) is not None and pagina.getApuntador(0).getCodigo(
+                            0) is not None and pagina.getApuntador(0).getCodigo(0) != "":
+                        self.grafica += "\nNodo" + str(pagina.getCodigo(0)) + ":f0->" + "Nodo" + str(
+                            pagina.getApuntador(0).getCodigo(0))
+                    if pagina.getApuntador(1) is not None and pagina.getApuntador(1).getCodigo(0) is not None:
+                        self.grafica += "\nNodo" + str(pagina.getCodigo(0)) + ":f2->" + "Nodo" + str(
+                            pagina.getApuntador(1).getCodigo(0))
+                    if pagina.getApuntador(2) is not None and pagina.getApuntador(2).getCodigo(0) is not None:
+                        self.grafica += "\nNodo" + str(pagina.getCodigo(0)) + ":f4->" + "Nodo" + str(
+                            pagina.getApuntador(2).getCodigo(0))
+                    if pagina.getApuntador(3) is not None and pagina.getApuntador(3).getCodigo(0) is not None:
+                        self.grafica += "\nNodo" + str(pagina.getCodigo(0)) + ":f6->" + "Nodo" + str(
+                            pagina.getApuntador(3).getCodigo(0))
+                    if pagina.getApuntador(4) is not None and pagina.getApuntador(4).getCodigo(0) is not None:
+                        self.grafica += "\nNodo" + str(pagina.getCodigo(0)) + ":f8->" + "Nodo" + str(
+                            pagina.getApuntador(4).getCodigo(0))
+            self.graficar3(pagina.getApuntador(0))
+            self.graficar3(pagina.getApuntador(1))
+            self.graficar3(pagina.getApuntador(2))
+            self.graficar3(pagina.getApuntador(3))
+            self.graficar3(pagina.getApuntador(4))

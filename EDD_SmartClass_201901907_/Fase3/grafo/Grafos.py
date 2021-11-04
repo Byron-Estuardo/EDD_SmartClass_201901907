@@ -147,13 +147,3 @@ class Grafos:
         f.write(self.EscribirArchivo())
         f.close()
         os.system('dot -Tpng -o GrafoPre.png GrafoPre.dot')
-
-'''
-class Objetos:
-    def __init__(self, nombre, codigo: int, creditos: int, pre, obligatorio):
-        self.nombre = nombre
-        self.codigo: int = codigo
-        self.creditos: int = creditos
-        self.pre = pre
-        self.obligatorio = obligatorio
-'''

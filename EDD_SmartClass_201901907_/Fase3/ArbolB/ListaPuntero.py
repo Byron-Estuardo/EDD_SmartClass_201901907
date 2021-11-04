@@ -1,11 +1,7 @@
-class nodoPuntero:
-    anteriorP = None
-    def __init__(self, puntero):
-        self.puntero = puntero
-        self.siguienteP = None
+from ArbolB.nodoPuntero import nodoPuntero
 
+class listaPuntero:
 
-class ListaPunteros:
     def __init__(self):
         self.primero = None
         self.ultimo = None
@@ -14,7 +10,7 @@ class ListaPunteros:
     def estaVacio(self):
         return self.primero is None
 
-    def insertarP(self, puntero):
+    def insertarPuntero(self, puntero):
         nuevo = nodoPuntero(puntero)
         if self.cuenta < 5:
             if self.estaVacio():
@@ -38,4 +34,4 @@ class ListaPunteros:
         while(posicion != 0):
             posicion = posicion - 1
             aux = aux.siguienteP
-        return aux
+        return aux     
