@@ -1,0 +1,73 @@
+digraph {
+rankdir="LR" 
+node[shape = "box", style=filled, fillcolor=seashell2]
+n101[label= "Nombre: Matemática Básica 1
+Codigo: 101
+Creditos: 7
+Obligatorio: True"];
+n39[label= "Nombre: Deportes 1
+Codigo: 39
+Creditos: 1
+Obligatorio: False"];
+n348[label= "Nombre: Quimica General 1
+Codigo: 348
+Creditos: 3
+Obligatorio: True"];
+n103[label= "Nombre: Matemática Básica 2
+Codigo: 103
+Creditos: 7
+Obligatorio: True"];
+n101->n103
+n5[label= "Nombre: Técnicas de Estudio e Investigación
+Codigo: 5
+Creditos: 3
+Obligatorio: True"];
+n960[label= "Nombre: Matemática Cómputo 1
+Codigo: 960
+Creditos: 5
+Obligatorio: True"];
+n103->n960
+n107[label= "Nombre: Mátematica Intermedia 1
+Codigo: 107
+Creditos: 10
+Obligatorio: True"];
+n103->n107
+n770[label= "Nombre: Introducción a la Programación y Computación 1
+Codigo: 770
+Creditos: 4
+Obligatorio: True"];
+n103->n770
+n796[label= "Nombre: Lenguajes Formales y de Programación
+Codigo: 796
+Creditos: 3
+Obligatorio: True"];
+n770->n796
+n960->n796
+n772[label= "Nombre: Estructuras de Datos
+Codigo: 772
+Creditos: 5
+Obligatorio: True"];
+n796->n772
+n777[label= "Nombre: Organización de Lenguajes y Compiladores 1
+Codigo: 777
+Creditos: 4
+Obligatorio: False"];
+n796->n777
+n18[label= "Nombre: Filosofia de la Ciencia
+Codigo: 18
+Creditos: 3
+Obligatorio: False"];
+n774[label= "Nombre: Sistemas de Bases de Datos 1
+Codigo: 774
+Creditos: 5
+Obligatorio: True"];
+n281[label= "Nombre: Sistemas Operativos 1
+Codigo: 281
+Creditos: 4
+Obligatorio: True"];
+n2036[label= "Nombre: Práctica Intermedia
+Codigo: 2036
+Creditos: 0
+Obligatorio: True"];
+n777->n2036
+}

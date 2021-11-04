@@ -105,8 +105,8 @@
                 <br>
                 <div class="row">
                   <div class="col-2"></div>
-                  <div class="col-6"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #ruta></div>
-                  <div class="col-2"><button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button></div>
+                  <div class="col-6"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #rutass></div>
+                  <div class="col-2"><button type="button" (click)="CargarPensum(rutass.value)" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button></div>
                 </div>
                 <br>
                 <br>
@@ -122,8 +122,8 @@
                 <div class="row">
                   <div class="col-3"></div>
                   <div class="col-6">
-                    <input style="display:none;" type="file" (change)="abrir($event)" #archivo>
-                    <button (click)="archivo.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button>
+                    <input style="display:none;" type="file" (change)="abrir12($event)" #archivosss>
+                    <button (click)="archivosss.click()"  type="button" class="tm-btn tm-btn-secondary tm-btn-pad-small">Cargar</button>
                   </div>
                 </div>
               </div>

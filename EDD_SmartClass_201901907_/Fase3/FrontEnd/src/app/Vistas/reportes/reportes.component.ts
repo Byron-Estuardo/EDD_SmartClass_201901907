@@ -60,4 +60,20 @@ export class ReportesComponent implements OnInit {
               alert(data.response)
           });
         }
+        graficar4(){
+          fetch('http://localhost:3000/Administrador/GraficoGrafoPensum', {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+              .then(response => response.json())
+              .then(data => {
+                alert(data.response)
+                var img:any
+                (<HTMLInputElement>document.getElementById("img")).innerHTML = "<img src=\"data:image/png;base64,"+data.Imagen+"\">"
+                console.log(data.Imagen)
+
+              });
+            }
 }

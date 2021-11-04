@@ -66,7 +66,26 @@ export class PaginaPrincipalComponent implements OnInit {
         });
 
       }
+      CargarPensum(ruta: any){
+        console.warn(ruta)
+        var data = JSON.stringify({
+          "Ruta": ruta
+        });
 
+        fetch('http://localhost:3000/Administrador/CargarPensum', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: data
+        })
+
+          .then(response => response.json())
+          .then(data => {
+            alert(data.response)
+          });
+
+      }
     RegistrarMasivoJsonApuntes(ruta: any){
       console.warn(ruta)
       var data = JSON.stringify({
@@ -132,6 +151,17 @@ export class PaginaPrincipalComponent implements OnInit {
     if(a){
       console.log(a.name)
       this.RegistrarMasivoJsonApuntes(a.name)
+    }
+  }
+  abrir12(eve:any)
+  {
+    let a =eve.target.files[0]
+    console.warn(a)
+
+    let text=""
+    if(a){
+      console.log(a.name)
+      this.CargarPensum(a.name)
     }
   }
 }

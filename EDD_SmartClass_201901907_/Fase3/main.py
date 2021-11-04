@@ -12,11 +12,13 @@ from lista_doble import ListaDoble
 from lista_doble import ListaDobleMeses
 from lista_doble import ListaDobleTareas
 from TablaHash import TablaHash
+from grafo import Grafos
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app)
 
+GrafoPensum = Grafos.Grafos()
 AVL = AVL.AVL()
 TablaApuntes = TablaHash.TablaHash()
 ArbolB = AB.arbolB()
@@ -34,6 +36,158 @@ def CargarClave():
 
 Clave = CargarClave()
 ferne = Fernet(Clave)
+lista1CursosPensum = []
+lista2CursosPensum = []
+listaconpre = []
+#Listas Temporales
+listatemp1 = []
+listatemp2 = []
+listatemp3 = []
+listaCodigos = []
+SinRepetidos = []
+
+class Objetos:
+    def __init__(self, nombre, codigo: int, creditos: int, pre, obligatorio):
+        self.nombre = nombre
+        self.codigo: int = codigo
+        self.creditos: int = creditos
+        self.pre = pre
+        self.obligatorio = obligatorio
+
+class CursoPensum:
+    def __init__(self,nombre, codigo:int, creditos:int, obligatorio) -> None:
+        self.nombre = nombre
+        self.codigo:int  = codigo
+        self.creditos:int = creditos
+        self.obligatorio = obligatorio
+
+def GrafoLecturaCursosPensum(ruta):
+    with open(ruta, encoding="utf8") as file:
+        data = json.load(file)
+        for cursos in data['Cursos']:
+            codigo = cursos['Codigo']
+            nombre = cursos['Nombre']
+            creditos = cursos['Creditos']
+            preequisitos = cursos['Prerequisitos']
+            pres = preequisitos.split(',')
+            obligatorio = cursos['Obligatorio']
+            ClaseCurso = CursoPensum(str(nombre), int(codigo), int(creditos), str(obligatorio))
+            GrafoPensum.insert_node(ClaseCurso)
+            lista1CursosPensum.append(ClaseCurso)
+            lista2CursosPensum.append(ClaseCurso)
+            objeto = Objetos(str(nombre), int(codigo), int(creditos), pres, str(obligatorio))
+            listaconpre.append(objeto)
+
+        for i in range(len(lista1CursosPensum)):
+            if listaconpre[i].pre[0] != '':
+                Curso1 = lista1CursosPensum[i]
+                for item in listaconpre[i].pre:
+                    for item1 in lista2CursosPensum:
+                        if item1.codigo == int(item):
+                            print(item)
+                            GrafoPensum.link_graph(Curso1, item1)
+        GrafoPensum.get_list()
+
+def RevisarQueTodosLosPreEstenEnLaLista(codigo):
+    for pos in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[pos].codigo == codigo:
+            listaCodigos.append(codigo)
+            if listaconpre[pos].pre[0] != '':
+                for items in listaconpre[pos].pre:
+                    codigos = int(items)
+                    IngresarEnListas(codigos)
+
+
+def IngresarEnListas(Codigo):
+
+    for pos in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[pos].codigo == Codigo:
+            listaCodigos.append(Codigo)
+            if listaconpre[pos].pre[0] != '':
+                for items in listaconpre[pos].pre:
+                    codigos = int(items)
+                    RevisarQueTodosLosPreEstenEnLaLista(codigos)
+
+
+
+
+def GrafoPreObtener(Codigo):
+    GrafoTemporal = Grafos.Grafos()
+    listatemp1.clear()
+    listatemp2.clear()
+    listatemp3.clear()
+    listaCodigos.clear()
+    SinRepetidos.clear()
+    for pos in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[pos].codigo == Codigo:
+            IngresarEnListas(Codigo)
+    for element in listaCodigos:
+        if element not in SinRepetidos:
+            SinRepetidos.append(element)
+    print(SinRepetidos)
+    SinRepetidos.sort()
+    print(SinRepetidos)
+    for CursoCodigo in SinRepetidos:
+        for pos in range(len(lista1CursosPensum)):
+            if lista1CursosPensum[pos].codigo == CursoCodigo:
+                curso = lista1CursosPensum[pos]
+                listatemp1.append(curso)
+                listatemp2.append(curso)
+                listatemp3.append(listaconpre[pos])
+                GrafoTemporal.insert_node(curso)
+    for i in range(len(listatemp1)):
+        if listatemp3[i].pre[0] != '':
+            Curso1 = listatemp1[i]
+            for item in listatemp3[i].pre:
+                for item1 in listatemp2:
+                    if item1.codigo == int(item):
+                        print(item)
+                        GrafoTemporal.link_graph(Curso1, item1)
+    GrafoTemporal.get_list()
+    GrafoTemporal.GraficarPre()
+
+    ''' 
+        for pos in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[pos].codigo == Codigo:
+            curso = lista1CursosPensum[pos]
+            listatemp1.append(curso)
+            listatemp2.append(curso)
+            listatemp3.append(listaconpre[pos])
+            GrafoTemporal.insert_node(curso)
+            if listaconpre[pos].pre[0] != '':
+                #for posa in range(len(listaconpre)):
+                    for items in listaconpre[pos].pre:
+                        codigos = int(items)
+                        for pos1 in range(len(lista1CursosPensum)):
+                            if lista1CursosPensum[pos1].codigo == codigos:
+                                Curso1 = lista1CursosPensum[pos1]
+                                prueba = listaconpre[pos1]
+                                listatemp1.append(Curso1)
+                                listatemp2.append(Curso1)
+                                listatemp3.append(prueba)
+                                GrafoTemporal.insert_node(Curso1)
+    for i in range(len(listatemp1)):
+        if listatemp3[i].pre[0] != '':
+            Curso1 = listatemp1[i]
+            for item in listatemp3[i].pre:
+                for item1 in listatemp2:
+                    if item1.codigo == int(item):
+                        print(item)
+                        GrafoTemporal.link_graph(Curso1, item1)
+    GrafoTemporal.get_list()
+    GrafoTemporal.GraficarPre()
+        #GrafoTemporal.insert_node(item)
+    for i in range(len(lista1CursosPensum)):
+        if lista1CursosPensum[i].codigo == Codigo:
+            Curso1 = lista1CursosPensum[i]
+            if listaconpre[i].pre[0] != '':
+                for item in listaconpre[i].pre:
+                    for item1 in lista2CursosPensum:
+                        if item1.codigo == int(item):
+                            print(item)
+                            GrafoTemporal.link_graph(Curso1, item1)
+    GrafoTemporal.get_list()
+    '''
 
 def LecturaApuntes(ruta):
     with open(ruta, encoding="utf8") as file:
@@ -324,6 +478,7 @@ def RegistrarAvl(var1, var2, var3, var4, var5, var6, var7):
     prueba5 = correo1.encode()
     correo = ferne.encrypt(prueba5)
     veri = VerificarCarnetAvl(carnet)
+
     if veri == False:
         NuevoAños = ListaDoble.ListaDoble()
         AVL.insertar(carnet, carnet2, dpi, nombre, carrera, correo, contra, creditos, edad, NuevoAños)
@@ -359,6 +514,16 @@ def agregar():
         print("metodo post")
         return response
 
+@app.route('/Administrador/CargarPensum', methods=['POST'])
+def CargaPensumJson():
+    if request.method == 'POST':
+        ruta = request.json['Ruta']
+        GrafoLecturaCursosPensum(str(ruta))
+        response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
+        print('Valores regresados ' + ruta)
+        print("metodo post")
+        return response
+
 @app.route('/Administrador/MasivaEstudiantesJson', methods=['POST'])
 def RegistrarMasivoJson():
     print("Entro??")
@@ -366,6 +531,7 @@ def RegistrarMasivoJson():
         print('Carga Masiva json')
         ruta = request.json['Ruta']
         LecturaArchivoEstudiantesJSON(str(ruta))
+        GrafoPreObtener(770)
         response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
         print('Valores regresados ' + ruta)
         print("metodo post")
@@ -420,6 +586,17 @@ def GraficoAvlEncriptado():
     AVL.graficar()
     b64_string = ""
     with open("AVL.png", "rb") as img_file:
+        b64_string = base64.b64encode(img_file.read())
+    #print(str(b64_string.decode('utf-8')))
+    response = jsonify({'response': 'se grafico', 'Imagen': str(b64_string.decode('utf-8'))})
+
+    return response
+
+@app.route('/Administrador/GraficoGrafoPensum', methods=['GET'])
+def GraficoGrafos():
+    GrafoPensum.GraficarPensum()
+    b64_string = ""
+    with open("GrafoPensum.png", "rb") as img_file:
         b64_string = base64.b64encode(img_file.read())
     #print(str(b64_string.decode('utf-8')))
     response = jsonify({'response': 'se grafico', 'Imagen': str(b64_string.decode('utf-8'))})

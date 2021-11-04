@@ -151,7 +151,7 @@ class TablaHash:
                 cadena += "<tr><td port=\"" + str(t_i) + "\">" + str(i.carnet) + "</td></tr>\n"
             t_i += 1
         cadena += "</table>>];\n"
-        cadena += "node [shape=rectangle]\n"
+        cadena += "node [shape=record]\n"
         t = 0
         c = 0
         for k in self.vector:

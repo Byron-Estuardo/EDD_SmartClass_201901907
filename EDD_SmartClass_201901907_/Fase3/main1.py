@@ -28,6 +28,16 @@ def VerificarCarnetAvl(carnet):
     encontrado = AVL.RevisarExiste(carnet)
     return encontrado
 
+def LecturaCursosPensum1(ruta):
+    with open(ruta, encoding="utf8") as file:
+        data = json.load(file)
+        for cursos in data['Cursos']:
+            codigo = cursos['Codigo']
+            nombre = cursos['Nombre']
+            creditos = cursos['Creditos']
+            preequisitos = cursos['Prerequisitos']
+            obligatorio = cursos['Obligatorio']
+
 def LecturaCursosPensum(ruta):
     with open(ruta) as file:
         data = json.load(file)
@@ -257,7 +267,8 @@ class CargaMasiva(Resource):
 api.add_resource(CargaMasiva, '/CargaMasiva')
 
 if __name__ == '__main__':
-    LecturaApuntes('apuntes.json')
+    LecturaCursosPensum1('CursosPensum.json')
+    #LecturaApuntes('apuntes.json')
     #token = f.encrypt(b'hola me llamo jose manuel')
     #print(token.decode())
     #token1 = hashlib.sha256(b'hola me llamo jose manuel').hexdigest()

@@ -1,0 +1,18 @@
+digraph {
+rankdir="LR" 
+node[shape = "box", style=filled, fillcolor=seashell2]
+n101[label= "Nombre: Matemática Básica 1
+Codigo: 101
+Creditos: 7
+Obligatorio: True"];
+n103[label= "Nombre: Matemática Básica 2
+Codigo: 103
+Creditos: 7
+Obligatorio: True"];
+n101->n103
+n770[label= "Nombre: Introducción a la Programación y Computación 1
+Codigo: 770
+Creditos: 4
+Obligatorio: True"];
+n103->n770
+}
