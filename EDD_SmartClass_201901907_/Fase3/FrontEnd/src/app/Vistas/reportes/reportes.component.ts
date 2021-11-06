@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reportes',
@@ -8,7 +9,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class ReportesComponent implements OnInit {
 
-  constructor(private title: Title) { }
+  constructor(private title: Title,  private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -76,4 +77,7 @@ export class ReportesComponent implements OnInit {
 
               });
             }
+      regresar(){
+        this.router.navigate(['/']);
+      }
 }

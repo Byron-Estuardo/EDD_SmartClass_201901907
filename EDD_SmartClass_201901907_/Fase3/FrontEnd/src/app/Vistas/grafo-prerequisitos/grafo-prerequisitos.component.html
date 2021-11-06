@@ -1,1 +1,58 @@
-<p>grafo-prerequisitos works!</p>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" >SmartClass Fase 3</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/verApuntes" >Ver Apuntes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/nuevoApunte">Nuevo Apunte</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ReporteCursos">Reporte Cursos Asignados</a>
+      </li>
+    </ul>
+    <a class="nav-link" href="/Cliente">Regresar a Pagina Principal</a>
+  </div>
+</nav>
+<div class="fullscreen">
+  <div class="container margen1" >
+    <div class="row">
+      <div class="col-2">
+        <label for="Titulo" class="form-label">Año:</label>
+        <input type="text" name="Titulo" class="form-control" placeholder="Año" [(ngModel)]="year" autofocus #years>
+
+      </div>
+      <div class="col-2">
+        <label for="Titulo" class="form-label">Semeste:</label>
+        <input type="text" name="Titulo" class="form-control" placeholder="Semestre" [(ngModel)]="semestre" autofocus #semestres>
+      </div>
+      <div class="col-2">
+        <label for="Titulo" class="form-label">Codigo Curso:</label>
+        <input type="text" name="Titulo" class="form-control" placeholder="Codigo Curso" [(ngModel)]="codigo" autofocus #Codigo>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <br>
+        <button type="button" (click)="Agregar(Codigo.value, years.value, semestres.value)" class="btn btn-secondary">Agregar Curso</button>
+      </div>
+      <div class="col-2">
+
+      </div>
+      <div class="col">
+      <br>
+        <button type="button" (click)="Grafico(Codigo.value)" class="btn btn-secondary">Analizar</button></div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="img" id="img">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

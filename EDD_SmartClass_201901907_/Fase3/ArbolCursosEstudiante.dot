@@ -1,0 +1,8 @@
+digraph G {
+
+rankdir=TB;
+node[color="blue",style="rounded,filled",fillcolor=lightgray, shape=record];
+
+Nodo101[label="<f0> |<f1>101\nMatemática Básica 1|<f2>  ",group=0];
+
+}

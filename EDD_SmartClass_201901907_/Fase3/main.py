@@ -11,6 +11,7 @@ from avl import AVL
 from lista_doble import ListaDoble
 from lista_doble import ListaDobleMeses
 from lista_doble import ListaDobleTareas
+from ListaSimple import ListaDobleSemestre
 from TablaHash import TablaHash
 from grafo import Grafos
 
@@ -20,7 +21,6 @@ cors = CORS(app)
 
 GrafoPensum = Grafos.Grafos()
 AVL = AVL.AVL()
-CarnetLogueado = 0
 TablaApuntes = TablaHash.TablaHash()
 ArbolB = ArbolBPensum.arbolB()
 
@@ -47,6 +47,7 @@ listatemp2 = []
 listatemp3 = []
 listaCodigos = []
 SinRepetidos = []
+CarnetLogueado = 0
 
 class Objetos:
     def __init__(self, nombre, codigo: int, creditos: int, pre, obligatorio):
@@ -110,37 +111,42 @@ def IngresarEnListas(Codigo):
                     RevisarQueTodosLosPreEstenEnLaLista(codigos)
 
 def GrafoPreObtener(Codigo):
-    GrafoTemporal = Grafos.Grafos()
-    listatemp1.clear()
-    listatemp2.clear()
-    listatemp3.clear()
-    listaCodigos.clear()
-    SinRepetidos.clear()
-    for pos in range(len(lista1CursosPensum)):
-        if lista1CursosPensum[pos].codigo == Codigo:
-            IngresarEnListas(Codigo)
-    for element in listaCodigos:
-        if element not in SinRepetidos:
-            SinRepetidos.append(element)
-    SinRepetidos.sort()
-    for CursoCodigo in SinRepetidos:
+    variable = VerificarQueElCursoExistaEnPensum(Codigo)
+    if variable == True:
+        GrafoTemporal = Grafos.Grafos()
+        listatemp1.clear()
+        listatemp2.clear()
+        listatemp3.clear()
+        listaCodigos.clear()
+        SinRepetidos.clear()
         for pos in range(len(lista1CursosPensum)):
-            if lista1CursosPensum[pos].codigo == CursoCodigo:
-                curso = lista1CursosPensum[pos]
-                listatemp1.append(curso)
-                listatemp2.append(curso)
-                listatemp3.append(listaconpre[pos])
-                GrafoTemporal.insert_node(curso)
-    for i in range(len(listatemp1)):
-        if listatemp3[i].pre[0] != '':
-            Curso1 = listatemp1[i]
-            for item in listatemp3[i].pre:
-                for item1 in listatemp2:
-                    if item1.codigo == int(item):
-                        print(item)
-                        GrafoTemporal.link_graph(Curso1, item1)
-    GrafoTemporal.get_list()
-    GrafoTemporal.GraficarPre()
+            if lista1CursosPensum[pos].codigo == Codigo:
+                IngresarEnListas(Codigo)
+        for element in listaCodigos:
+            if element not in SinRepetidos:
+                SinRepetidos.append(element)
+        SinRepetidos.sort()
+        for CursoCodigo in SinRepetidos:
+            for pos in range(len(lista1CursosPensum)):
+                if lista1CursosPensum[pos].codigo == CursoCodigo:
+                    curso = lista1CursosPensum[pos]
+                    listatemp1.append(curso)
+                    listatemp2.append(curso)
+                    listatemp3.append(listaconpre[pos])
+                    GrafoTemporal.insert_node(curso)
+        for i in range(len(listatemp1)):
+            if listatemp3[i].pre[0] != '':
+                Curso1 = listatemp1[i]
+                for item in listatemp3[i].pre:
+                    for item1 in listatemp2:
+                        if item1.codigo == int(item):
+                            print(item)
+                            GrafoTemporal.link_graph(Curso1, item1)
+        GrafoTemporal.get_list()
+        GrafoTemporal.GraficarPre()
+        return "Grafo Realizado Con Exito"
+    elif variable == False:
+        return "El Codigo no Existe en el Pensum Actual"
 
 def LecturaApuntes(ruta):
     with open(ruta, encoding="utf8") as file:
@@ -153,10 +159,11 @@ def LecturaApuntes(ruta):
                 TablaApuntes.insertar(carnet, titulo, body)
 
 def IngresoAputesManual(titulo, contenido):
+    print("Entro")
     TablaApuntes.insertar(CarnetLogueado, titulo, contenido)
 
 def VerificarCarnetAvl(carnet):
-    encontrado = AVL.RevisarExiste(carnet)
+    encontrado = AVL.RevisarExiste(int(carnet))
     return encontrado
 
 def VerificarQueElCursoExistaEnPensum(Codigo):
@@ -175,19 +182,19 @@ def ObtenerDatosCurso(Codigo):
 def AgregarCursosEstudiantesManual(Codigo, year, semestre):
     nodo = AVL.find(CarnetLogueado)
     # Buscar el carnet en el AVL
-    veriAños = nodo.años.BuscarExiste(int(year))
+    veriAños = nodo.años.BuscarExiste((year))
     if veriAños == False:
         NuevoMeses = ListaDobleMeses.ListaDobleMeses()
-        NuevoSemestres = ListaSemestre.ListaSemestre()
+        NuevoSemestres = ListaDobleSemestre.ListaDoble()
         # Si no existe el año se crea uno
-        nodo.años.Insertar(int(year), NuevoSemestres, NuevoMeses)
+        nodo.años.Insertar((year), NuevoSemestres, NuevoMeses)
     # Obtenemos el nodo del año
-    nodo1 = nodo.años.BuscarNodo(int(year))
-    veriSemestres = nodo1.semestre.BuscarExiste(int(semestre))
+    nodo1 = nodo.años.BuscarNodo((year))
+    veriSemestres = nodo1.semestre.BuscarExiste((semestre))
     if veriSemestres == False:
         arbolbtemp = ArbolBPensum.arbolB()
-        nodo1.semestre.Insertar(int(semestre), arbolbtemp)
-    nodo2 = nodo1.semestre.BuscarNodo(int(semestre))
+        nodo1.semestre.Insertar((semestre), arbolbtemp)
+    nodo2 = nodo1.semestre.BuscarNodo((semestre))
     variable = VerificarQueElCursoExistaEnPensum(Codigo)
     if variable == True:
         posicionBusqueda = ObtenerDatosCurso(Codigo)
@@ -196,53 +203,18 @@ def AgregarCursosEstudiantesManual(Codigo, year, semestre):
             name = lista1CursosPensum[posicionBusqueda].nombre
             creditoss = lista1CursosPensum[posicionBusqueda].creditos
             obligatorio = lista1CursosPensum[posicionBusqueda].obligatorio
-            nodo2.curso.insertarDatos(Codigos, name, creditoss, "", obligatorio)
+            pre = listaconpre[posicionBusqueda].pre
+            prestr = ','.join(pre)
+            nodo2.curso.insertarDatos(Codigos, name, creditoss, prestr, obligatorio)
+            return "Curso Agregado con Exito"
     else:
-        print("El Curso no se encuentra en el pensum Actual")
-
-def LecturaCursosEstudiante(ruta):
-    with open(ruta) as file:
-        data = json.load(file)
-        print(data)
-        for curso in data['Estudiantes']:
-            print("Carnet: " + curso['Carnet'])
-            carnet = curso['Carnet']
-            NuevoMeses = ListaDobleMeses.ListaDobleMeses()
-            NuevoSemestres = ListaSemestre.ListaSemestre()
-            veri = VerificarCarnetAvl(carnet)
-            # Verificar que el carnet Exista
-            if veri == True:
-                # print("Carnet Encontrado")
-                nodo = AVL.find(carnet)
-                # Buscar el carnet en el AVL
-                for años in curso['AÃ±os']:
-                    years = años['AÃ±o']
-                    veriAños = nodo.años.BuscarExiste(years)
-                    if veriAños == False:
-                        # Si no existe el año se crea uno
-                        nodo.años.Insertar(years, NuevoSemestres, NuevoMeses)
-                    # Obtenemos el nodo del año
-                    nodo1 = nodo.años.BuscarNodo(years)
-                    for semestes in años['Semestres']:
-                        veriSemestres = nodo1.semestre.BuscarExiste(años['Semestres'])
-                        if veriSemestres == False:
-                            arbolbtemp = ArbolBPensum.arbolB()
-                            nodo1.semestre.Insertar(años['Semestres'], arbolbtemp)
-                        nodo2 = nodo1.semestre.BuscarNodo(años['Semestres'])
-                        for Cursos in semestes['Cursos']:
-                            print("Codigo: " + Cursos['Codigo'])
-                            Codigo = Cursos['Codigo']
-                            variable = VerificarQueElCursoExistaEnPensum(Codigo)
-                            if variable == True:
-                                nodo2.curso.insertarDatos(int(Cursos['Codigo']), Cursos['Nombre'], Cursos['Creditos'], Cursos['Prerequisitos'], Cursos['Obligatorio'])
-                            else:
-                                print("El Curso no se encuentra en el pensum Actual")
+        return "El Curso No se Encuentra en el Pensum"
 
 def LecturaCursosEstudiantesJson(ruta):
     with open(ruta, encoding="utf8") as file:
         data = json.load(file)
         for estudiantes in data['Estudiantes']:
-            carnet = estudiantes['Carnet']
+            carnet = int(estudiantes['Carnet'])
             veri = VerificarCarnetAvl(carnet)
             if veri == True:
                 nodo = AVL.find(carnet)
@@ -251,35 +223,47 @@ def LecturaCursosEstudiantesJson(ruta):
                     veriAños = nodo.años.BuscarExiste(año)
                     if veriAños == False:
                         NuevoMeses = ListaDobleMeses.ListaDobleMeses()
-                        NuevoSemestres = ListaSemestre.ListaSemestre()
+                        NuevoSemestres = ListaDobleSemestre.ListaDoble()
                         nodo.años.Insertar(año, NuevoSemestres, NuevoMeses)
                     nodo1 = nodo.años.BuscarNodo(año)
                     for semester in years['Semestres']:
                         semestre = semester['Semestre']
+                        print(semestre)
+                        print(type(semestre))
                         veriSemestres = nodo1.semestre.BuscarExiste(semestre)
                         if veriSemestres == False:
                             arbolbtemp = ArbolBPensum.arbolB()
                             nodo1.semestre.Insertar(semestre, arbolbtemp)
                         nodo2 = nodo1.semestre.BuscarNodo(semestre)
                         for Cursos in semester['Cursos']:
-                            Codigo = Cursos['Codigo']
+                            Codigo = int(Cursos['Codigo'])
                             variable = VerificarQueElCursoExistaEnPensum(Codigo)
                             if variable == True:
+                                print(Codigo)
                                 nodo2.curso.insertarDatos(int(Cursos['Codigo']), Cursos['Nombre'], Cursos['Creditos'],
                                                           Cursos['Prerequisitos'], Cursos['Obligatorio'])
                             else:
+
                                 print("El Curso no se encuentra en el pensum Actual")
 
 def GraficoCursosEstudiante(year, semestre):
     nodo = AVL.find(CarnetLogueado)
     # Buscar el carnet en el AVL
-    veriAños = nodo.años.BuscarExiste(int(year))
+    veriAños = nodo.años.BuscarExiste((year))
     if veriAños == True:
-        nodo1 = nodo.años.BuscarNodo(int(year))
-        veriSemestres = nodo1.semestre.BuscarExiste(int(semestre))
+        nodo1 = nodo.años.BuscarNodo((year))
+        veriSemestres = nodo1.semestre.BuscarExiste((semestre))
         if veriSemestres == True:
-            nodo2 = nodo1.semestre.BuscarNodo(int(semestre))
+            nodo2 = nodo1.semestre.BuscarNodo((semestre))
             nodo2.curso.graficar()
+            print("Grafico Realizado")
+            return "Grafica Realizada"
+        else:
+            print("semestre no existente")
+            return "El semestre no Existe"
+    else:
+        print("año no existente")
+        return "El Año no existe"
 
 def ConvertirMesATexto(mes):
     if mes == "01":
@@ -460,7 +444,7 @@ def LecturaArchivoFaseAnt(ruta):
             horaSep = HoraSeparada[0]
             MinSep = HoraSeparada[1]
             NuevoMeses = ListaDobleMeses.ListaDobleMeses()
-            NuevoSemestres = ListaSemestre.ListaSemestre()
+            NuevoSemestres = ListaDobleSemestre.ListaDoble()
             veri = VerificarCarnetAvl(carnet1)
             # Verificar que el carnet Exista
             if veri == True:
@@ -497,7 +481,7 @@ def RegistrarAvl(var1, var2, var3, var4, var5, var6, var7):
     carnet = int(var1)
     dpi1 = str(var2)
     nombre1 = str(var3)
-    carrera = str(var4)
+    carrera1 = str(var4)
     correo1 = str(var5)
     contra1 = str(var6)
     creditos = ""
@@ -517,6 +501,8 @@ def RegistrarAvl(var1, var2, var3, var4, var5, var6, var7):
     edad = ferne.encrypt(prueba4)
     prueba5 = correo1.encode()
     correo = ferne.encrypt(prueba5)
+    prueba52 = carrera1.encode()
+    carrera = ferne.encrypt(prueba52)
     veri = VerificarCarnetAvl(carnet)
 
     if veri == False:
@@ -541,7 +527,9 @@ def login():
             decode = primerdesifrado.decode()
             if decode == CodificadoContra:
                 ingresi = True
+                global CarnetLogueado
                 CarnetLogueado = int(usuario)
+                print(CarnetLogueado)
             else:
                 varError = "La contraseña es incorrecta"
                 ingresi= False
@@ -559,7 +547,9 @@ def login():
 def salir():
     if request.method == 'POST':
         carnet = request.json['carnet']
+        global CarnetLogueado
         CarnetLogueado = 0
+        print(CarnetLogueado)
         response = jsonify({'response': 'Valores regresados '})
         return response
 
@@ -577,7 +567,7 @@ def CargaPensumJson():
 def CargaCursosJson():
     if request.method == 'POST':
         ruta = request.json['Ruta']
-        LecturaCursosEstudiante(str(ruta))
+        LecturaCursosEstudiantesJson(str(ruta))
         response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
         print('Valores regresados ' + ruta)
         print("metodo post")
@@ -586,9 +576,33 @@ def CargaCursosJson():
 @app.route('/Cliente/VerApuntes', methods=['POST'])
 def RetornarApuntes():
     if request.method == 'POST':
+        print(CarnetLogueado)
         if TablaApuntes.ObtenerApuntes(CarnetLogueado) == False:
             return jsonify({'response': 'False'})
         return TablaApuntes.ObtenerApuntes(CarnetLogueado)
+
+@app.route('/Cliente/AgregarCursoManual', methods=['POST'])
+def IngresoManualCursos():
+    if request.method == 'POST':
+        Año = request.json['Year']
+        Semestre = request.json['Semestre']
+        Codigo = int(request.json['Codigo'])
+        Respuesta =  AgregarCursosEstudiantesManual(Codigo, Año, Semestre)
+        if Respuesta == "Curso Agregado con Exito":
+            response = jsonify({'response': str(Respuesta)})
+            return response
+        elif Respuesta == "El Curso No se Encuentra en el Pensum":
+            response = jsonify({'response': str(Respuesta)})
+            return response
+
+@app.route('/Cliente/NuevoApunte', methods=['POST'])
+def NuevoApunte():
+    if request.method == 'POST':
+        print(CarnetLogueado)
+        titulo = request.json['Titulo']
+        contenido = request.json['Contenido']
+        IngresoAputesManual(titulo, contenido)
+        return jsonify({'response': 'El apunte fue ingresado con exito'})
 
 @app.route('/Administrador/MasivaEstudiantesJson', methods=['POST'])
 def RegistrarMasivoJson():
@@ -657,6 +671,44 @@ def GraficoAvlEncriptado():
     response = jsonify({'response': 'se grafico', 'Imagen': str(b64_string.decode('utf-8'))})
 
     return response
+
+@app.route('/Cliente/ReporteCursos', methods=['POST'])
+def NuevoGrafico():
+    if request.method == 'POST':
+        print(CarnetLogueado)
+        año = str(request.json['Year'])
+        semestre = str(request.json['Semestre'])
+        retornado = GraficoCursosEstudiante(año, semestre)
+        print(retornado)
+        if retornado == "El semestre no Existe":
+            response = jsonify({'response': str(retornado), 'Imagen': ""})
+            return response
+        elif retornado == "El Año no existe":
+            response = jsonify({'response': str(retornado), 'Imagen': ""})
+            return response
+        elif retornado == "Grafica Realizada":
+            with open("ArbolCursosEstudiante.png", "rb") as img_file:
+                b64_string = base64.b64encode(img_file.read())
+            # print(str(b64_string.decode('utf-8')))
+            response = jsonify({'response': str(retornado), 'Imagen': str(b64_string.decode('utf-8'))})
+            return response
+
+@app.route('/Cliente/GraficoPre', methods=['POST'])
+def GraficoPres():
+    if request.method == 'POST':
+        print(CarnetLogueado)
+        Codigo = int(request.json['Codigo'])
+        retornado = GrafoPreObtener(Codigo)
+        print(retornado)
+        if retornado == "El Codigo no Existe en el Pensum Actual":
+            response = jsonify({'response': str(retornado), 'Imagen': ""})
+            return response
+        elif retornado == "Grafo Realizado Con Exito":
+            with open("GrafoPre.png", "rb") as img_file:
+                b64_string = base64.b64encode(img_file.read())
+            # print(str(b64_string.decode('utf-8')))
+            response = jsonify({'response': str(retornado), 'Imagen': str(b64_string.decode('utf-8'))})
+            return response
 
 @app.route('/Administrador/GraficoGrafoPensum', methods=['GET'])
 def GraficoGrafos():

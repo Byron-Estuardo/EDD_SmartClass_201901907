@@ -127,6 +127,9 @@ export class PaginaPrincipalComponent implements OnInit {
       });
 
   }
+  regresar(){
+    this.router.navigate(['/']);
+  }
 
   Ruta:string = '';
   DPI1:string = '';
