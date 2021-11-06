@@ -39,23 +39,8 @@
             data-mobile-seq-no="5">
             <i class="fas fa-award fa-4x tm-block-icon"></i>
             <div class="container" style="text-align: center; ">
-                <div class="row">
-                  <header>
-                    <h2 class="tm-text-uppercase">
-                        Carga Masiva Cursos Estudiantes por RUTA
-                    </h2>
-                  </header>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col-2"></div>
-                  <div class="col-8"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #ruta>
-                  <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-pad-small tm-btn-small tm-btn-primary tm-mt">Cargar</button> </div>
-
-                </div>
                 <br>
                 <br>
-
                 <div class="row">
                   <header>
                     <h2 class="tm-text-uppercase">
@@ -67,8 +52,8 @@
                 <div class="row">
                   <div class="col-3"></div>
                   <div class="col-6">
-                    <input style="display:none;" type="file" (change)="abrir($event)" #archivo>
-                    <button (click)="archivo.click()"  type="button" class="tm-btn tm-btn-small tm-btn-pad-small tm-btn-primary tm-mt">Cargar</button>
+                    <input style="display:none;" type="file" (change)="open($event)" #archi>
+                    <button (click)="archi.click()"  type="button" class="tm-btn tm-btn-small tm-btn-pad-small tm-btn-primary tm-mt">Cargar</button>
                   </div>
                 </div>
               </div>
@@ -137,20 +122,6 @@
         <div class="item tm-bg-white tm-block tm-form-section" data-desktop-seq-no="9" data-mobile-seq-no="7">
             <div class="tm-form-container tm-block-pad tm-pb-0">
                 <div class="container" style="text-align: center; ">
-                  <div class="row">
-                    <header>
-                    <h2 class="tm-text-uppercase">
-                        Carga Masiva Apuntes de Estudiantes por RUTA
-                    </h2>
-                    </header>
-                  </div>
-                  <br>
-                  <div class="row">
-                    <div class="col-2"></div>
-                    <div class="col-8"><input type="text"  placeholder="Ingrese la Ruta" [(ngModel)]="Ruta" #ruta>
-                    <button type="button" (click)="RegistrarMasivoJsonApuntes(ruta.value)" class="tm-btn tm-btn-secondary tm-btn-pad-big">Cargar</button>
-                    </div>
-                  </div>
                   <br>
                   <br>
                   <div class="row">
@@ -177,7 +148,7 @@
                       <header>
                         <h2>Manejo de BlockChain</h2>
                     </header>
-                    <button type="button" (click)="getValue(ruta.value)" class="tm-btn tm-btn-pad-big tm-btn-small tm-btn-primary tm-mt">Ver Opciones</button>
+                    <button type="button" class="tm-btn tm-btn-pad-big tm-btn-small tm-btn-primary tm-mt">Ver Opciones</button>
                     </div>
                   </div>
 

@@ -8,6 +8,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PaginaPrincipalComponent } from './Vistas/pagina-principal/pagina-principal.component';
 import { RegistroComponent } from './Vistas/registro/registro.component';
+import { ReportesCursosComponent } from './Vistas/reportes-cursos/reportes-cursos.component';
 
 export const routes: Routes = [
 
@@ -42,6 +43,10 @@ export const routes: Routes = [
   {
     path: 'verApuntes',
     component: VerApuntesComponent
+  },
+  {
+    path: 'ReporteCursos',
+    component: ReportesCursosComponent
   },
 ];
 

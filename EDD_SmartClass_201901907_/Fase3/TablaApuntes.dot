@@ -12,7 +12,7 @@ table [label=<
 <tr><td port="5">20210000003</td></tr>
 <tr><td port="6"> </td></tr>
 </table>>];
-node [shape=rectangle]
+node [shape=record]
 n_0[label="tareas pendientes: proyecto fase 3 edd"]
 table:0->n_0;
 n_1[label="pendientes: - hacer hoja de calificacion fase 3 

@@ -48,8 +48,8 @@ class TablaHash:
                         archivo += "\"body\": \"" + item.cuerpo + "\"\n},"
                         print(item.titulo + ': ' + item.cuerpo + ',')
                     archivo = archivo[:-1]
-                    archivo+="\n]"
-                    return json.loads(archivo)
+                    archivo += "\n]"
+                    return archivo
 
     def EstaOcupado(self,index):
         if not (index>self.tamano):
@@ -173,33 +173,3 @@ class TablaHash:
         reporte_hash.write(cadena)
         reporte_hash.close()
         os.system("dot -Tpng -o TablaApuntes.png TablaApuntes.dot ")
-'''
-tabla = TablaHash()
-#201901907 - 3 -
-#5469126 - 1
-#65198456 - 1
-#564 - 1
-#5184656864 - 1
-#5844464 - 1
-#5184 - 1
-#6753164 - 1
-#84654 - 1
-#1111 - 2
-tabla.insertar(201901907,'pedro','estaoes una descripcion laocaquissmoa')
-tabla.insertar(201901907,'el pedro','estaoes una descripcion laocaquissmoa')
-
-tabla.insertar(5469126,'edro','estaoes una descripcion laocaquissmoa')
-tabla.insertar(65198456,'esdro','estaoes una descripcion laocaquissmoa')
-tabla.insertar(564,'elo','estaoes una descripcion laocaquissmoa')
-tabla.insertar(5184656864,'el pedo','estaoes una descripcion laocaquissmoa')
-tabla.insertar(5844464,'o','estaoes una descripcion laocaquissmoa')
-tabla.insertar(5184,'o','estaoes una descripcion laocaquissmoa')
-tabla.insertar(6753164,'o','estaoes una descripcion laocaquissmoa')
-tabla.insertar(201901907,'an','estaoes una descripcion laocaquissmoa')
-tabla.insertar(84654,'eo','estaoes una descripcion laocaquissmoa')#
-
-tabla.insertar(1111,'el hola','estaoes una descripcion laocaquissmoa')
-tabla.insertar(1111,'el adios','adsfasdjlkasda')
-tabla.PrintTable()
-tabla.reporteTable()
-'''

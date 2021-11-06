@@ -12,6 +12,7 @@ import { EstudianteVComponent } from './Vistas/estudiante-v/estudiante-v.compone
 import { NuevoApunteComponent } from './Vistas/nuevo-apunte/nuevo-apunte.component';
 import { VerApuntesComponent } from './Vistas/ver-apuntes/ver-apuntes.component';
 import { GrafoPrerequisitosComponent } from './Vistas/grafo-prerequisitos/grafo-prerequisitos.component';
+import { ReportesCursosComponent } from './Vistas/reportes-cursos/reportes-cursos.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { GrafoPrerequisitosComponent } from './Vistas/grafo-prerequisitos/grafo-
     EstudianteVComponent,
     NuevoApunteComponent,
     VerApuntesComponent,
-    GrafoPrerequisitosComponent
+    GrafoPrerequisitosComponent,
+    ReportesCursosComponent
   ],
   imports: [
     BrowserModule,

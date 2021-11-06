@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         .then(data => {
           console.log(data)
           if (data.Ingreso === true){
-            this.router.navigate(['/Administrador']);
+            this.router.navigate(['/Cliente']);
           }
           else{
             if (data.Error === 'La contraseña es incorrecta'){

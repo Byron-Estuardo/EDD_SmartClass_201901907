@@ -122,9 +122,7 @@ def GrafoPreObtener(Codigo):
     for element in listaCodigos:
         if element not in SinRepetidos:
             SinRepetidos.append(element)
-    print(SinRepetidos)
     SinRepetidos.sort()
-    print(SinRepetidos)
     for CursoCodigo in SinRepetidos:
         for pos in range(len(lista1CursosPensum)):
             if lista1CursosPensum[pos].codigo == CursoCodigo:
@@ -143,49 +141,6 @@ def GrafoPreObtener(Codigo):
                         GrafoTemporal.link_graph(Curso1, item1)
     GrafoTemporal.get_list()
     GrafoTemporal.GraficarPre()
-
-    ''' 
-        for pos in range(len(lista1CursosPensum)):
-        if lista1CursosPensum[pos].codigo == Codigo:
-            curso = lista1CursosPensum[pos]
-            listatemp1.append(curso)
-            listatemp2.append(curso)
-            listatemp3.append(listaconpre[pos])
-            GrafoTemporal.insert_node(curso)
-            if listaconpre[pos].pre[0] != '':
-                #for posa in range(len(listaconpre)):
-                    for items in listaconpre[pos].pre:
-                        codigos = int(items)
-                        for pos1 in range(len(lista1CursosPensum)):
-                            if lista1CursosPensum[pos1].codigo == codigos:
-                                Curso1 = lista1CursosPensum[pos1]
-                                prueba = listaconpre[pos1]
-                                listatemp1.append(Curso1)
-                                listatemp2.append(Curso1)
-                                listatemp3.append(prueba)
-                                GrafoTemporal.insert_node(Curso1)
-    for i in range(len(listatemp1)):
-        if listatemp3[i].pre[0] != '':
-            Curso1 = listatemp1[i]
-            for item in listatemp3[i].pre:
-                for item1 in listatemp2:
-                    if item1.codigo == int(item):
-                        print(item)
-                        GrafoTemporal.link_graph(Curso1, item1)
-    GrafoTemporal.get_list()
-    GrafoTemporal.GraficarPre()
-        #GrafoTemporal.insert_node(item)
-    for i in range(len(lista1CursosPensum)):
-        if lista1CursosPensum[i].codigo == Codigo:
-            Curso1 = lista1CursosPensum[i]
-            if listaconpre[i].pre[0] != '':
-                for item in listaconpre[i].pre:
-                    for item1 in lista2CursosPensum:
-                        if item1.codigo == int(item):
-                            print(item)
-                            GrafoTemporal.link_graph(Curso1, item1)
-    GrafoTemporal.get_list()
-    '''
 
 def LecturaApuntes(ruta):
     with open(ruta, encoding="utf8") as file:
@@ -600,6 +555,14 @@ def login():
         print("metodo post")
         return response
 
+@app.route('/LogOut', methods=['POST'])
+def salir():
+    if request.method == 'POST':
+        carnet = request.json['carnet']
+        CarnetLogueado = 0
+        response = jsonify({'response': 'Valores regresados '})
+        return response
+
 @app.route('/Administrador/CargarPensum', methods=['POST'])
 def CargaPensumJson():
     if request.method == 'POST':
@@ -609,6 +572,23 @@ def CargaPensumJson():
         print('Valores regresados ' + ruta)
         print("metodo post")
         return response
+
+@app.route('/Administrador/CargarCursosEstudiantes', methods=['POST'])
+def CargaCursosJson():
+    if request.method == 'POST':
+        ruta = request.json['Ruta']
+        LecturaCursosEstudiante(str(ruta))
+        response = jsonify({'response': 'Valores regresados ', 'Ingreso': ruta, 'Respuesta': 'Datos Ingresados'})
+        print('Valores regresados ' + ruta)
+        print("metodo post")
+        return response
+
+@app.route('/Cliente/VerApuntes', methods=['POST'])
+def RetornarApuntes():
+    if request.method == 'POST':
+        if TablaApuntes.ObtenerApuntes(CarnetLogueado) == False:
+            return jsonify({'response': 'False'})
+        return TablaApuntes.ObtenerApuntes(CarnetLogueado)
 
 @app.route('/Administrador/MasivaEstudiantesJson', methods=['POST'])
 def RegistrarMasivoJson():
